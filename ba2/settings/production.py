@@ -15,7 +15,7 @@ import os
 
 print("je suis en production !")
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__))sdfqs)
 BASE_DIR     = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 qsdf
 # Quick-start development settings - unsuitable for production
