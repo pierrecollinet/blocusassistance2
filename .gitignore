@@ -9,6 +9,12 @@ local.py
 credentials.py
 src/credentials.py
 
+ba2/settings/local1.py
+src/ba2/settings/local1.py
+local1.py
+/local1.py
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
