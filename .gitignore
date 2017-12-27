@@ -3,6 +3,8 @@ bin/
 include/
 pip-selfcheck.json
 ba2/settings/local.py
+local.py
+/local.py
 credentials.py
 src/credentials.py
 
