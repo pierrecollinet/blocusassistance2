@@ -11,6 +11,8 @@ from django.contrib.sitemaps import Sitemap
 
 import json
 from datetime import datetime, timedelta
+from django.views.decorators.gzip import gzip_page
 
+@gzip_page
 def welcome(request):
     return render(request, 'welcome.html')
