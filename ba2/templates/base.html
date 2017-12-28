@@ -8,10 +8,11 @@
       <title>Blocus Assistance - {% block title %}{% endblock %}</title>
         {% include 'base/css.html' %}
         {% include 'base/favicon.html' %}
+
         {% block base_head %}{% endblock %}
     </head>
     <body>
-      {% include 'base/navbar.html' with brand_name='eCommerce' %}
+      {% include 'base/navbar.html' with brand_name='Blocus Assistance' %}
       <div class='container'>
         {% if messages %}
       <div class="alert alert-success messages">
