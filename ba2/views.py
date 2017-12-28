@@ -15,7 +15,7 @@ from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 
-@gzip_page
 @minified_response
+@gzip_page
 def welcome(request):
     return render(request, 'welcome.html')
