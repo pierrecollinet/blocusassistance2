@@ -15,7 +15,11 @@ from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 
+# import models
+from .models import Campus
+
 @minified_response
 #@gzip_page
 def welcome(request):
-    return render(request, 'welcome.html')
+  c = {'campus': Campus.objects.all()}
+  return render(request, 'welcome.html', c)

@@ -50,8 +50,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'storages',
+    # Internal apps
+    'ba2',
+    'blocus',
 
+    # External apps
+    'storages',
+    'wordpress_api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -140,3 +145,6 @@ SECURE_FRAME_DENY               = True
 
 from ba2.aws.conf import *
 
+
+WP_URL = 'https://blog.blocusassistance.be/'
+BLOG_POSTS_PER_PAGE = 10

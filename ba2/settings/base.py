@@ -45,8 +45,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'storages',
+    # Internal apps
+    'ba2',
+    'blocus',
 
+    # External apps
+    'storages',
+    'wordpress_api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -121,3 +126,7 @@ CSRF_COOKIE_SECURE              = False
 SECURE_HSTS_SECONDS             = None
 SECURE_HSTS_INCLUDE_SUBDOMAINS  = False
 SECURE_FRAME_DENY               = False
+
+
+WP_URL = 'https://blog.blocusassistance.be/'
+BLOG_POSTS_PER_PAGE = 10
