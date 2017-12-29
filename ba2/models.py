@@ -45,3 +45,38 @@ class CampusImage(models.Model):
 
     def __unicode__(self):
         return self.campus.nom
+
+class Universite(models.Model):
+  nom = models.CharField(max_length=200)
+  abreviation = models.CharField(max_length=200, blank=True, null=True)
+  logo = models.ImageField(upload_to = 'mes_images/', blank=True, null=True)
+
+  def __str__(self):
+    return self.nom
+
+class Faculte(models.Model):
+  universite = models.ForeignKey(Universite)
+  abreviation = models.CharField(max_length=200, blank=True, null=True)
+  nom = models.CharField(max_length=200)
+  logo = models.ImageField(upload_to = 'mes_images/', blank=True, null=True)
+
+  def __str__(self):
+    return self.nom
+
+class Etude(models.Model):
+  faculte = models.ForeignKey(Faculte)
+  abreviation = models.CharField(max_length=200, blank=True, null=True)
+  nom = models.CharField(max_length=200)
+  logo = models.ImageField(upload_to = 'mes_images/', blank=True, null=True)
+
+  def __str__(self):
+    return self.nom
+
+annees = (
+    ('BA1', 'BA1'),
+    ('BA2', 'BA2'),
+    ('BA3', 'BA3'),
+    ('MA1', 'MA1'),
+    ('MA2', 'MA2'),
+    ('diplome', 'Diplômé'),
+)
