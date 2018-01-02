@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'ba2',
     'blocus',
     'etudiants',
+    'professeurs',
 
     # External apps
     'storages',

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block title %}
-Bienvenue
+Modification du profil
 {% endblock %}
 
 {% block base_head %}
@@ -38,31 +38,17 @@ Bienvenue
 {% endblock %}
 
 {% block content %}
-<div class='text-center'>
-    <h1>Blocus Assistance 2.0</h1>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-xs-12 col-md-6">
+      <div class='text-center'>
+          <h1>Modifier mon profil - prof</h1>
+          <form class="." id="signup_form" method="post" action="">
+            {% csrf_token %}
+            {% crispy form %}
+          </form>
+      </div>
+    </div>
+  </div>
 
-    <p>Coming soon</p>
-
-    <h2>Campus</h2>
-    <ul>
-      {% for c in campus%}
-        <li>{{ c }}</li>
-      {% endfor %}
-    </ul>
-    <p>
-      <a class="btn btn-info" href="{% url 'inscription_blocus' %}">Inscription Blocus</a>
-      <a class="btn btn-success" href="{% url 'account_login' %}">Login</a>
-      <a class="btn btn-danger" href="{% url 'account_logout' %}">Logout</a>
-    </p>
-
-    <p>
-      {% if request.user.etudiant %}
-        <a class="btn btn-success" href="{% url 'voir-profil' request.user.etudiant.pk %}">Voir profil</a>
-      {% elif request.user.pk %}
-        <a class="btn btn-success" href="{% url 'voir-profil' request.user.pk %}">Voir profil</a>
-      {% endif %}
-      <a class="btn btn-danger" href="{% url 'modifier-profil' %}">Modifier Profil</a>
-    </p>
-</div>
 {% endblock %}
-

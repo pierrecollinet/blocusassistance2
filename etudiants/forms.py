@@ -17,7 +17,7 @@ import datetime
 # import models
 from etudiants.models import Etudiant
 
-statuts = (('etudiant','Etudiant'),('parent','Parent'),('professeur', 'Professeur'),)
+statuts = (('etudiants','Etudiant'),('parents','Parent'),('professeurs', 'Professeur'),)
 class SignupForm(forms.Form):
     statut = forms.ChoiceField(choices = statuts)
 

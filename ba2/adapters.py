@@ -6,7 +6,7 @@ class AccountAdapter(DefaultAccountAdapter):
   def get_login_redirect_url(self, request):
     if request.POST and 'statut' in request.POST:
       statut = request.POST['statut']
-      path = "/etudiants/completer-profil/{statut}/"
+      path = "/{statut}/completer-profil/"
       return path.format(statut=statut)
     else :
       path = "/"
