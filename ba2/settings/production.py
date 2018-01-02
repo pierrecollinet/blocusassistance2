@@ -15,6 +15,11 @@ import os
 
 print("je suis en production !")
 
+EMAIL_HOST = 'smtp.sendgrid.com'
+EMAIL_PORT = 587
+EMAIL_USER_TLS = True
+
+
 PROJECT_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 BASE_DIR     = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 
@@ -45,6 +50,7 @@ ALLOWED_HOSTS = ['blocusassistance2.herokuapp.com', '.blocusassistance.be', '*']
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -53,11 +59,34 @@ INSTALLED_APPS = (
     # Internal apps
     'ba2',
     'blocus',
+    'etudiants',
 
     # External apps
     'storages',
     'wordpress_api',
+    'crispy_forms',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 )
+SITE_ID = 1
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+ACCOUNT_AUTHENTICATION_METHOD ="username_email"
+ACCOUNT_EMAIL_VERIFICATION = "none"
+LOGIN_REDIRECT_URL = "/"
+ACCOUNT_SIGNUP_FORM_CLASS = 'etudiants.forms.SignupForm'
+ACCOUNT_ADAPTER = "ba2.adapters.AccountAdapter"
+
+CRISPY_TEMPLATE_PACK = "bootstrap3"
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -116,7 +145,7 @@ DATABASES['default']['CONN_MAX_AGE'] = 500
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr_FR'
 
 TIME_ZONE = 'UTC'
 
@@ -148,3 +177,29 @@ from ba2.aws.conf import *
 
 WP_URL = 'https://blog.blocusassistance.be/'
 BLOG_POSTS_PER_PAGE = 10
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'fr_BE',
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2.5',
+    }
+}

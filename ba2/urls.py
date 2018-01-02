@@ -11,4 +11,8 @@ urlpatterns = [
 
     # internal apps
     url(r'^blocus-assistes/', include('blocus.urls')),
+    url(r'^etudiants/', include('etudiants.urls')),
+
+    # external apps
+    url(r'^accounts/', include('allauth.urls')),
 ]
