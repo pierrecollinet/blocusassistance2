@@ -18,7 +18,6 @@ from htmlmin.decorators import minified_response
 # import models
 #from .models import Campus
 
-@login_required
 @minified_response
 #@gzip_page
 def inscription_blocus(request):

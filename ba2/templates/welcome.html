@@ -49,7 +49,18 @@ Bienvenue
         <li>{{ c }}</li>
       {% endfor %}
     </ul>
-    <a class="btn btn-success" href="{% url 'inscription_blocus' %}">Inscription Blocus</a>
+    <a class="btn btn-info" href="{% url 'inscription_blocus' %}">Inscription Blocus</a>
+    <a class="btn btn-success" href="{% url 'account_login' %}">Login</a>
+    <a class="btn btn-danger" href="{% url 'account_logout' %}">Logout</a>
+
+    <p>
+      {% if request.user.etudiant %}
+        <a class="btn btn-success" href="{% url 'voir-profil' request.user.etudiant.pk %}">Voir profil</a>
+      {% elif request.user.pk %}
+        <a class="btn btn-success" href="{% url 'voir-profil' request.user.pk %}">Voir profil</a>
+      {% endif %}
+      <a class="btn btn-danger" href="{% url 'modifier-profil' %}">Modifier Profil</a>
+    </p>
 </div>
 {% endblock %}
 

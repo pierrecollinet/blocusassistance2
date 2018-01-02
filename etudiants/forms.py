@@ -60,3 +60,34 @@ class EtudiantModelForm(forms.ModelForm):
                                 Field('email_parent1'),
                                 )
         self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
+
+class EtudiantFullModelForm(forms.ModelForm):
+    class Meta:
+        model = Etudiant
+        exclude = ('user','vip','active')
+
+    def __init__(self, *args, **kwargs):
+        super(EtudiantFullModelForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.layout = Layout(
+                                Field('nom'),
+                                Field('prenom'),
+                                Field('gsm'),
+                                Field('annee'),
+                                Field('universite'),
+                                Field('faculte'),
+                                Field('etude'),
+                                Field('email_parent1'),
+
+                                # optional fields
+                                Field('email_parent2'),
+                                Field('gsm_parent1'),
+                                Field('gsm_parent2'),
+                                Field('date_de_naissance'),
+                                Field('photo_profil'),
+                                Field('adresse'),
+                                )
+
+
+        self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))

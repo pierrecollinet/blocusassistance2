@@ -2,7 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block title %}
-Modification du profil
+Profil de {{request.user.username}}
 {% endblock %}
 
 {% block base_head %}
@@ -42,11 +42,8 @@ Modification du profil
     <div class="col-md-3"></div>
     <div class="col-xs-12 col-md-6">
       <div class='text-center'>
-          <h1>Modifier mon profil</h1>
-          <form class="." id="signup_form" method="post" action="">
-            {% csrf_token %}
-            {% crispy form %}
-          </form>
+          <h1>Voir mon profil ({{ student.prenom }})</h1>
+          <a href="{% url 'modifier-profil' %}">Modifier mon profil</a>
       </div>
     </div>
   </div>

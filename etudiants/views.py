@@ -15,18 +15,34 @@ from datetime import datetime, timedelta
 from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
+from django.contrib import messages
 
 # import models
 #from .models import Campus
 from etudiants.models import Etudiant
 
 #import forms
-from etudiants.forms import EtudiantModelForm
+from etudiants.forms import EtudiantModelForm, EtudiantFullModelForm
 
-@login_required
+
+def etudiant_required(function):
+    def wrapper(request, *args, **kwargs):
+        decorated_view_func = login_required(request)
+        if not decorated_view_func.user.is_authenticated():
+            return decorated_view_func(request)  # return redirect to signin
+        if len(Etudiant.objects.filter(user=request.user, active=True))==1:
+            etudiant = Etudiant.objects.get(user=request.user)
+            return function(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('completer-profil'))
+    wrapper.__doc__ = function.__doc__
+    wrapper.__name__ = function.__name__
+    return wrapper
+
+
 @minified_response
 #@gzip_page
-def modify_profile(request):
+def complete_profile(request):
   if len(Etudiant.objects.filter(user=request.user)) == 0 :
     form = EtudiantModelForm(request.POST or None)
     if form.is_valid():
@@ -42,7 +58,27 @@ def modify_profile(request):
       user.save
       return HttpResponseRedirect(reverse('inscription_blocus'))
     c = {'form':form}
-    return render(request, 'modifier-profil.html', c)
+    return render(request, 'completer-profil.html', c)
   else :
     return HttpResponseRedirect(reverse('inscription_blocus'))
+
+@etudiant_required
+@minified_response
+#@gzip_page
+def show_profile(request, pk):
+  student = Etudiant.objects.get(pk=pk)
+  c = {'student':student}
+  return render(request, 'voir-profil.html', c)
+
+@etudiant_required
+@minified_response
+#@gzip_page
+def modify_profile(request):
+  form = EtudiantFullModelForm(request.POST or None, instance = request.user.etudiant)
+  if form.is_valid():
+    form.save()
+    messages.success(request, 'Profil mis à jour')
+    return HttpResponseRedirect(reverse('voir-profil', kwargs={'pk':request.user.etudiant.pk}))
+  c = {'form':form}
+  return render(request, 'modifier-profil.html', c)
 
