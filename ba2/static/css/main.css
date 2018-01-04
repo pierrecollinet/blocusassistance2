@@ -27,3 +27,7 @@ form.signup .hidden-radio-btn > input + img{ /* IMAGE STYLES */
 form.signup .hidden-radio-btn > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
   border:2px solid #f00;
 }
+
+.hidden-radio-btn {
+  margin: 0px 40px;
+}

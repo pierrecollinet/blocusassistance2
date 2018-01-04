@@ -49,23 +49,33 @@
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
 
-  <label class="hidden-radio-btn">
-    <input type="radio" name="statut" value="etudiant" />
-    <img src="{% static 'img/student.png' %}" width="100">
-    <p>Etudiant</p>
-  </label>
 
-  <label class="hidden-radio-btn">
-    <input type="radio" name="statut" value="parent"/>
-    <img src="{% static 'img/student.png' %}"  width="100">
-    <p>Parent</p>
+<!-- Start statut images (Jquery) -->
+<div class="form-group" id="div_id_username">
+  <label class="control-label requiredField" for="id_username">
+      Statut<span class="asteriskField">*</span>
   </label>
+  <div class="controls ">
+    <label class="hidden-radio-btn text-center">
+      <input type="radio" name="statut" value="etudiant" checked />
+      <img src="{% static 'img/student.png' %}" width="100">
+      <p>Etudiant</p>
+    </label>
 
-  <label class="hidden-radio-btn">
-    <input id="fb3" type="radio" name="statut" value="professeur" />
-    <img src="{% static 'img/student.png' %}"  width="100">
-    <p>Professeur</p>
-  </label>
+    <label class="hidden-radio-btn text-center">
+      <input type="radio" name="statut" value="parent"/>
+      <img src="{% static 'img/parent.png' %}"  width="100">
+      <p>Parent</p>
+    </label>
+
+    <label class="hidden-radio-btn text-center">
+      <input id="fb3" type="radio" name="statut" value="professeur" />
+      <img src="{% static 'img/teacher.png' %}"  width="100">
+      <p>Professeur</p>
+    </label>
+  </div>
+</div>
+<!-- END statut images-->
 
   {% crispy form %}
   {% if redirect_field_value %}
@@ -79,7 +89,8 @@
 <script type="text/javascript">
 
 {% block javascript %}
-$(".hidden-radio-btn").click(function(){
+
+function changeSelectStatut(){
     var statut = $('input[name="statut"]:checked', '#signup_form').val();
     if (statut == 'etudiant') {
       console.log("Etudiantttt")
@@ -96,6 +107,11 @@ $(".hidden-radio-btn").click(function(){
     else {
       console.log("else")
     }
+}
+
+changeSelectStatut();
+$(".hidden-radio-btn").click(function(){
+  changeSelectStatut();
 });
 {% endblock %}
 </script>
