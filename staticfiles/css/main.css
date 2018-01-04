@@ -1,3 +1,17 @@
 h1{
   color:blue;
 }
+
+.container-alert-flash{
+  position:absolute;
+  top:10px;
+  z-index: 50000;
+  width:100%;
+  right:0%;
+  margin:0px;
+}
+
+input #div_id_statut{ /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}

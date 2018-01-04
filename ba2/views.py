@@ -10,13 +10,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps import Sitemap
 
 import json
+import json as simplejson
+
 from datetime import datetime, timedelta
 from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 
 # import models
-from .models import Campus
+from .models import Campus, Universite, Faculte, Etude
 
 @minified_response
 #@gzip_page
@@ -43,4 +45,20 @@ def custom404(request):
 @minified_response
 def custom500(request):
     return render(request, '500.html')
+
+
+def ajax_get_facultes(request, pk):
+    universite = Universite.objects.get(pk=pk)
+    facultes = Faculte.objects.filter(universite = universite)
+    facultes_dict=[]
+    [facultes_dict.append((faculte.pk,faculte.nom)) for faculte in facultes]
+    return HttpResponse(simplejson.dumps(facultes_dict), content_type="application/json")
+
+def ajax_get_etudes(request, pk):
+    faculte = Faculte.objects.get(pk=pk)
+    etudes = Etude.objects.filter(faculte = faculte)
+    etudes_dict=[]
+    [etudes_dict.append((etude.pk,etude.nom)) for etude in etudes]
+    return HttpResponse(simplejson.dumps(etudes_dict), content_type="application/json")
+
 

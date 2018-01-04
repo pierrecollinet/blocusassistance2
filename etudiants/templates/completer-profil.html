@@ -52,3 +52,64 @@ Complète ton profil
   </div>
 
 {% endblock %}
+
+
+<script type="text/javascript">
+
+{% block javascript %}
+
+function display_facultes(){
+  if ($('select[name=universite]').val()=="") {
+    $('#div_id_faculte').hide()
+  }
+  else {
+        universite_id = $('select[name=universite]').val();
+        request_url = '/get_facultes/' + universite_id + '/';
+        $.ajax({
+              url: request_url,
+              success: function(json){
+                $('#id_faculte >option').remove();
+                for(var j = 0; j < json.length; j++){
+                      $('#id_faculte').append($('<option></option>').val(json[j][0]).html(json[j][1]));
+                }
+              }
+        })
+        $('#div_id_faculte').show()
+  }
+}
+
+function display_etudes() {
+  if ($('select[name=faculte]').val()=="") {
+    $('#div_id_etude').hide()
+  }
+  else {
+        faculte_id = $('select[name=faculte]').val();
+        request_url = '/get_etudes/' + faculte_id + '/';
+        $.ajax({
+              url: request_url,
+              success: function(json){
+                $('#id_etude >option').remove();
+                for(var j = 0; j < json.length; j++){
+                      $('#id_etude').append($('<option></option>').val(json[j][0]).html(json[j][1]));
+                }
+              }
+        })
+        $('#div_id_etude').show()
+  }
+
+}
+
+
+$(document).ready(function(){
+  $('select[name=universite]').change(function() {
+    display_facultes()
+  })
+  $('select[name=faculte]').change(function() {
+    display_etudes()
+  })
+
+  display_facultes()
+  display_etudes()
+});
+{% endblock %}
+</script>

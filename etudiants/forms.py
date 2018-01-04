@@ -17,9 +17,9 @@ import datetime
 # import models
 from etudiants.models import Etudiant
 
-statuts = (('etudiants','Etudiant'),('parents','Parent'),('professeurs', 'Professeur'),)
+statuts = (('none', 'none'),('etudiants','Etudiant'),('parents','Parent'),('professeurs', 'Professeur'),)
 class SignupForm(forms.Form):
-    statut = forms.ChoiceField(choices = statuts)
+    statut = forms.ChoiceField(choices = statuts, required=True)
 
     def signup(self, request, user):
       # user.first_name = self.cleaned_data['first_name']
@@ -33,12 +33,19 @@ class SignupForm(forms.Form):
       self.helper.form_tag = False
       self.empty_permitted = False
       self.helper.form_class = 'form-horizontal'
+      self.fields['statut'].label = False
       self.helper.layout = Layout(
-                                Field('statut'),
+                                Field('statut', css_class="hidden-radio-field"),
                                 Field('username',placeholder="Nom d'utilisateur"),
                                 Field('password1'),
                                 Field('password2'),
                                 )
+
+    def clean(self):
+      cleaned_data = super(SignupForm, self).clean()
+      statut = cleaned_data.get('statut')
+      if statut == "none":
+        raise forms.ValidationError("Veuillez sélectionner un statut")
 
 class EtudiantModelForm(forms.ModelForm):
     class Meta:
