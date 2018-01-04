@@ -35,3 +35,12 @@ def politique_confidentialite(request):
 def conditions_generales(request):
   c = {}
   return render(request, 'conditions-generales.html', c)
+
+@minified_response
+def custom404(request):
+    return render(request, '404.html')
+
+@minified_response
+def custom500(request):
+    return render(request, '500.html')
+

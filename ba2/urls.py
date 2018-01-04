@@ -19,3 +19,7 @@ urlpatterns = [
     # external apps
     url(r'^accounts/', include('allauth.urls')),
 ]
+
+from ba2.views import custom404, custom500
+handler404 = custom404
+handler500 = custom500
