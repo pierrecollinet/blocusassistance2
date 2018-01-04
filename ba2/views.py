@@ -23,3 +23,15 @@ from .models import Campus
 def welcome(request):
   c = {'campus': Campus.objects.all()}
   return render(request, 'welcome.html', c)
+
+@minified_response
+#@gzip_page
+def politique_confidentialite(request):
+  c = {}
+  return render(request, 'politique-confidentialite.html', c)
+
+@minified_response
+#@gzip_page
+def conditions_generales(request):
+  c = {}
+  return render(request, 'conditions-generales.html', c)

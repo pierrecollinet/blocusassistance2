@@ -16,6 +16,7 @@ from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 from django.contrib import messages
+from django.conf import settings
 
 # import models
 #from .models import Campus
@@ -30,10 +31,11 @@ def professeur_required(function):
         decorated_view_func = login_required(request)
         if not decorated_view_func.user.is_authenticated():
             return decorated_view_func(request)  # return redirect to signin
-        if len(Professeur.objects.filter(user=request.user))==1:
+        if len(Professeur.objects.filter(user=request.user, active=True))==1:
             professeur = Professeur.objects.get(user=request.user)
             return function(request, *args, **kwargs)
         else:
+            # redirect vers une page demandant de contacter un admin pour devenir actif
             return HttpResponseRedirect(reverse('completer-profil-prof'))
     wrapper.__doc__ = function.__doc__
     wrapper.__name__ = function.__name__
@@ -56,7 +58,21 @@ def complete_profile(request):
       user.first_name = professeur.prenom
       user.last_name = professeur.nom
       user.save
-      return HttpResponseRedirect(reverse('voir-profil-prof', kwargs={'pk':request.user.professeur.pk}))
+
+      # On prévient les fondateurs
+      plaintext = get_template('../templates/emails/nouveau-prof-alert-fondateurs.txt')
+      htmly     = get_template('../templates/emails/nouveau-prof-alert-fondateurs.html')
+      subject, from_email = "Nouvelle inscription professeur - " + professeur.prenom + ' ' + professeur.nom, professeur.email
+      to = settings.EMAILS
+      d = { 'professeur': professeur}
+      text_content = plaintext.render(d)
+      html_content = htmly.render(d)
+      msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+      msg.attach_alternative(html_content, "text/html")
+      msg.send()
+
+      c = { 'message': "Nous revenons vers toi dans les plus brefs délais"}
+      return render(request, 'professeurs/thanks.html', c)
     c = {'form':form}
     return render(request, 'professeurs/completer-profil.html', c)
   else :

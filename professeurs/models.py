@@ -19,6 +19,7 @@ class Professeur(models.Model):
   # required fields
   nom = models.CharField(max_length=200)
   prenom = models.CharField(max_length=200)
+  email = models.EmailField()
   gsm = models.CharField(max_length=200)
   universite = models.ForeignKey(Universite)
   faculte = models.ForeignKey(Faculte)
@@ -30,6 +31,8 @@ class Professeur(models.Model):
   photo_profil = models.ImageField(upload_to = 'mes_images/', blank=True)
   adresse = models.CharField(max_length=200, blank=True)
 
+  # actif ou non
+  active = models.BooleanField(default=False)
 
   def __str__(self):
     return self.prenom +' '+ self.nom

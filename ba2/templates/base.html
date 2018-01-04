@@ -14,22 +14,20 @@
     <body>
       {% include 'base/navbar.html' with brand_name='Blocus Assistance' %}
       <div class='container'>
-        {% if messages %}
-      <div class="alert alert-success messages">
-          {% for message in messages %}
-          <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-              {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-              {{ message }}<br/>
-          </span>
-          {% endfor %}
+        {% include 'alert.html' %}
+        {% block content %}{% endblock %}
+
       </div>
-      {% endif %}
-      {% block content %}{% endblock %}
-    </div>
 
         {% include 'base/js.html' %}
-        {% block javascript %}
 
-        {% endblock %}
+        {% block script %}{% endblock %}
+        <script>
+            $(document).ready(function(){
+                showFlashMessage()
+                {% block javascript %}
+                {% endblock %}
+            });
+        </script>
     </body>
   </html>

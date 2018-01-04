@@ -19,6 +19,7 @@ class Etudiant(models.Model):
   # required fields
   nom = models.CharField(max_length=200)
   prenom = models.CharField(max_length=200)
+  email = models.EmailField()
   gsm = models.CharField(max_length=200)
   universite = models.ForeignKey(Universite)
   faculte = models.ForeignKey(Faculte)

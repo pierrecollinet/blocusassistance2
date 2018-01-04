@@ -18,6 +18,8 @@ import datetime
 from professeurs.models import Professeur
 
 class ProfesseurModelForm(forms.ModelForm):
+    date_de_naissance = forms.DateField(initial=datetime.date.today(), required=True, widget=forms.DateInput(format='%d/%m/%Y', attrs={'class': 'datepicker'}),  input_formats=('%d/%m/%Y',))
+
     class Meta:
         model = Professeur
         exclude = ('user',)
@@ -29,6 +31,7 @@ class ProfesseurModelForm(forms.ModelForm):
         self.helper.layout = Layout(
                                 Field('nom'),
                                 Field('prenom'),
+                                Field('email'),
                                 Field('gsm'),
                                 Field('annee'),
                                 Field('universite'),
@@ -41,3 +44,6 @@ class ProfesseurModelForm(forms.ModelForm):
                                 Field('adresse'),
                                 )
         self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
+
+
+

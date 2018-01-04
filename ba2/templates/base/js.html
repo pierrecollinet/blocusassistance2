@@ -17,5 +17,11 @@ slim is missing ajax -->
 <!-- Chart.js -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js'></script>
 
+<script src="{% static 'js/flash-msg.js' %}"></script>
 
-
+<script>
+    $(document).ready(function(){
+        {% block javascript %}
+        {% endblock %}
+    });
+</script>

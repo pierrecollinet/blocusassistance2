@@ -1,0 +1,9 @@
+Bonjour,
+
+Un nouveau professeur s'est inscrit sur la plateforme ({{ professeur.prenom }} {{ professeur.nom }}).
+
+N'oubliez pas de le valider (ou non) via la page admin.
+
+Bonne journée,
+
+Internet

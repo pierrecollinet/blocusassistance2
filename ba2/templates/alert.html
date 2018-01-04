@@ -1,0 +1,18 @@
+<div class='row container-alert-flash'>
+  <div class='col-sm-8'></div>
+  {% if messages %}
+  <div class='col-sm-4'>
+    <div class='alert alert-success alert-dismissible messages'>
+      {% for message in messages %}
+      <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+        <span aria-hidden='true'>&times;</span>
+      </button>
+      <span {% if message.tags %} class='{{ message.tags }}'{% endif %}>
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+          {{ message }}<br/>
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
