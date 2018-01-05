@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Inscription au blocus assisté
@@ -39,15 +41,91 @@ Inscription au blocus assisté
 
 {% block content %}
 <div class='text-center'>
-    <h1>Inscription</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Inscription</h1>
+      <form class="." id="signup_form" method="post" action="">
+        {% csrf_token %}
+        {% crispy form %}
+      </form>
+    </div>
 
-    <p></p>
-
-    <h2>Campus</h2>
-    <ul>
-      {% for c in campus%}
-        <li>{{ c }}</li>
-      {% endfor %}
-    </ul>
+    <div class="col-md-6">
+      <h2>Résumé de votre demande</h2>
+      <table class="table">
+        <tr><td><span id="nombre_semaines">0</span> semaines : <span id="tarif_semaines">0</span>&euro;</td></tr>
+        <tr><td><span id="nombre_weekends">0</span> weekends <span id="tarif_weekends">0</span>&euro;</td></tr>
+        <tr><td><b>Total</b> : <span id="total_price">0</span>&euro;</td></tr>
+      </table>
+    </div>
+  </div>
 </div>
 {% endblock %}
+
+
+
+
+<script>
+{% block javascript %}
+
+function display_modules(){
+        campus_id = $('select[name=campus]').val();
+        if (campus_id != ""){
+            request_url = '/blocus-assistes/get_modules/' + campus_id + '/';
+            $.ajax({
+                  url: request_url,
+                  success: function(json){
+                    $('#checkbox_module_id').empty();
+                    $('#checkbox_module_id').append('<label for="id_module_0" class="control-label  requiredField">' +
+                              'Module<span class="asteriskField">*</span> </label><br>')
+                    for(var j = 0; j < json.length; j++){
+                      $('#checkbox_module_id').append(
+                            '<div class="checkbox"><label><input type="checkbox" name="module" value="' + parseInt(json[j][0]) + '"/>' + json[j][1] +
+                            '</label>'
+                      );
+                      }
+                  }
+            })
+        }
+        else {
+          $('#checkbox_module_id').empty();
+        }
+}
+
+$("#checkbox_module_id").on("click",".checkbox", function(){
+  var arr = [];
+    $(":checkbox").each(function () {
+        var ischecked = $(this).is(":checked");
+        if (ischecked) {
+          arr.push($(this).val());
+        }
+    });
+    var promo = $('#id_code_promo').val()
+  $.ajax({
+    type:"GET",
+    url:"calculate_price_ajax/",
+    data : {
+      module:arr,
+      promo : promo,
+    },
+    success : function(data){
+        $('#total_price').text(data.price);
+        $('#nombre_semaines').text(data.nombre_semaines);
+        $('#nombre_weekends').text(data.nombre_weekends);
+        $('#tarif_semaines').text(data.tarif_semaines);
+        $('#tarif_weekends').text(data.tarif_weekends);
+    },
+  })
+});
+
+
+$(document).ready(function(){
+  display_modules()
+  $('select[name=campus]').change(function(){
+    display_modules()
+  })
+});
+
+
+{% endblock %}
+</script>

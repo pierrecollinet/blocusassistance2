@@ -14,6 +14,7 @@ import datetime
 
 # Models from intern apps
 from ba2.models import Campus
+from etudiants.models import Etudiant
 
 periodes = (('noel','Noël'),('paques','Pâques'),('mai','Mai'),('juillet','Juillet/Août'),)
 class Blocus(models.Model):
@@ -54,12 +55,13 @@ def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
         count_semaine += 1
         prix = "250"
         fin_module = debut_module + datetime.timedelta( (4-debut_module.weekday()) % 7 )
+        sem_or_we = "sem"
       else : #--> weekend
         nom = "Weekend " + str(count_weekend)
         count_weekend += 1
         prix = "120"
         fin_module =  debut_module + datetime.timedelta( (6-debut_module.weekday()) % 7 )
-
+        sem_or_we = "we"
       if fin_module >= date_fin :
         continuer = False
         fin_module = date_fin
@@ -71,7 +73,8 @@ def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
                                                 date_debut = debut_module,
                                                 date_fin = fin_module,
                                                 prix = prix,
-                                                blocus = instance
+                                                blocus = instance,
+                                                sem_or_we = sem_or_we
                                                 )
       list_campus = list(campus)
       module.campus.add(*list_campus)  # on ajoute le many 2 many field
@@ -90,6 +93,23 @@ def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
 post_save.connect(post_save_blocus_model_receiver, sender=Blocus)
 
 
+
+class ModuleBlocusQuerySet(models.query.QuerySet):
+    def active(self):
+      try:
+        blocus = Blocus.objects.filter(is_current=True)[0]
+        return self.filter(blocus=blocus)
+      except :
+        pass
+
+class ModuleBlocusManager(models.Manager):
+    def get_queryset(self):
+        return ModuleBlocusQuerySet(self.model, using=self._db)
+
+    def all(self,*args,**kwargs):
+        return self.get_queryset().active()
+
+sem_or_we = (('sem','Semaine'),('we','Weekend'),('jour','Jour'),)
 class ModuleBlocus(models.Model):
   nom = models.CharField(max_length=200)
   date_debut = models.DateField()
@@ -97,6 +117,9 @@ class ModuleBlocus(models.Model):
   prix = models.CharField(max_length=200)
   blocus = models.ForeignKey(Blocus)
   campus = models.ManyToManyField(Campus, blank=True, null=True)
+  sem_or_we = models.CharField(max_length=200, choices=sem_or_we, default='sem')
+
+  objects = ModuleBlocusManager()
 
   def __str__(self):
     if str(self.date_debut.strftime('%d/%m/%Y')) == str(self.date_fin.strftime('%d/%m/%Y')):
@@ -104,6 +127,13 @@ class ModuleBlocus(models.Model):
     else :
       name = self.nom +' - du '+ str(self.date_debut.strftime('%d/%m/%Y'))+ ' au '+str(self.date_fin.strftime('%d/%m/%Y'))
     return name
+
+  def get_name(self):
+    if str(self.date_debut.strftime('%d/%m/%Y')) == str(self.date_fin.strftime('%d/%m/%Y')):
+        name = self.nom +' - '+ str(self.date_debut.strftime('%d/%m/%Y'))
+    else :
+        name = self.nom +' - du '+ str(self.date_debut.strftime('%d/%m/%Y'))+ ' au '+str(self.date_fin.strftime('%d/%m/%Y'))
+    return str(name)
 
 
 class PresenceJourBlocus(models.Model):
@@ -120,8 +150,23 @@ class PresenceJourBlocus(models.Model):
         return days[day]+ ' - '+str(self.date.strftime('%d/%m/%Y'))
 
 
+class InscriptionBlocus(models.Model):
+    etudiant = models.ForeignKey(Etudiant)
+    blocus = models.ForeignKey(Blocus)
+    module = models.ManyToManyField(ModuleBlocus)
+    campus = models.ForeignKey(Campus)
+    montant = models.CharField(max_length=200)
+    is_paid = models.BooleanField(default=False)
+    origine = models.CharField(verbose_name="Comment avez-vous entendu parler de Blocus Assistance?", max_length=200)
+    date_inscription = models.DateField(auto_now_add=True)
+    suivi_inscription = models.TextField(blank=True)
+    code_promo = models.CharField(max_length=200, blank=True, null=True)
 
+    class Meta:
+        ordering = ["etudiant"]
 
+    def __str__(self):
+        return self.etudiant.prenom +'-'+ self.etudiant.nom
 
 
 
