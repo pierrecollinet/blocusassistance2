@@ -25,6 +25,11 @@ from professeurs.models import Professeur
 #import forms
 from professeurs.forms import ProfesseurModelForm
 
+@minified_response
+#@gzip_page
+def accueil(request):
+  c = {}
+  return render(request, 'professeurs/accueil.html', c)
 
 def professeur_required(function):
     def wrapper(request, *args, **kwargs):
@@ -41,6 +46,12 @@ def professeur_required(function):
     wrapper.__name__ = function.__name__
     return wrapper
 
+@professeur_required
+@minified_response
+#@gzip_page
+def dashboard(request):
+  c = {}
+  return render(request, 'professeurs/tableau-de-bord.html', c)
 
 @minified_response
 #@gzip_page

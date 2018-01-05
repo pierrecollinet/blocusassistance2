@@ -15,17 +15,9 @@ from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 
-# import models
-#from .models import Campus
 
 @minified_response
 #@gzip_page
-def inscription_blocus(request):
+def accueil(request):
   c = {}
-  return render(request, 'inscription-blocus.html', c)
-
-@minified_response
-#@gzip_page
-def blocus_assistes(request):
-  c = {}
-  return render(request, 'blocus-assistes.html', c)
+  return render(request, 'cours-particuliers/accueil.html', c)

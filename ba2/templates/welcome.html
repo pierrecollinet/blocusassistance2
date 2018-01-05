@@ -43,35 +43,66 @@ Bienvenue
 
     <p>Coming soon</p>
 
-    <h2>Campus</h2>
-    <ul>
-      {% for c in campus%}
-        <li>{{ c }}</li>
-      {% endfor %}
+    <h2>Architectures</h2>
+    <ul class="text-left">
+      <li>
+        Homepage
+        <ul>
+          <li><a href="{% url 'welcome' %}">/Home</a></li>
+          <li><a href="{% url 'conditions-generales' %}">/Conditions générales</a></li>
+          <li><a href="{% url 'politique-confidentialite' %}">/Politique de confidentialité</a></li>
+          <li><a href="{% url 'gallerie' %}">/Gallerie</a></li>
+          <li><a href="{% url 'contact' %}">/Contact</a></li>
+          <li><a href="{% url 'outils-methodes' %}">/Outils-et-methodes</a></li>
+        </ul>
+      </li>
+      <li>
+        Blocus Assistés
+        <ul>
+          <li><a href="{% url 'blocus-assistes' %}">/Accueil</a></li>
+          <li><a href="{% url 'inscription_blocus' %}">/Inscription</a></li>
+        </ul>
+      </li>
+      <li>
+        Cours Particuliers
+        <ul>
+          <li><a href="{% url 'accueil-cours-particuliers' %}">/Accueil</a></li>
+        </ul>
+      </li>
+      <li>
+        Suivi Intensif
+        <ul>
+          <li><a href="{% url 'accueil-suivi-intensif' %}">/Accueil</a></li>
+        </ul>
+      </li>
+      <li>
+        Etudiants
+        <ul>
+          <li><a href="{% url 'tableau-de-bord-etudiants' %}">/Tableau-de-bord</a></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </li>
+      <li>
+        Fondateurs
+        <ul>
+          <li><a href="{% url 'fondateurs-dashboard' %}">/Tableau-de-bord</a></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </li>
+      <li>
+        Professeurs
+        <ul>
+          <li><a href="{% url 'accueil-prof' %}">/Accueil-Prof</a></li>
+          <li><a href="{% url 'tableau-de-bord-professeurs' %}">/Tableau-de-bord</a></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </li>
     </ul>
-    <p>
-      <a class="btn btn-info" href="{% url 'inscription_blocus' %}">Inscription Blocus</a>
-      <a class="btn btn-success" href="{% url 'account_login' %}">Login</a>
-      <a class="btn btn-danger" href="{% url 'account_logout' %}">Logout</a>
-    </p>
-
-    <p>
-      {% if request.user.etudiant %}
-        <a class="btn btn-success" href="{% url 'voir-profil' request.user.etudiant.pk %}">Voir profil</a>
-      {% elif request.user.pk %}
-        <a class="btn btn-success" href="{% url 'voir-profil' request.user.pk %}">Voir profil</a>
-      {% endif %}
-      <a class="btn btn-danger" href="{% url 'modifier-profil' %}">Modifier Profil</a>
-    </p>
-
-    <p>
-      Links
-      <ul>
-        <li><a href="{% url 'politique-confidentialite' %}">Politique de Confidentialité</a></li>
-        <li><a href="{% url 'conditions-generales' %}">Conditions générales</a></li>
-        <li><a href="{% url 'politique-confidentialite' %}"></a></li>
-      </ul>
-    </p>
 </div>
 {% endblock %}
 

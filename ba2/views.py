@@ -20,6 +20,11 @@ from htmlmin.decorators import minified_response
 # import models
 from .models import Campus, Universite, Faculte, Etude
 
+########################################
+##########                    ##########
+##########      GENERAL       ##########
+##########                    ##########
+########################################
 @minified_response
 #@gzip_page
 def welcome(request):
@@ -39,6 +44,35 @@ def conditions_generales(request):
   return render(request, 'conditions-generales.html', c)
 
 @minified_response
+#@gzip_page
+def show_gallerie(request):
+  c = {}
+  return render(request, 'gallerie.html', c)
+
+@minified_response
+#@gzip_page
+def contact(request):
+  c = {}
+  return render(request, 'contact.html', c)
+
+@minified_response
+#@gzip_page
+def outils_methodes(request):
+  c = {}
+  return render(request, 'outils-methodes.html', c)
+
+@minified_response
+#@gzip_page
+def a_propos(request):
+  c = {}
+  return render(request, 'a-propos.html', c)
+
+########################################
+##########                    ##########
+##########    ERROR PAGES     ##########
+##########                    ##########
+########################################
+@minified_response
 def custom404(request):
     return render(request, '404.html')
 
@@ -46,7 +80,11 @@ def custom404(request):
 def custom500(request):
     return render(request, '500.html')
 
-
+########################################
+##########                    ##########
+##########       AJAX         ##########
+##########                    ##########
+########################################
 def ajax_get_facultes(request, pk):
     universite = Universite.objects.get(pk=pk)
     facultes = Faculte.objects.filter(universite = universite)

@@ -93,19 +93,13 @@
 function changeSelectStatut(){
     var statut = $('input[name="statut"]:checked', '#signup_form').val();
     if (statut == 'etudiant') {
-      console.log("Etudiantttt")
       $("div#div_id_statut select").val("etudiants");
     }
     else if (statut == 'parent'){
-      console.log("Parentt")
       $("div#div_id_statut select").val("parents");
     }
     else if (statut == 'professeur'){
-      console.log("Professeruuu")
       $("div#div_id_statut select").val("professeurs");
-    }
-    else {
-      console.log("else")
     }
 }
 
