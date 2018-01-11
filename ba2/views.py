@@ -40,7 +40,7 @@ def politique_confidentialite(request):
 @minified_response
 #@gzip_page
 def conditions_generales(request):
-  c = {}
+  c = {'monprenom':"Pierre"}
   return render(request, 'conditions-generales.html', c)
 
 @minified_response
