@@ -209,3 +209,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v2.5',
     }
 }
+
+
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_PUB_KEY = os.environ.get('STRIPE_PUB_KEY')
+
