@@ -7,8 +7,6 @@ from django.core.urlresolvers import reverse
 #from accounts.models import GuestEmail
 User = settings.AUTH_USER_MODEL
 
-# abc@teamcfe.com -->> 1000000 billing profiles
-# user abc@teamcfe.com -- 1 billing profile
 import stripe
 
 class BillingProfileManager(models.Manager):

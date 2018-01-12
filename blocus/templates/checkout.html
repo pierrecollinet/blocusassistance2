@@ -41,8 +41,6 @@ Finaliser l'inscription
 <div class='text-center'>
     {% if not has_card %}
       <!-- ENTER CREDIT CARD HERE -->
-      <h2>{{ publish_key }}</h2>
-      <h2>{{ request.build_absolute_uri }}</h2>
       <div class="stripe-payment-form" data-token='{{ publish_key }}' data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Ajouter une méthode de paiement"></div>
     {% else %}
     <h1>Finaliser l'inscription</h1>
