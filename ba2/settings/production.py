@@ -64,6 +64,7 @@ INSTALLED_APPS = (
     'fondateurs',
     'coursparticuliers',
     'suiviintensif',
+    'billing',
 
     # External apps
     'storages',

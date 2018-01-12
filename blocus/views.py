@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from django.conf import settings
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
-from django.shortcuts import render
+from django.urls import reverse
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from django.template import Context
 
@@ -20,16 +22,38 @@ from htmlmin.decorators import minified_response
 # import models
 #from .models import Campus
 from ba2.models import Campus
-from blocus.models import ModuleBlocus, Blocus
+from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus
+from etudiants.models import Etudiant
+from billing.models import BillingProfile
 
 # import forms
 from blocus.forms import InscriptionBlocusModelForm
 
+from etudiants.views import etudiant_required
+
+import stripe
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY")
+STRIPE_PUB_KEY = getattr(settings, "STRIPE_PUB_KEY")
+stripe.api_key = STRIPE_SECRET_KEY
+
+@etudiant_required
 @minified_response
 #@gzip_page
 def inscription_blocus(request):
   form = InscriptionBlocusModelForm(request.POST or None)
   form.fields["module"].queryset = ModuleBlocus.objects.all()
+  if form.is_valid():
+    new_inscription = form.save(commit=False)
+    new_inscription.etudiant = request.user.etudiant
+    new_inscription.blocus = Blocus.objects.filter(is_current = True).first()
+    new_inscription.montant = 0
+    new_inscription.save()
+    new_inscription.module = form.cleaned_data['module']
+    new_inscription.save()
+    new_inscription.montant = new_inscription.calculate_total_price()
+    new_inscription.save()
+    c = {'inscription':new_inscription}
+    return redirect('checkout', pk = new_inscription.pk)
   c = {'form':form}
   return render(request, 'inscription-blocus.html', c)
 
@@ -46,7 +70,32 @@ def confirmation_inscription(request):
   c = {}
   return render(request, 'confirmation-inscription.html', c)
 
-
+@login_required
+def checkout(request, pk):
+    billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
+    has_card = False
+    inscription_obj = InscriptionBlocus.objects.get(id = pk)
+    if billing_profile is not None:
+      has_card = billing_profile.has_card
+    if request.method == "POST":
+      inscription_id = request.POST["inscription_id"]
+      inscription_obj = InscriptionBlocus.objects.get(id = inscription_id)
+      did_charge, crg_msg = billing_profile.charge(inscription_obj)
+      if did_charge:
+        inscription_obj.is_paid = True
+        inscription_obj.save()
+        return redirect("confirmation-inscription-blocus")
+      else:
+        print(crg_msg)
+        return redirect("blocus:checkout")
+    context = {
+        "object": inscription_obj,
+        "inscription": inscription_obj,
+        "billing_profile": billing_profile,
+        "has_card": has_card,
+        "publish_key": STRIPE_PUB_KEY,
+    }
+    return render(request, "checkout.html", context)
 
 
 # AJAX
