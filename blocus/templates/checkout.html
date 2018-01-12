@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Bienvenue
+Finaliser l'inscription
 {% endblock %}
 
 {% block base_head %}
@@ -39,70 +39,51 @@ Bienvenue
 
 {% block content %}
 <div class='text-center'>
-    <h1>Blocus Assistance 2.0</h1>
-
-    <p>Coming soon</p>
-    <p>Pierre B. participe à présent</p>
-
-    <ul class="text-left">
-      <li>
-        Homepage
-        <ul>
-          <li><a href="{% url 'welcome' %}">/Home</a></li>
-          <li><a href="{% url 'conditions-generales' %}">/Conditions générales</a></li>
-          <li><a href="{% url 'politique-confidentialite' %}">/Politique de confidentialité</a></li>
-          <li><a href="{% url 'gallerie' %}">/Gallerie</a></li>
-          <li><a href="{% url 'contact' %}">/Contact</a></li>
-          <li><a href="{% url 'outils-methodes' %}">/Outils-et-methodes</a></li>
-        </ul>
-      </li>
-      <li>
-        Accounts
-        <ul>
-          <li><a href="/accounts/login">/Log in</a></li>
-          <li><a href="/accounts/signup">/Sign in </a></li>
-          <li><a href="/accounts/logout">/Log out</a></li>
-        </ul>
-      </li>
-      <li>
-        Blocus Assistés
-        <ul>
-          <li><a href="{% url 'blocus-assistes' %}">/Accueil</a></li>
-          <li><a href="{% url 'inscription_blocus' %}">/Inscription</a></li>
-        </ul>
-      </li>
-      <li>
-        Cours Particuliers
-        <ul>
-          <li><a href="{% url 'accueil-cours-particuliers' %}">/Accueil</a></li>
-        </ul>
-      </li>
-      <li>
-        Suivi Intensif
-        <ul>
-          <li><a href="{% url 'accueil-suivi-intensif' %}">/Accueil</a></li>
-        </ul>
-      </li>
-      <li>
-        Etudiants
-        <ul>
-          <li><a href="{% url 'tableau-de-bord-etudiants' %}">/Tableau-de-bord</a></li>
-        </ul>
-      </li>
-      <li>
-        Fondateurs
-        <ul>
-          <li><a href="{% url 'fondateurs-dashboard' %}">/Tableau-de-bord</a></li>
-        </ul>
-      </li>
-      <li>
-        Professeurs
-        <ul>
-          <li><a href="{% url 'accueil-prof' %}">/Accueil-Prof</a></li>
-          <li><a href="{% url 'tableau-de-bord-professeurs' %}">/Tableau-de-bord</a></li>
-        </ul>
-      </li>
-    </ul>
+    {% if not has_card %}
+      <!-- ENTER CREDIT CARD HERE -->
+      <h2>{{ publish_key }}</h2>
+      <h2>{{ request.build_absolute_uri }}</h2>
+      <div class="stripe-payment-form" data-token='{{ publish_key }}' data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Ajouter une méthode de paiement"></div>
+    {% else %}
+    <h1>Finaliser l'inscription</h1>
+    <table class="table">
+      <tr>
+        <td>Prenom</td>
+        <td class="text-left">{{ inscription.etudiant.prenom }}</td>
+      </tr>
+      <tr>
+        <td>Nom</td>
+        <td class="text-left">{{ inscription.etudiant.nom }}</td>
+      </tr>
+      <tr>
+        <td>Blocus</td>
+        <td class="text-left">{{ inscription.blocus }}</td>
+      </tr>
+      <tr>
+        <td>Montant</td>
+        <td class="text-left">{{ inscription.montant }}</td>
+      </tr>
+      <tr>
+        <td>Modules</td>
+        <td class="text-left">
+          <ul>
+            {% for m in inscription.module.all %}
+              <li>{{ m.get_name }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>Moyen de paiement</td>
+        <td class="text-left">{{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Changer</a>)</td>
+      </tr>
+    </table>
+    <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
+        <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
+        <button type='submit' class='btn btn-success mx-2'>Payer en ligne</button>
+        <button type='submit' class='btn btn-success mx-2'>Confirmer mon inscription</button>
+    </form>
+    {% endif %}
 </div>
 {% endblock %}
 

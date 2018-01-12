@@ -86,10 +86,8 @@
 {% endblock %}
 
 
-<script type="text/javascript">
-
 {% block javascript %}
-
+<script type="text/javascript">
 function changeSelectStatut(){
     var statut = $('input[name="statut"]:checked', '#signup_form').val();
     if (statut == 'etudiant') {
@@ -107,5 +105,6 @@ changeSelectStatut();
 $(".hidden-radio-btn").click(function(){
   changeSelectStatut();
 });
-{% endblock %}
 </script>
+{% endblock %}
+

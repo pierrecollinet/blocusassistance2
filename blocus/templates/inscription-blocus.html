@@ -47,6 +47,7 @@ Inscription au blocus assisté
       <form class="." id="signup_form" method="post" action="">
         {% csrf_token %}
         {% crispy form %}
+
       </form>
     </div>
 
@@ -65,9 +66,8 @@ Inscription au blocus assisté
 
 
 
-<script>
 {% block javascript %}
-
+<script>
 function display_modules(){
         campus_id = $('select[name=campus]').val();
         if (campus_id != ""){
@@ -126,6 +126,6 @@ $(document).ready(function(){
   })
 });
 
-
-{% endblock %}
 </script>
+{% endblock %}
+
