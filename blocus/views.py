@@ -94,8 +94,6 @@ def checkout(request, pk):
         # - mail de confirmation
         # - rediriger vers une page de remerciement
         print('payer par virement')
-
-
     context = {
         "object": inscription_obj,
         "inscription": inscription_obj,
