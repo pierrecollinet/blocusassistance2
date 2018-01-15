@@ -33,6 +33,7 @@ Bienvenue
   <meta name="twitter:creator" content="@Lewagonparis">
   <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
 !-->
+<link href="{% static 'css/welcome.css' %}" rel="stylesheet" type="text/css">
 
 {% endblock %}
 
@@ -41,34 +42,79 @@ Bienvenue
   <div class="wrapper">
 
     <!-- HERO UNIT -->
-    <section class="hero-unit-slider slider-responsive">
-      <div id="carousel-hero" class="slick-carousel">
+    <!-- HERO UNIT -->
+    <section class="hero-unit-animated">
+      <div id="carousel-hero-animated" class="carousel">
+        <!-- Slide Wrapper -->
         <div class="carousel-inner" role="listbox">
           <div class="item active">
-            <img src="{% static 'img/sliders/slider3-h500.png' %}" class="img-responsive" alt="Slider Image">
-            <div class="carousel-caption">
-              <h2 class="hero-heading">CLEAN &amp; ELEGANT DESIGN</h2>
-              <p class="lead">Giving valuable reputation and credibility to your business</p>
-              <a href="#" class="btn btn-lg hero-button">LEARN MORE</a>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="hero-left">
+                    <div class="hero-text">
+                      <h2 class="hero-heading animation-delay-5" data-animation="animated fadeIn">CLEAN &amp; ELEGANT DESIGN</h2>
+                      <p class="lead animation-delay-7" data-animation="animated fadeIn">Giving valuable reputation and credibility to your business</p>
+                    </div>
+                    <a href="#" class="btn btn-info btn-lg hero-button animation-delay-12" data-animation="animated fadeIn">LEARN MORE</a>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                <div class="hero-right">
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse explicabo deleniti, possimus incidunt id consequuntur, eius nobis, laboriosam harum quas maxime numquam iste nihil ut perspiciatis expedita asperiores? Fugiat, corporis.100</p>
+                  <img src="assets/img/hero-unit-obj.png" class="animation-delay-9" data-animation="animated fadeInRight" alt="Repute Business Theme">
+                </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="item">
-            <img src="assets/img/sliders/slider2-h500.png" class="img-responsive" alt="Slider Image">
-            <div class="carousel-caption">
-              <h2 class="hero-heading">ULTRA RESPONSIVE</h2>
-              <p class="lead">Leave it to the theme, it knows how to deal with screen sizes</p>
-              <a href="#" class="btn btn-lg hero-button">LEARN MORE</a>
+            <div class="container">
+              <div class="hero-left pull-left">
+                <div class="hero-text">
+                  <h2 class="hero-heading animation-delay-5" data-animation="animated fadeIn">ULTRA RESPONSIVE</h2>
+                  <p class="lead animation-delay-7" data-animation="animated fadeIn">Leave it to the theme, it knows how to deal with screen sizes</p>
+                </div>
+                <a href="#" class="btn btn-info btn-lg hero-button animation-delay-12" data-animation="animated fadeIn">LEARN MORE</a>
+              </div>
+              <div class="hero-right pull-right">
+                <img src="assets/img/hero-unit-obj2.png" class="animation-delay-9" data-animation="animated fadeInRight" alt="Repute Business Theme">
+              </div>
             </div>
           </div>
           <div class="item">
-            <img src="assets/img/sliders/slider1-h500.png" class="img-responsive" alt="Slider Image">
-            <div class="carousel-caption">
-              <h2 class="hero-heading">EASY TO CUSTOMIZE</h2>
-              <p class="lead">Readable code, well documented and FREE support</p>
-              <a href="#" class="btn btn-lg hero-button">LEARN MORE</a>
+            <div class="container">
+              <div class="hero-left pull-left">
+                <div class="hero-text">
+                  <h2 class="hero-heading animation-delay-5" data-animation="animated fadeIn">EASY TO CUSTOMIZE</h2>
+                  <p class="lead animation-delay-7" data-animation="animated fadeIn">Readable code, well documented and FREE support</p>
+                </div>
+                <a href="#" class="btn btn-info btn-lg hero-button animation-delay-12" data-animation="animated fadeIn">LEARN MORE</a>
+              </div>
+              <div class="hero-right pull-right">
+                <img src="assets/img/hero-unit-obj3.png" class="animation-delay-9" data-animation="animated fadeInRight" alt="Repute Business Theme">
+              </div>
             </div>
           </div>
         </div>
+        <!-- End Slide Wrapper -->
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-hero-animated" role="button" data-slide="prev">
+          <span class="fa fa-angle-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-hero-animated" role="button" data-slide="next">
+          <span class="fa fa-angle-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+        <!-- End Controls -->
+        <!-- Pagination -->
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-hero-animated" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-hero-animated" data-slide-to="1"></li>
+          <li data-target="#carousel-hero-animated" data-slide-to="2"></li>
+        </ol>
+        <!-- End Pagination -->
       </div>
     </section>
     <!-- END HERO UNIT -->
