@@ -158,7 +158,7 @@ class ChargeManager(models.Manager):
         if card_obj is None:
             return False, "Pas de carte disponible"
         c = stripe.Charge.create(
-              amount = int(inscription_obj.montant) * 100, # 39.19 --> 3919
+              amount = int(float(inscription_obj.montant) * 100), # 39.19 --> 3919
               currency = "eur",
               customer =  billing_profile.customer_id,
               source = card_obj.stripe_id,
