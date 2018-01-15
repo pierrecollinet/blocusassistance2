@@ -68,6 +68,7 @@ Inscription au blocus assisté
 
 {% block javascript %}
 <script>
+
 function display_modules(){
         campus_id = $('select[name=campus]').val();
         if (campus_id != ""){
@@ -117,7 +118,6 @@ $("#checkbox_module_id").on("click",".checkbox", function(){
     },
   })
 });
-
 
 $(document).ready(function(){
   display_modules()
