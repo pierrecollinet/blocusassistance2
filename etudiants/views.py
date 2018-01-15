@@ -43,9 +43,9 @@ def etudiant_required(function):
 @etudiant_required
 @minified_response
 #@gzip_page
-def dashboard(request, pk):
-  student = Etudiant.objects.get(pk=pk)
-  c = {'student':student}
+def dashboard(request):#, pk):
+#  student = Etudiant.objects.get(pk=pk)
+  c = {}#'student':student}
   return render(request, 'tableau-de-bord.html', c)
 
 @minified_response

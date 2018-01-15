@@ -1,0 +1,20 @@
+{% extends "etudiants/base.html" %}
+
+{% block title %}
+  Tableau de bord de {{request.user.username}}
+{% endblock %}
+
+
+{% block base_head %}
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-xs-12 col-md-6">
+      <div class='text-center'>
+          <h1>Tableau de bord de {{ request.user.etudiant.prenom }}</h1>
+      </div>
+    </div>
+  </div>
+{% endblock %}
