@@ -54,10 +54,9 @@ Complète ton profil
 {% endblock %}
 
 
-<script type="text/javascript">
-
 {% block javascript %}
 
+<script type="text/javascript">
 function display_facultes(){
   if ($('select[name=universite]').val()=="") {
     $('#div_id_faculte').hide()
@@ -111,5 +110,6 @@ $(document).ready(function(){
   display_facultes()
   display_etudes()
 });
-{% endblock %}
 </script>
+{% endblock %}
+

@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^fondateurs/', include('fondateurs.urls')),
     url(r'^suivi-intensif/', include('suiviintensif.urls')),
     url(r'^cours-particuliers/', include('coursparticuliers.urls')),
+    url(r'^billing/', include('billing.urls')),
 
     # external apps
     url(r'^accounts/', include('allauth.urls')),

@@ -1,3 +1,5 @@
+{% load static %}
+
 {% url 'home' as home_url %}
 {% url 'contact' as contact_url %}
 {% url 'products:list' as product_list_url %}
@@ -8,48 +10,60 @@
 {% url 'account:home' as account_url %}
 {% url 'cart:home' as cart_url %}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-   <div class='container'>
-  <a class="navbar-brand" href="{{ home_url }}">
-    <!--<img src="" width="30" height="30" class="d-inline-block align-top" alt="">-->
-    {% if brand_name %} {{brand_name }} {% else %}Blocus Assistance{% endif %}
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto text-right">
-      <li>
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Solutions
+<!-- NAVBAR -->
+    <nav class="navbar navbar-toggleable-md navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+            <span class="sr-only">Toggle Navigation</span>
+            <i class="fa fa-bars"></i>
           </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Blocus Assistés</a>
-            <a class="dropdown-item" href="#">Cours Particuliers</a>
-            <a class="dropdown-item" href="#">Coaching</a>
-            <a class="dropdown-item" href="#">Modules</a>
-          </div>
+          <a href="{% url 'welcome' %}" class="navbar-brand navbar-logo">
+            <img src="{% static 'img/logo/blocus-assistance-logo-nav.png' %}" alt="Blocus Assistance">
+          </a>
         </div>
-      </li>
-      <li class="nav-item {% if request.path == contact_url %}active{% endif %}">
-        <a class="nav-link" href="{{ contact_url }}">Méthodes</a>
-      </li>
-      <li class="nav-item {% if request.path == product_list_url %}active{% endif %}">
-        <a class="nav-link" href="{{ product_list_url }}">Equipe</a>
-      </li>
-
-       <li class="nav-item {% if request.path == register_url %}active{% endif %}">
-        <a class="nav-link" href="{{ register_url }}">Campus</a>
-      </li>
-       <li class="nav-item {% if request.path == register_url %}active{% endif %}">
-        <a class="nav-link" href="{{ register_url }}">Témoignages</a>
-      </li>
-       <li class="nav-item {% if request.path == register_url %}active{% endif %}">
-        <a class="nav-link" href="{{ register_url }}">Presse</a>
-      </li>
-    </ul>
-  </div>
-</div>
-</nav>
+        <!-- MAIN NAVIGATION -->
+        <div id="main-nav" class="navbar-collapse collapse navbar-mega-menu">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown ">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nos solutions <i class="fa fa-angle-down"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'blocus-assistes' %}">Blocus assisté</a></li>
+                <li><a href="{% url 'accueil-cours-particuliers' %}">Cours particuliers</a></li>
+                <li><a href="{% url 'accueil-suivi-intensif' %}">Suivi intensif</a></li>
+                <li><a href="#">Module Biomécanique</a></li>
+                <li><a href="#">Module Informatique</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="{% url 'accueil-prof' %}">Professeurs</a>
+            </li>
+            <li>
+              <a href="{% url 'outils-methodes' %}">Nos outils</a>
+            </li>
+            <li>
+              <a href="#">Blog</a>
+            </li>
+            <li>
+              <a href="{% url 'contact' %}">Contact</a>
+            </li>
+            <li>
+              <a href="{{ login_url }}">Log In</a>
+            </li>
+            <li class="dropdown ">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">INSCRIPTION <i class="fa fa-angle-down"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'inscription_blocus' %}">Blocus assisté</a></li>
+                <li><a href="#">Cours particuliers</a></li>
+                <li><a href="#">Suivi intensif</a></li>
+                <li><a href="#">Module Biomécanique</a></li>
+                <li><a href="#">Module Informatique</a></li>
+              </ul>
+            </li>
+            <li>
+          </ul>
+        </div>
+        <!-- END MAIN NAVIGATION -->
+      </div>
+    </nav>
+    <!-- END NAVBAR -->

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Finaliser l'inscription
+{% endblock %}
+
+{% block base_head %}
+<link rel='stylesheet' href="{% static 'css/main.css' %}" >
+
+<!--
+  <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
+
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://dwj199mwkel52.cloudfront.net/assets/favicon-9e84d1cd6dffd89d572b8c6a542cadda0b2091f8fc65f9cc1f09f09ca363bb19.png" type="image/png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta property="og:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.lewagon.com/fr" />
+  <meta property="og:image" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg" />
+  <meta property="og:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+" />
+  <meta property="og:site_name" content="Le Wagon" />
+  <meta property="fb:admins" content="548348576" />
+  <meta property="fb:app_id" content="737501859652485" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Lewagonparis">
+  <meta name="twitter:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails">
+  <meta name="twitter:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+">
+  <meta name="twitter:creator" content="@Lewagonparis">
+  <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
+!-->
+
+{% endblock %}
+
+{% block content %}
+<div class='text-center'>
+    {% if not has_card %}
+      <!-- ENTER CREDIT CARD HERE -->
+      <div class="stripe-payment-form" data-token='{{ publish_key }}' data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Ajouter une méthode de paiement"></div>
+    {% else %}
+      <h1>Finaliser l'inscription</h1>
+      <table class="table">
+        <tr>
+          <td>Prenom</td>
+          <td class="text-left">{{ inscription.etudiant.prenom }}</td>
+        </tr>
+        <tr>
+          <td>Nom</td>
+          <td class="text-left">{{ inscription.etudiant.nom }}</td>
+        </tr>
+        <tr>
+          <td>Blocus</td>
+          <td class="text-left">{{ inscription.blocus }}</td>
+        </tr>
+        <tr>
+          <td>Modules</td>
+          <td class="text-left">
+            <ul>
+              {% for m in inscription.module.all %}
+                <li>{{ m.get_name }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Montant</td>
+          <td class="text-left">{{ inscription.montant }}</td>
+        </tr>
+        <tr>
+          <td>Moyen de paiement</td>
+          <td class="text-left">{{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Changer</a>)</td>
+          <td></td>
+        </tr>
+      </table>
+      <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
+          <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
+          <button type='submit' name="payer-en-ligne" class='btn btn-success mx-2'>Payer en ligne</button>
+          <button type='submit' name="payer-par-virement" class='btn btn-success mx-2'>Confirmer mon inscription</button>
+      </form>
+    {% endif %}
+</div>
+{% endblock %}
+

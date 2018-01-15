@@ -1,33 +1,37 @@
 {% load static %}
 <!DOCTYPE html>
-    <html lang="en">
+    <html lang="fr">
     <head>
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Blocus Assistance - {% block title %}{% endblock %}</title>
         {% include 'base/css.html' %}
+        {% include 'base/font.html' %}
         {% include 'base/favicon.html' %}
 
         {% block base_head %}{% endblock %}
     </head>
     <body>
+      <div class="wrapper">
       {% include 'base/navbar.html' with brand_name='Blocus Assistance' %}
-      <div class='container'>
+
         {% include 'alert.html' %}
         {% block content %}{% endblock %}
+        {% include 'base/footer.html' %}
 
       </div>
-
         {% include 'base/js.html' %}
 
         {% block script %}{% endblock %}
         <script>
             $(document).ready(function(){
                 showFlashMessage()
-                {% block javascript %}
-                {% endblock %}
             });
         </script>
+
+        {% block javascript %}
+        {% endblock %}
+
     </body>
   </html>
