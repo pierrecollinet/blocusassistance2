@@ -80,14 +80,22 @@ def checkout(request, pk):
     if request.method == "POST":
       inscription_id = request.POST["inscription_id"]
       inscription_obj = InscriptionBlocus.objects.get(id = inscription_id)
-      did_charge, crg_msg = billing_profile.charge(inscription_obj)
-      if did_charge:
-        inscription_obj.is_paid = True
-        inscription_obj.save()
-        return redirect("confirmation-inscription-blocus")
-      else:
-        print(crg_msg)
-        return redirect("blocus:checkout")
+      if 'payer-en-ligne' in request.POST :
+        did_charge, crg_msg = billing_profile.charge(inscription_obj)
+        if did_charge:
+          inscription_obj.is_paid = True
+          inscription_obj.save()
+          return redirect("confirmation-inscription-blocus")
+        else:
+          print(crg_msg)
+          return redirect("blocus:checkout")
+      elif 'payer-par-virement' in request.POST :
+        # gérer l'inscription
+        # - mail de confirmation
+        # - rediriger vers une page de remerciement
+        print('payer par virement')
+
+
     context = {
         "object": inscription_obj,
         "inscription": inscription_obj,
@@ -96,6 +104,9 @@ def checkout(request, pk):
         "publish_key": STRIPE_PUB_KEY,
     }
     return render(request, "checkout.html", context)
+
+
+
 
 
 # AJAX

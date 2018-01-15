@@ -43,44 +43,45 @@ Finaliser l'inscription
       <!-- ENTER CREDIT CARD HERE -->
       <div class="stripe-payment-form" data-token='{{ publish_key }}' data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Ajouter une méthode de paiement"></div>
     {% else %}
-    <h1>Finaliser l'inscription</h1>
-    <table class="table">
-      <tr>
-        <td>Prenom</td>
-        <td class="text-left">{{ inscription.etudiant.prenom }}</td>
-      </tr>
-      <tr>
-        <td>Nom</td>
-        <td class="text-left">{{ inscription.etudiant.nom }}</td>
-      </tr>
-      <tr>
-        <td>Blocus</td>
-        <td class="text-left">{{ inscription.blocus }}</td>
-      </tr>
-      <tr>
-        <td>Montant</td>
-        <td class="text-left">{{ inscription.montant }}</td>
-      </tr>
-      <tr>
-        <td>Modules</td>
-        <td class="text-left">
-          <ul>
-            {% for m in inscription.module.all %}
-              <li>{{ m.get_name }}</li>
-            {% endfor %}
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td>Moyen de paiement</td>
-        <td class="text-left">{{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Changer</a>)</td>
-      </tr>
-    </table>
-    <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
-        <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
-        <button type='submit' class='btn btn-success mx-2'>Payer en ligne</button>
-        <button type='submit' class='btn btn-success mx-2'>Confirmer mon inscription</button>
-    </form>
+      <h1>Finaliser l'inscription</h1>
+      <table class="table">
+        <tr>
+          <td>Prenom</td>
+          <td class="text-left">{{ inscription.etudiant.prenom }}</td>
+        </tr>
+        <tr>
+          <td>Nom</td>
+          <td class="text-left">{{ inscription.etudiant.nom }}</td>
+        </tr>
+        <tr>
+          <td>Blocus</td>
+          <td class="text-left">{{ inscription.blocus }}</td>
+        </tr>
+        <tr>
+          <td>Modules</td>
+          <td class="text-left">
+            <ul>
+              {% for m in inscription.module.all %}
+                <li>{{ m.get_name }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Montant</td>
+          <td class="text-left">{{ inscription.montant }}</td>
+        </tr>
+        <tr>
+          <td>Moyen de paiement</td>
+          <td class="text-left">{{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Changer</a>)</td>
+          <td></td>
+        </tr>
+      </table>
+      <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
+          <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
+          <button type='submit' name="payer-en-ligne" class='btn btn-success mx-2'>Payer en ligne</button>
+          <button type='submit' name="payer-par-virement" class='btn btn-success mx-2'>Confirmer mon inscription</button>
+      </form>
     {% endif %}
 </div>
 {% endblock %}
