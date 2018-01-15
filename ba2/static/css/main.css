@@ -15,6 +15,7 @@
 /* ----------------------------------------------------- */
 /* GENERAL STYLES
 /* ----------------------------------------------------- */
+
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 13px;
@@ -7206,3 +7207,5 @@ form.signup .hidden-radio-btn > input:checked + img{ /* (RADIO CHECKED) IMAGE ST
 .hidden-radio-btn {
   margin: 0px 40px;
 }
+
+
