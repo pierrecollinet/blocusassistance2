@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*
 *	############################################################################
-*	
+*
 *	Repute - Responsive Multipurpose Bootstrap Theme
 *	---------------------------------------------------------------------
 *
@@ -4056,7 +4056,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   }
 }
 /* ----------------------------------------------------- */
-/* HERO UNIT 
+/* HERO UNIT
 /* Types: slider with animated object, default slider
 /* ----------------------------------------------------- */
 .hero-unit-animated {
@@ -4527,9 +4527,9 @@ div.mc-image {
   -o-transition: opacity 1s ease-in-out;
   transition: opacity 1s ease-in-out;
   /*If you are using horizontal slide transitions, use the following CSS:
-  -webkit-transition: left 1s ease-in-out; 
-  -moz-transition: left 1s ease-in-out; 
-  -o-transition: left 1s ease-in-out; 
+  -webkit-transition: left 1s ease-in-out;
+  -moz-transition: left 1s ease-in-out;
+  -o-transition: left 1s ease-in-out;
   transition: left 1s ease-in-out;*/
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -4543,7 +4543,7 @@ div.mc-image {
 }
 
 /* ----------------------------------------------------- */
-/* BOOTSTRAP UI ELEMENTS 
+/* BOOTSTRAP UI ELEMENTS
 /* All styles that override bootstrap elements
 /* ----------------------------------------------------- */
 /* button */
@@ -4963,7 +4963,7 @@ div[class*="col-"] > .form-group {
 }
 
 /* ----------------------------------------------------- */
-/* UI ELEMENTS 
+/* UI ELEMENTS
 /* All styles related with custom UI elements, overrides
 /* plugin styles
 /* ----------------------------------------------------- */
@@ -6023,7 +6023,7 @@ ul.sidebar-nav ul.submenu li:first-child a {
   }
 }
 /* ----------------------------------------------------- */
-/* PORTFOLIO 
+/* PORTFOLIO
 /* Portfolio carousel, portfolio list, single portfolio
 /* ----------------------------------------------------- */
 /* general portfolio item with hovered caption */
@@ -6303,7 +6303,7 @@ ul.sidebar-nav ul.submenu li:first-child a {
 }
 
 /* ----------------------------------------------------- */
-/* BLOG 
+/* BLOG
 /* Blog list, blog single item
 /* ----------------------------------------------------- */
 /* blog list */
@@ -6564,7 +6564,7 @@ ul.sidebar-nav ul.submenu li:first-child a {
 }
 
 /* --------------*/
-/* TYPOGRAPHY 
+/* TYPOGRAPHY
 /* -------------*/
 .text-body-color {
   color: #7b7b7b !important;
@@ -7125,6 +7125,10 @@ ul.nav-categories > li > a:hover {
 
 .margin-bottom-50px {
   margin-bottom: 50px !important;
+
+h1{
+  color:red;
+
 }
 
 .body-text-bg {

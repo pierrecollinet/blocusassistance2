@@ -59,6 +59,7 @@ class EtudiantModelForm(forms.ModelForm):
         self.helper.layout = Layout(
                                 Field('nom'),
                                 Field('prenom'),
+                                Field('email'),
                                 Field('gsm'),
                                 Field('annee'),
                                 Field('universite'),

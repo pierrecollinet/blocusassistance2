@@ -168,6 +168,12 @@ class InscriptionBlocus(models.Model):
     def __str__(self):
         return self.etudiant.prenom +'-'+ self.etudiant.nom
 
+    def calculate_total_price(self):
+      total = 0
+      for mod in self.module.all():
+        total += float(mod.prix)
+      return total
+
 
 
 

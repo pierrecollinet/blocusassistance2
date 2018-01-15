@@ -27,6 +27,7 @@ from etudiants.forms import EtudiantModelForm, EtudiantFullModelForm
 
 def etudiant_required(function):
     def wrapper(request, *args, **kwargs):
+        print(request.GET)
         decorated_view_func = login_required(request)
         if not decorated_view_func.user.is_authenticated():
             return decorated_view_func(request)  # return redirect to signin
@@ -34,7 +35,7 @@ def etudiant_required(function):
             etudiant = Etudiant.objects.get(user=request.user)
             return function(request, *args, **kwargs)
         else:
-            return HttpResponseRedirect(reverse('completer-profil'))
+            return HttpResponseRedirect(reverse('completer-profil-etudiants'))
     wrapper.__doc__ = function.__doc__
     wrapper.__name__ = function.__name__
     return wrapper
@@ -42,9 +43,9 @@ def etudiant_required(function):
 @etudiant_required
 @minified_response
 #@gzip_page
-def dashboard(request, pk):
-  student = Etudiant.objects.get(pk=pk)
-  c = {'student':student}
+def dashboard(request):#, pk):
+#  student = Etudiant.objects.get(pk=pk)
+  c = {}#'student':student}
   return render(request, 'tableau-de-bord.html', c)
 
 @minified_response
@@ -62,7 +63,8 @@ def complete_profile(request):
       # On update les infos de ce user
       user.first_name = etudiant.prenom
       user.last_name = etudiant.nom
-      user.save
+      user.email = etudiant.email
+      user.save()
       return HttpResponseRedirect(reverse('inscription_blocus'))
     c = {'form':form}
     return render(request, 'completer-profil.html', c)

@@ -1,5 +1,5 @@
 h1{
-  color:blue;
+  color:red;
 }
 
 .container-alert-flash{
@@ -11,7 +11,23 @@ h1{
   margin:0px;
 }
 
-input #div_id_statut{ /* HIDE RADIO */
+.hidden-radio-field {
   visibility: hidden; /* Makes input not-clickable */
   position: absolute; /* Remove input from document flow */
+}
+
+form.signup .hidden-radio-btn > input{ /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+form.signup .hidden-radio-btn > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+form.signup .hidden-radio-btn > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}
+
+.hidden-radio-btn {
+  margin: 0px 40px;
 }

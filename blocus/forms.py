@@ -17,8 +17,10 @@ import datetime
 # import models
 from blocus.models import InscriptionBlocus
 
-
+choices_origine=(('facebook','Facebook'),('mail', 'Mail'),('ancien étudiant', 'Je suis un ancien étudiant'), ('radio', 'A la radio'),('google','Google'),('presse','Dans la presse'),('autre','Autre'))
 class InscriptionBlocusModelForm(forms.ModelForm):
+    origine = forms.ChoiceField(label="Comment avez-vous entendu parler de Blocus Assistance?",choices=choices_origine,error_messages={'required': "Indiquez-nous comment vous avez découvert Blocus Assistance SVP"})
+
     class Meta:
         model = InscriptionBlocus
         exclude = ('etudiant','blocus','montant', 'is_paid', 'date_inscription', 'suivi_inscription')
@@ -37,3 +39,25 @@ class InscriptionBlocusModelForm(forms.ModelForm):
                                 Field('code_promo'),
                                 )
         self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
+
+    def clean(self):
+        cleaned_data=super(InscriptionBlocusModelForm, self).clean()
+        modules = cleaned_data.get('module')
+        if not modules:
+          raise forms.ValidationError("Il faut sélectionner au moins un module")
+        return cleaned_data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
