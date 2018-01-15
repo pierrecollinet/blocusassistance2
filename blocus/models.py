@@ -171,7 +171,7 @@ class InscriptionBlocus(models.Model):
     def calculate_total_price(self):
       total = 0
       for mod in self.module.all():
-        total += int(mod.prix)
+        total += float(mod.prix)
       return total
 
 
