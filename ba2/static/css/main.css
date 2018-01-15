@@ -112,7 +112,7 @@ hr {
 /* page header */
 .page-header {
   padding: 5px 0;
-  margin: 0;
+  /*margin: 0;*/
   border-bottom: 1px solid #eaeaea;
 }
 .page-header .container {
@@ -4273,13 +4273,14 @@ html.fullscreen .wrapper {
 
 .hero-unit-fullscreen {
   position: relative;
-  height: 100%;
+  height: 100vh;
   font-size: 2em;
   text-align: center;
   color: #fff;
   background-image: url('../img/fullscreen-bg.jpg?1444716816');
   background-repeat: no-repeat;
   background-position: center;
+  background-size:cover;
 }
 .hero-unit-fullscreen .overlay {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
@@ -7165,6 +7166,9 @@ h1{
 }
 
 
+.margin-navbar {
+  margin-top : 50px;
+}
 
 
 
@@ -7202,4 +7206,3 @@ form.signup .hidden-radio-btn > input:checked + img{ /* (RADIO CHECKED) IMAGE ST
 .hidden-radio-btn {
   margin: 0px 40px;
 }
-
