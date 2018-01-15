@@ -1,4 +1,7 @@
 {% load static %}
+{% load compress %}
+
+{% compress css %}
 <!-- Bootstrap CSS -->
 <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css">
 
@@ -13,3 +16,4 @@
 
 <!-- stripe CSS -->
 <link rel='stylesheet' href="{% static 'css/stripe-style.css' %}" />
+{% endcompress %}
