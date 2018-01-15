@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'suiviintensif',
     'billing',
 
+
     # External apps
     'storages',
     'wordpress_api',
