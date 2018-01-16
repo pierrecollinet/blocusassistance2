@@ -43,15 +43,15 @@ Blocus Assisté
 
 
     <!-- HERO SECTION  -->
-    <section class="hero-unit-fullscreen">
+    <section class="welcome-header">
       <div class="overlay"></div>
       <div class="flex-box">
         <div class="container">
             <div class="col-xs-12">
               <h2 class="hero-heading">Blocus Assistés</h2>
               <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis, accusamus dignissimos ex sapiente quis! Neque, ullam aperiam ipsa harum</p>
-              <span class=""><a href="#about" class="btn btn-lg hero-button">En savoir plus</a></span>
-              <span class=""><a href="#about" class="btn btn-lg hero-button">S'inscrire</a></span>
+              <span class=""><a href="#articles_blocus" class="btn btn-lg hero-button">En savoir plus</a></span>
+              <span class=""><a href="{% url 'inscription_blocus' %}" class="btn btn-lg hero-button">S'inscrire</a></span>
             </div>
         </div>
 
@@ -62,7 +62,7 @@ Blocus Assisté
     </section>
 
     <!-- LATEST NEWS -->
-    <section>
+    <section id="articles_blocus">
       <div class="container">
         <h2 class="section-heading">Le blocus assisté dans le supérieur</h2>
         <div class="row">
@@ -184,7 +184,7 @@ Blocus Assisté
       </div>
     </section>
 
-    <section class="light-gray">
+    <section>
       <div class="container">
         <h2 class="section-heading">Nos campus Blocus Assistance</h2>
         <div class="row">
@@ -210,12 +210,12 @@ Blocus Assisté
 
 
     <!-- OUR CLIENTS -->
-    <section class="clients">
+    <section class="light-gray">
       <div class="container">
         <h2 class="section-heading">Ils parlent de nous...</h2>
         <div class="col-xs-12">
           <div class="custom-card">
-            <h3 class="custom-card-header">Témoignages - Blocus Assistés</h3>
+            <h3 class="custom-card-header light-gray">Témoignages - Blocus Assistés</h3>
             <section class="testimonial testimonial-fancy slick-carousel padding-slick-caroussel">
               <div class="testimonial-container">
                 <div class="testimonial-body">
@@ -249,7 +249,7 @@ Blocus Assisté
 
         <div class="col-xs-12">
           <div class="custom-card">
-            <h3 class="custom-card-header">Vidéo</h3>
+            <h3 class="custom-card-header light-gray">Vidéo</h3>
             <section class="text-center">
               <img src="{% static 'img/business-people.png' %}" width=50% alt="Author">
             </section>
@@ -259,120 +259,126 @@ Blocus Assisté
     </section>
     <!-- END OUR CLIENTS -->
     <!-- CALL-TO-ACTION -->
-    <section class="light-gray">
+    <section>
       <div class="container">
         <h2 class="section-heading">Informations pratiques</h2>
-        <div class=" row blog-article flex-box">
-          <div class="col-xs-12 col-md-4 no-padding">
-            <img src="{% static 'img/business-people.png' %}" width=100%>
-          </div>
-          <div class="col-xs-12 col-md-8">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
-            <a href="">Lire l'article</a>
-          </div>
+        <div class="tarif">
+          <h3>Tarifs</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, totam excepturi non minus doloribus eius voluptatum ullam ea, quas consequuntur.</p>
         </div>
-        <div class=" row blog-article no-border-top flex-box">
-          <div class="col-xs-12 col-md-8">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
-            <a href="">Lire l'article</a>
-          </div>
-          <div class="col-xs-12 col-md-4 no-padding">
-            <img src="{% static 'img/business-people.png' %}" width=100%>
-          </div>
+        <div class="dates">
+          <h3>Dates du blocus assisté</h3>
+          <ul>
+            <li>Weekend 1 : Lorem ipsum dolor sit.</li>
+            <li>Semaine 1 : Lorem ipsum dolor sit.</li>
+            <li>Weekend 2 : Lorem ipsum dolor sit.</li>
+            <li>Semaine 2 : Lorem ipsum dolor sit.</li>
+          </ul>
         </div>
-        <div class=" row blog-article no-border-top  flex-box">
-          <div class="col-xs-12 col-md-4 no-padding">
-            <img src="{% static 'img/business-people.png' %}" width=100%>
-          </div>
-          <div class="col-xs-12 col-md-8">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
-            <a href="">Lire l'article</a>
-          </div>
+        <div class="campus">
+          <h3>Campus Disponibles</h3>
+          <ul>
+            <li>Place du châtelain</li>
+            <li>Royal Léopold Hockey Club</li>
+            <li>Louvain-la-Neuve</li>
+            <li>Château Latour defreins</li>
+          </ul>
+        </div>
+        <div class="places">
+          <h3>Places disponibles</h3>
+            <div class="custom-tabs-left">
+              <ul class="nav nav-tabs tabs-iconized">
+                <li class="active"><a href="#step1" data-toggle="tab"><i class="fa fa-plus-circle"></i>Châtelain</a></li>
+                <li><a href="#step2" data-toggle="tab"><i class="fa fa-refresh"></i>Léopold</a></li>
+                <li><a href="#step3" data-toggle="tab"><i class="fa fa-cloud-upload"></i>Château Latour</a></li>
+                <li><a href="#step3" data-toggle="tab"><i class="fa fa-cloud-upload"></i>Louvain-la-Neuve</a></li>
+              </ul>
+              <div class="tab-content clearfix">
+                <div class="tab-pane fade in active" id="step1">
+                  <h4>Châtelain, rue Armand Campenhout - Ixelles</h4>
+                  <div class="col-xs-8">
+                    <table class="table">
+                      <tr>
+                        <td>Weekend 1</td>
+                        <td>sdfgsdf</td>
+                      </tr>
+                      <tr>
+                        <td>Semaine 1</td>
+                        <td>sdfgsdfg</td>
+                      </tr>
+                      <tr>
+                        <td>Weekend 2</td>
+                        <td>qsdfsdqf</td>
+                      </tr>
+                    </table>
+                  </div>
+
+                </div>
+                <div class="tab-pane fade" id="step2">
+                  <h4>Léopold, rue du leopold 44</h4>
+                  <div class="col-xs-8">
+                    <table class="table">
+                      <tr>
+                        <td>Weekend 1</td>
+                        <td>sdfgsdf</td>
+                      </tr>
+                      <tr>
+                        <td>Semaine 1</td>
+                        <td>sdfgsdfg</td>
+                      </tr>
+                      <tr>
+                        <td>Weekend 2</td>
+                        <td>qsdfsdqf</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="step3">
+                  <h4>Château Latour, rue Engeland - Uccle</h4>
+                  <div class="col-xs-8">
+                    <table class="table">
+                      <tr>
+                        <td>Weekend 1</td>
+                        <td>sdfgsdf</td>
+                      </tr>
+                      <tr>
+                        <td>Semaine 1</td>
+                        <td>sdfgsdfg</td>
+                      </tr>
+                      <tr>
+                        <td>Weekend 2</td>
+                        <td>qsdfsdqf</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="step3">
+                  <h4>rue du poirier, 4 - Louvain-la-Neuve</h4>
+                    <div class="col-xs-8">
+                    <table class="table">
+                      <tr>
+                        <td>Weekend 1</td>
+                        <td>sdfgsdf</td>
+                      </tr>
+                      <tr>
+                        <td>Semaine 1</td>
+                        <td>sdfgsdfg</td>
+                      </tr>
+                      <tr>
+                        <td>Weekend 2</td>
+                        <td>qsdfsdqf</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="{% url 'inscription_blocus' %}" class="btn btn-primary btn-space">Inscription</a>
+            <a href="#" class="btn btn-primary m-5">Me faire contacter</a>
         </div>
       </div>
     </section>
     <!-- END CALL-TO-ACTION -->
-
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <!-- COLUMN 1 -->
-            <h3 class="sr-only">ABOUT US</h3>
-            <img src="assets/img/logo/repute-logo-light.png" class="logo" alt="Repute">
-            <p>Proactively aggregate B2B initiatives before extensive channels. Monotonectally extend interactive methods of empowerment through excellent applications. Rapidiously synergize visionary products with sticky technology.</p>
-            <br>
-            <address class="margin-bottom-30px">
-              <ul class="list-unstyled">
-                <li>Rue Armand Campenhout, 4
-                  <br/> Ixelles, 1050</li>
-                <li>GSM: 0472 / 71 43 02</li>
-                <li>Email: info@blocusassistance.be</li>
-              </ul>
-            </address>
-            <!-- END COLUMN 1 -->
-          </div>
-          <div class="col-md-4">
-            <!-- COLUMN 2 -->
-            <h3 class="footer-heading">LIENS UTILES</h3>
-            <div class="row margin-bottom-30px">
-              <div class="col-xs-6">
-                <ul class="list-unstyled footer-nav">
-                  <li><a href="#">About Us</a></li>
-                  <li><a href="#">News</a></li>
-                  <li><a href="#">Community</a></li>
-                  <li><a href="#">Career</a></li>
-                  <li><a href="#">Blog</a></li>
-                </ul>
-              </div>
-              <div class="col-xs-6">
-                <ul class="list-unstyled footer-nav">
-                  <li><a href="#">Presse</a></li>
-                  <li><a href="#">FAQ</a></li>
-                  <li><a href="#">Terms</a></li>
-                  <li><a href="#">Politique de confidentialité</a></li>
-                  <li><a href="#">Contact</a></li>
-                </ul>
-              </div>
-            </div>
-            <!-- END COLUMN 2 -->
-          </div>
-          <div class="col-md-4">
-            <!-- COLUMN 3 -->
-            <div class="newsletter">
-              <h3 class="footer-heading">NEWSLETTER</h3>
-              <p>Soyez tenus au courant de nos offres et de nos dernières mises à jour.</p>
-              <form class="newsletter-form" method="POST">
-                <div class="input-group input-group-lg">
-                  <input type="email" class="form-control" name="email" placeholder="votreadresse@domain.com">
-                  <span class="input-group-btn"><button class="btn btn-primary" type="button"><i class="fa fa-spinner fa-spin"></i><span>ETRE INFORME</span></button>
-                  </span>
-                </div>
-                <div class="alert"></div>
-              </form>
-            </div>
-            <div class="social-connect">
-              <h3 class="footer-heading">GET CONNECTED</h3>
-              <ul class="list-inline social-icons">
-                <li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#" class="twitter-bg"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#" class="googleplus-bg"><i class="fa fa-google-plus"></i></a></li>
-                <li><a href="#" class="rss-bg"><i class="fa fa-rss"></i></a></li>
-              </ul>
-            </div>
-            <!-- END COLUMN 3 -->
-          </div>
-        </div>
-      </div>
-      <!-- COPYRIGHT -->
-      <div class="text-center copyright">
-        &copy;2016 The Develovers. All Rights Reserved.
-      </div>
-      <!-- END COPYRIGHT -->
-    </footer>
-    <!-- END FOOTER -->
 
 {% endblock %}
 

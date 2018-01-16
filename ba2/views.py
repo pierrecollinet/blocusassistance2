@@ -20,6 +20,9 @@ from htmlmin.decorators import minified_response
 # import models
 from .models import Campus, Universite, Faculte, Etude
 
+#import forms
+from .forms import ContactForm
+
 ########################################
 ##########                    ##########
 ##########      GENERAL       ##########
@@ -28,7 +31,10 @@ from .models import Campus, Universite, Faculte, Etude
 @minified_response
 #@gzip_page
 def welcome(request):
-  c = {'campus': Campus.objects.all()}
+  form = ContactForm(request.POST or None)
+  if form.is_valid():
+    "do something like sending emails"
+  c = {'campus': Campus.objects.all(), 'form':form}
   return render(request, 'welcome.html', c)
 
 @minified_response

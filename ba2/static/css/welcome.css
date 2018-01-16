@@ -1,3 +1,137 @@
+
+.welcome-header{
+  position: relative;
+  height: 100vh;
+  font-size: 2em;
+  text-align: center;
+  color: #fff;
+  background-image: url('../img/fullscreen-bg.jpg?1444716816');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+}
+
+
+.welcome-header .overlay {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #57a3ff;
+}
+.hero-unit-fullscreen .container {
+  position: relative;
+}
+.welcome-header .left {
+  width: 100%;
+  position: relative;
+  top: 7em;
+}
+.welcome-header .hero-heading {
+  margin-bottom: 20px;
+  font-size: 3em;
+  font-weight: 300;
+  color: #fff;
+}
+.welcome-header .lead {
+  font-size: 24px;
+  margin-bottom: 60px;
+}
+.welcome-header .hero-button {
+  padding: 15px 30px;
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff;
+}
+.welcome-header .hero-button:hover, .hero-unit-fullscreen .hero-button:focus {
+  background-color: #4E98F3;
+  border-color: #4E98F3;
+}
+.welcome-header .down-arrow {
+  position: absolute;
+  left: 50%;
+  margin-left: -30px;
+  text-align: center;
+  display: none;
+}
+@media screen and (min-width: 1200px) {
+  .welcome-headerdf .down-arrow {
+    display: block;
+    bottom: 1em;
+  }
+}
+.welcome-header .down-arrow a {
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+  opacity: 0.3;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  display: block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.welcome-header .down-arrow a:hover, .welcome-header.down-arrow a:focus {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.8;
+}
+@media screen and (max-width: 480px) {
+  .welcome-header .lead {
+    font-size: 18px;
+    font-weight: 400;
+  }
+}
+@media screen and (min-width: 481px) and (max-width: 767px) {
+  .welcome-header .left {
+    top: 4em;
+  }
+}
+@media screen and (max-width: 768px) {
+  .welcome-header .hero-heading {
+    font-size: 1.5em;
+  }
+}
+@media screen and (min-width: 768px) {
+  .welcome-header .left {
+    top: 12em;
+  }
+}
+@media screen and (min-width: 992px) {
+  .welcome-header {
+    text-align: left;
+  }
+  .welcome-header .left {
+    top: 10em;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .welcome-header {
+    font-size: 2.2em;
+  }
+}
+
+@media(max-width: 992px) {
+  .welcome-header {
+    height:100%;
+  }
+  .hero-heading {
+    padding-top: 50px;
+    font-size: 1.5em;
+  }
+
+
+}
+
+
+
 .flex-box {
   height: 100%;
   display: flex;
@@ -7,16 +141,13 @@
 .form-welcome-page{
   background-color: white;
   border-radius:4px;
-  padding:40px;
+  padding:20px;
+  margin:20px 0px;
 }
 
 
 .btn-space {
     margin: 5px;
-}
-
-.light-gray{
-  background-color: #efefef;
 }
 
 .grid{
@@ -84,3 +215,6 @@ section {
   grid-column: 1 / span 2;
 }
 
+.light-gray{
+  background-color: #f7f7f7;
+}
