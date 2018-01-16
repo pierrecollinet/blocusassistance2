@@ -1,0 +1,74 @@
+.flex-box {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.form-welcome-page{
+  background-color: white;
+  border-radius:4px;
+  padding:40px;
+}
+
+
+.btn-space {
+    margin: 5px;
+}
+
+.light-gray{
+  background-color: #efefef;
+}
+
+.grid{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 33% 33% 33%;
+}
+
+.main-picture-team {
+  grid-row: 1 / span 3;
+  grid-column: 2 / span 1;
+}
+
+.element {
+  margin:20px;
+}
+
+section {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.custom-card {
+  border-radius:4px;
+  border:solid 1px;
+  margin:20px;
+}
+
+.padding-slick-caroussel {
+  padding:30px;
+}
+
+.blog-article {
+  border:solid 1px;
+}
+
+.no-padding{
+  padding: 0;
+}
+
+.no-border-top {
+  border-top:none;
+}
+
+.custom-card-header {
+  position: absolute;
+  top: 0px;
+  left: 50px;
+  background-color: white;
+}
+
+
+
+
+

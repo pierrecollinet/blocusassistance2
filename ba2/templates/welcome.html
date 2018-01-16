@@ -34,6 +34,7 @@ Bienvenue
   <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
 !-->
 <link href="{% static 'css/welcome.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/components.css' %}" rel="stylesheet" type="text/css">
 
 {% endblock %}
 
@@ -41,237 +42,177 @@ Bienvenue
 
 
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION  -->
     <section class="hero-unit-fullscreen">
       <div class="overlay"></div>
-      <div class="container">
-        <div class="left">
-          <h2 class="hero-heading">EXTRAORDINARY</h2>
-          <p class="lead">Ultra Responsive and Multipurpose Bootstrap Theme</p>
-          <span class="scroll-down"><a href="#about" class="btn btn-lg hero-button">LEARN MORE</a></span>
+      <div class="flex-box">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-md-7">
+              <h2 class="hero-heading">Blocus Assistance</h2>
+              <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis, accusamus dignissimos ex sapiente quis! Neque, ullam aperiam ipsa harum</p>
+              <span class=""><a href="#about" class="btn btn-lg hero-button">LEARN MORE</a></span>
+            </div>
+            <div class="col-xs-12 col-md-5 form-welcome-page">
+              <h2>Besoin d'informations?</h2>
+              <input type="text">
+              <input type="text">
+              <input type="text">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 down-arrow">
+          <a href="#about"><i class="fa fa-angle-down"></i></a>
         </div>
       </div>
-      <div class="scroll-down down-arrow">
-        <a href="#about"><i class="fa fa-angle-down"></i></a>
-      </div>
     </section>
+
+
     <!-- END HERO SECTION -->
     <!-- INTRO -->
     <section>
       <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <h2 class="section-heading">KNOW BETTER</h2>
-            <p class="lead">Synergistically procrastinate one-to-one results for accurate platforms. Assertively whiteboard corporate users whereas dynamic initiatives.</p>
-            <p>Energistically architect leading-edge users and inexpensive internal or "organic" sources. Distinctively evolve e-business resources after progressive intellectual capital. Objectively architect maintainable technologies via strategic convergence. Continually optimize stand-alone expertise with e-business e-services. Continually conceptualize client-centered opportunities and.</p>
-            <p>Dynamically customize backward-compatible processes via front-end models. Distinctively evisculate an expanded array of scenarios after virtual information. Professionally predominate technically sound resources through impactful mindshare. Efficiently drive viral interfaces without inexpensive value. Credibly.</p>
+        <div class="multiple-pricing-table">
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <div class="pricing-item">
+                <i class="fa fa-bicycle plan-icon"></i>
+                <h4>Cours particulier</h4>
+                <ul class="list-unstyled plan-detail-list">
+                  <li><strong>5 GB</strong> upload quota</li>
+                  <li><strong>10 GB</strong> file storage</li>
+                  <li><strong>Up to 2 Mbps</strong> download speed</li>
+                  <li><strong>Professional support</strong></li>
+                </ul>
+                <button type="button" class="btn btn-primary btn-space">En savoir plus</button>
+                <button type="button" class="btn btn-primary m-5">Inscription</button>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <div class="pricing-item">
+                <i class="fa fa-car plan-icon"></i>
+                <h4>Blocus Assisté</h4>
+                <ul class="list-unstyled plan-detail-list">
+                  <li><strong>20 GB</strong> upload quota</li>
+                  <li><strong>100 GB</strong> file storage</li>
+                  <li><strong>Exceptional</strong> download speed</li>
+                  <li><strong>Professional support</strong></li>
+                </ul>
+                <button type="button" class="btn btn-primary btn-space">En savoir plus</button>
+                <button type="button" class="btn btn-primary m-5">Inscription</button>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <div class="pricing-item">
+                <i class="fa fa-rocket plan-icon"></i>
+                <h4>Suivi intensif</h4>
+                <ul class="list-unstyled plan-detail-list">
+                  <li><strong>Unlimited</strong> upload quota</li>
+                  <li><strong>Unlimited</strong> file storage</li>
+                  <li><strong>Exceptional</strong> download speed</li>
+                  <li><strong>Priority professional support</strong></li>
+                </ul>
+                <button type="button" class="btn btn-primary btn-space">En savoir plus</button>
+                <button type="button" class="btn btn-primary m-5">Inscription</button>
+              </div>
+            </div>
           </div>
-          <div class="col-md-6">
-            <img src="assets/img/intro-img.png" class="img-responsive" alt="Image Intro">
-          </div>
+        </div>
+        <div class="multiple-pricing-table">
+            <div class="col-md-12 col-sm-12">
+              <div class="pricing-item">
+                <i class="fa fa-bicycle plan-icon"></i>
+                <h4>Module de Biomécanique</h4>
+                <ul class="list-unstyled plan-detail-list">
+                  <li><strong>5 GB</strong> upload quota</li>
+                  <li><strong>10 GB</strong> file storage</li>
+                  <li><strong>Up to 2 Mbps</strong> download speed</li>
+                  <li><strong>Professional support</strong></li>
+                </ul>
+                <button type="button" class="btn btn-primary btn-space">En savoir plus</button>
+                <button type="button" class="btn btn-primary m-5">Inscription</button>
+              </div>
+            </div>
         </div>
       </div>
     </section>
     <!-- END INTRO -->
-    <!-- BOXED CONTENT -->
-    <section>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="boxed-content left-aligned left-boxed-icon">
-              <i class="fa fa-flag"></i>
-              <h2 class="boxed-content-title">GOAL ORIENTED</h2>
-              <p>Holisticly harness just in time technologies via corporate scenarios. Intrinsicly predominate ubiquitous outsourcing through an expanded array of functionalities.</p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="boxed-content left-aligned left-boxed-icon">
-              <i class="fa fa-globe"></i>
-              <h2 class="boxed-content-title">GLOBAL SERVICE</h2>
-              <p>Holisticly harness just in time technologies via corporate scenarios. Intrinsicly predominate ubiquitous outsourcing through an expanded array of functionalities.</p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="boxed-content left-aligned left-boxed-icon">
-              <i class="fa fa-cog"></i>
-              <h2 class="boxed-content-title">DYNAMIC CHANGE</h2>
-              <p>Holisticly harness just in time technologies via corporate scenarios. Intrinsicly predominate ubiquitous outsourcing through an expanded array of functionalities.</p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="boxed-content left-aligned left-boxed-icon">
-              <i class="fa fa-users"></i>
-              <h2 class="boxed-content-title">PROFESSIONAL SUPPORT</h2>
-              <p>Holisticly harness just in time technologies via corporate scenarios. Intrinsicly predominate ubiquitous outsourcing through an expanded array of functionalities.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- END BOXED CONTENT -->
-    <!-- WHY REPUTE -->
-    <section>
-      <div class="container">
-        <h2 class="section-heading sr-only">WHY REPUTE</h2>
-        <div class="tab-content">
-          <div class="tab-pane fade in active text-center" id="tab-bottom1">
-            <img src="assets/img/hero-unit-obj.png" class="img-responsive center-block margin-bottom-30px" alt="Ultra Responsive">
-            <h3 class="text-accent-color">ULTRA RESPONSIVE</h3>
-            <p class="lead">Phosfluorescently revolutionize viral leadership via turnkey technology. Synergistically monetize intermandated strategic theme areas through multimedia based.</p>
-          </div>
-          <div class="tab-pane fade text-center" id="tab-bottom2">
-            <img src="assets/img/hero-unit-obj3.png" class="img-responsive center-block margin-bottom-30px" alt="Easy to Customize">
-            <h3 class="text-accent-color">IT'S EASY TO CUSTOMIZE</h3>
-            <p class="lead">Efficiently incentivize leading-edge alignments with go forward expertise. Conveniently myocardinate leveraged process improvements through progressive models.</p>
-          </div>
-          <div class="tab-pane fade text-center" id="tab-bottom3">
-            <img src="assets/img/hero-unit-obj.png" class="img-responsive center-block margin-bottom-30px" alt="Clean and Elegant Design">
-            <h3 class="text-accent-color">CLEAN &amp; ELEGANT DESIGN</h3>
-            <p class="lead">Competently implement bricks-and-clicks collaboration and idea-sharing rather than visionary internal or "organic" sources. Rapidiously matrix premium core competencies for.</p>
-          </div>
-          <div class="tab-pane fade text-center" id="tab-bottom4">
-            <img src="assets/img/free.png" class="img-responsive center-block margin-bottom-30px" alt="Free Updates and Support">
-            <h3 class="text-accent-color">GET UPDATES &amp; SUPPORT FOR FREE</h3>
-            <p class="lead">Dramatically supply adaptive imperatives and stand-alone content. Exceptional solutions after web-enabled potentialities. Synergistically negotiate alternative best practices whereas professional "outside the box" thinking.</p>
-          </div>
-        </div>
-        <div class="custom-tabs-line tabs-line-top">
-          <ul class="nav" role="tablist">
-            <li class="active"><a href="#tab-bottom1" role="tab" data-toggle="tab">Responsive</a></li>
-            <li><a href="#tab-bottom2" role="tab" data-toggle="tab">Easy to Customize</a></li>
-            <li><a href="#tab-bottom3" role="tab" data-toggle="tab">Design</a></li>
-            <li><a href="#tab-bottom4" role="tab" data-toggle="tab">Free Updates &amp; Support</a></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-    <!-- END WHY REPUTE -->
+
     <!-- RECENT WORKS -->
-    <section class="recent-works">
+    <section class="light-gray">
       <div class="container">
-        <h2 class="section-heading pull-left">RECENT WORKS</h2>
-        <a href="#" class="btn btn-primary pull-right">See all works</a>
+        <h2 class="section-heading pull-left">Notre équipe</h2>
+        <a href="#" class="btn btn-primary pull-right">Espace prof</a>
         <div class="clearfix"></div>
-        <div class="portfolio-static">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="portfolio-item">
-                <div class="overlay"></div>
-                <div class="info">
-                  <h4 class="title">Raining</h4>
-                  <p class="brief-description">Photography</p>
-                  <a href="#" class="btn">read more</a>
-                </div>
-                <div class="media-wrapper">
-                  <img src="assets/img/portfolio/800x500/work5.png" alt="Item Thumbnail" />
-                </div>
+        <div class="col-xs-12">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non libero, maxime suscipit laboriosam adipisci dolorum debitis voluptate sed nisi fugit? Suscipit repudiandae aliquid culpa, voluptate delectus totam optio, explicabo illo cumque, velit officia iusto natus odit nihil illum et ea quibusdam quisquam quam ex a vel laudantium laborum. Voluptate ratione ullam officia enim, pariatur veniam architecto impedit necessitatibus, eligendi maxime id ipsum. Architecto necessitatibus officiis aliquam, harum temporibus in qui adipisci quisquam! Facilis quidem fuga, iusto, sequi quisquam tempore expedita.
+        </div>
+        <br><br>
+        <div class="grid col-xs-12">
+          <div class="element">
+            <div class="row">
+              <div class="col-xs-3">
+                <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+              </div>
+              <div class="col-xs-9">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque illo eveniet, ab id voluptates nemo! Facere adipisci nemo rem. Aperiam.
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="portfolio-item">
-                <div class="overlay"></div>
-                <div class="info">
-                  <h4 class="title">Perfect Edge</h4>
-                  <p class="brief-description">Product Design</p>
-                  <a href="#" class="btn">read more</a>
-                </div>
-                <div class="media-wrapper">
-                  <img src="assets/img/portfolio/800x500/work6.png" alt="Item Thumbnail" />
-                </div>
+          </div>
+          <div class="element">
+            <div class="row">
+              <div class="col-xs-3">
+                <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+              </div>
+              <div class="col-xs-9">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque illo eveniet, ab id voluptates nemo! Facere adipisci nemo rem. Aperiam.
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="portfolio-item">
-                <div class="overlay"></div>
-                <div class="info">
-                  <h4 class="title">Sunny Day</h4>
-                  <p class="brief-description">Photography</p>
-                  <a href="#" class="btn">read more</a>
-                </div>
-                <div class="media-wrapper">
-                  <img src="assets/img/portfolio/800x500/work7.png" alt="Item Thumbnail" />
-                </div>
+          </div>
+          <div class="element">
+            <div class="row">
+              <div class="col-xs-3">
+                <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+              </div>
+              <div class="col-xs-9">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque illo eveniet, ab id voluptates nemo! Facere adipisci nemo rem. Aperiam.
               </div>
             </div>
+          </div>
+          <div class="main-picture-team">
+            <img src="{% static 'img/business-people.png' %}" alt="">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6 text-center">
+            <button type="button" class="btn btn-primary m-5">Inscription</button>
+          </div>
+          <div class="col-xs-6 text-center mt-10">
+            <button type="button" class="btn btn-primary m-5">Inscription</button>
           </div>
         </div>
       </div>
     </section>
     <!-- END RECENT WORKS -->
+
+
     <!-- LATEST NEWS -->
     <section>
       <div class="container">
-        <h2 class="section-heading">LATEST NEWS</h2>
+        <h2 class="section-heading">Nos outils</h2>
         <div class="row">
           <div class="col-md-4">
-            <div class="news-item news-featured">
-              <a href="#"><img src="assets/img/news/featured-news.png" class="img-responsive" alt="News Thumbnail"></a>
-              <h3 class="news-title"><a href="#">In Demand: Collaboration Skill</a></h3>
-              <p>Proactively engage orthogonal growth strategies without resource-leveling testing procedures. Seamlessly predominate interoperable growth strategies.</p>
-              <div class="news-meta">
-                <span class="news-datetime">23-02-2015</span>
-                <span class="news-comment-count pull-right"><a href="#">65 Comments</a></span>
-              </div>
-            </div>
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
           </div>
           <div class="col-md-8">
-            <div class="row">
-              <div class="col-md-6 col-sm-6">
-                <div class="news-item margin-bottom-30px clearfix">
-                  <a href="#"><img src="assets/img/news/news1.png" class="img-responsive pull-left" alt="News Thumbnail"></a>
-                  <div class="right">
-                    <h3 class="news-title"><a href="#">Growth Strategies We Must Know</a></h3>
-                    <p>Proactively engage orthogonal growth strategies without resource-leveling testing procedures.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6">
-                <div class="news-item margin-bottom-30px clearfix">
-                  <a href="#"><img src="assets/img/news/news2.png" class="img-responsive pull-left" alt="News Thumbnail"></a>
-                  <div class="right">
-                    <h3 class="news-title"><a href="#">Alternative E-commerce</a></h3>
-                    <p>Proactively engage orthogonal growth strategies without resource-leveling testing procedures.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6">
-                <div class="news-item margin-bottom-30px clearfix">
-                  <a href="#"><img src="assets/img/news/news3.png" class="img-responsive pull-left" alt="News Thumbnail"></a>
-                  <div class="right">
-                    <h3 class="news-title"><a href="#">Products Research Methodology &amp; Principles </a></h3>
-                    <p>Proactively engage orthogonal growth strategies without resource-leveling testing procedures.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6">
-                <div class="news-item margin-bottom-30px clearfix">
-                  <a href="#"><img src="assets/img/news/news4.png" class="img-responsive pull-left" alt="News Thumbnail"></a>
-                  <div class="right">
-                    <h3 class="news-title"><a href="#">Understanding Globally Scale Quality Network</a></h3>
-                    <p>Proactively engage orthogonal growth strategies without resource-leveling testing procedures.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6">
-                <div class="news-item margin-bottom-30px clearfix">
-                  <a href="#"><img src="assets/img/news/news5.png" class="img-responsive pull-left" alt="News Thumbnail"></a>
-                  <div class="right">
-                    <h3 class="news-title"><a href="#">Professional Leverage</a></h3>
-                    <p>Proactively engage orthogonal growth strategies without resource-leveling testing procedures.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6 col-sm-6">
-                <div class="see-all-news">
-                  <a href="#">See all news <i class="fa fa-long-arrow-right"></i></a>
-                </div>
-              </div>
-            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure excepturi voluptatibus repellendus cumque unde reiciendis debitis impedit est! Deserunt, explicabo, facere. Iusto deserunt fugiat praesentium repellat accusantium minima dolorum magnam mollitia pariatur recusandae delectus aliquam modi dolor voluptates, rerum voluptatem rem eaque, veritatis aliquid voluptate, saepe reprehenderit? Vitae harum aut accusamus nostrum blanditiis facere sequi dolor temporibus iste, voluptatum commodi fugit, ratione. Molestias veritatis necessitatibus facilis ducimus dolorem, dolor dolore.</p>
           </div>
         </div>
       </div>
     </section>
     <!-- END LATEST NEWS -->
+
     <!-- NUMBERS -->
     <section class="full-width-section no-margin">
       <div class="container">
@@ -279,66 +220,166 @@ Bienvenue
           <div class="col-sm-3 col-xs-6">
             <div class="number-info horizontal text-white-color">
               <i class="fa fa-plug pull-left"></i>
-              <p>5200 <span>SUBSCRIBERS</span></p>
+              <p>2721 <span>ETUDIANTS</span></p>
             </div>
           </div>
           <div class="col-sm-3 col-xs-6">
             <div class="number-info horizontal text-white-color">
               <i class="fa fa-cubes pull-left"></i>
-              <p>273 <span>PROJECTS</span></p>
+              <p>82 <span>PROFESSEURS</span></p>
             </div>
           </div>
           <div class="col-sm-3 col-xs-6">
             <div class="number-info horizontal text-white-color">
               <i class="fa fa-thumbs-up pull-left"></i>
-              <p>640K <span>APPRECIATIONS</span></p>
+              <p>2700 <span>APPRECIATIONS</span></p>
             </div>
           </div>
           <div class="col-sm-3 col-xs-6">
             <div class="number-info horizontal text-white-color">
               <i class="fa fa-users pull-left"></i>
-              <p>132 <span>CLIENTS</span></p>
+              <p>81% <span>REUSSITE</span></p>
             </div>
           </div>
         </div>
       </div>
     </section>
     <!-- END NUMBERS -->
-    <!-- TESTIMONIAL -->
 
-    <!-- END TESTIMONIAL -->
     <!-- OUR CLIENTS -->
     <section class="clients">
       <div class="container">
-        <h2 class="section-heading">OUR CLIENTS</h2>
-        <ul class="list-inline list-client-logo">
-          <li>
-            <a href="#"><img src="assets/img/clients/logo1.png" alt="logo"></a>
-          </li>
-          <li>
-            <a href="#"><img src="assets/img/clients/logo2.png" alt="logo"></a>
-          </li>
-          <li>
-            <a href="#"><img src="assets/img/clients/logo3.png" alt="logo"></a>
-          </li>
-          <li>
-            <a href="#"><img src="assets/img/clients/logo4.png" alt="logo"></a>
-          </li>
-          <li>
-            <a href="#"><img src="assets/img/clients/logo5.png" alt="logo"></a>
-          </li>
-        </ul>
+        <h2 class="section-heading">Ils parlent de nous...</h2>
+        <div class="col-xs-12">
+          <div class="custom-card">
+            <h3 class="custom-card-header">Témoignages</h3>
+            <section class="testimonial testimonial-fancy slick-carousel padding-slick-caroussel">
+              <div class="testimonial-container">
+                <div class="testimonial-body">
+                  <i class="fa fa-quote-left"></i>
+                  <p class="testimonial-bubble">Credibly extend parallel relationships after clicks-and-mortar content. Credibly pontificate team building alignments rather than diverse quality vectors. Monotonectally benchmark business communities for distinctive mindshare.</p>
+                  <div class="testimonial-author">
+                    <img src="{% static 'img/business-people.png' %}" alt="Author" class="pull-left">
+                    <span><span class="author-name">Antonius</span> <em>CEO of TheCompany</em></span>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <i class="fa fa-quote-left"></i>
+                  <p class="testimonial-bubble">Credibly pontificate team building alignments rather than diverse quality vectors. Monotonectally benchmark business communities for distinctive mindshare.</p>
+                  <div class="testimonial-author">
+                    <img src="{% static 'img/business-people.png' %}" alt="Author" class="pull-left">
+                    <span><span class="author-name">Michael</span> <em>General Manager of DreamCorp</em></span>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <i class="fa fa-quote-left"></i>
+                  <p class="testimonial-bubble">Appropriately morph low-risk high-yield process improvements through progressive partnerships. Uniquely brand enabled. Globally network timely imperatives without plug-and-play schemas. Globally coordinate economically sound interfaces.</p>
+                  <div class="testimonial-author">
+                    <img src="{% static 'img/business-people.png' %}" alt="Author" class="pull-left">
+                    <span><span class="author-name">Palmer</span> <em>Freelance Web Developer</em></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="custom-card">
+            <h3 class="custom-card-header">Presse</h3>
+            <section class="recent-works slick-carousel padding-slick-caroussel">
+                <div class="portfolio-container">
+                  <div class="portfolio-item">
+                    <div class="overlay"></div>
+                    <div class="info">
+                      <h4 class="title">Raining</h4>
+                      <p class="brief-description">Photography</p>
+                      <a href="#" class="btn">read more</a>
+                    </div>
+                    <div class="media-wrapper">
+                      <img src="{% static 'img/business-people.png' %}" alt="Item Thumbnail" />
+                    </div>
+                  </div>
+                  <div class="portfolio-item">
+                    <div class="overlay"></div>
+                    <div class="info">
+                      <h4 class="title">Perfect Edge</h4>
+                      <p class="brief-description">Product Design</p>
+                      <a href="#" class="btn">read more</a>
+                    </div>
+                    <div class="media-wrapper">
+                      <img src="{% static 'img/business-people.png' %}" alt="Item Thumbnail" />
+                    </div>
+                  </div>
+                  <div class="portfolio-item">
+                    <div class="overlay"></div>
+                    <div class="info">
+                      <h4 class="title">Sunny Day</h4>
+                      <p class="brief-description">Story</p>
+                      <a href="#" class="btn">read more</a>
+                    </div>
+                    <div class="media-wrapper">
+                      <img src="{% static 'img/business-people.png' %}" alt="Item Thumbnail" />
+                    </div>
+                  </div>
+                  <div class="portfolio-item">
+                    <div class="overlay"></div>
+                    <div class="info">
+                      <h4 class="title">Rainy Day</h4>
+                      <p class="brief-description">Photography</p>
+                      <a href="#" class="btn">read more</a>
+                    </div>
+                    <div class="media-wrapper">
+                      <img src="{% static 'img/business-people.png' %}" alt="Item Thumbnail" />
+                    </div>
+                  </div>
+                  <div class="portfolio-item">
+                    <div class="overlay"></div>
+                    <div class="info">
+                      <h4 class="title">Water Everywhere</h4>
+                      <p class="brief-description">Story</p>
+                      <a href="#" class="btn">read more</a>
+                    </div>
+                    <div class="media-wrapper">
+                      <img src="{% static 'img/business-people.png' %}" alt="Item Thumbnail" />
+                    </div>
+                  </div>
+                </div>
+            </section>
+          </div>
+        </div>
       </div>
     </section>
     <!-- END OUR CLIENTS -->
     <!-- CALL-TO-ACTION -->
-    <section class="call-to-action">
+    <section class="light-gray">
       <div class="container">
-        <div class="pull-left">
-          <h2 class="section-heading">GET IN TOUCH</h2>
+        <h2 class="section-heading">Actualités du blog...</h2>
+        <div class=" row blog-article blog-article-right">
+          <div class="col-xs-12 col-md-4 no-padding">
+            <img src="{% static 'img/business-people.png' %}" width=100%>
+          </div>
+          <div class="col-xs-12 col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
+            <a href="">Lire l'article</a>
+          </div>
         </div>
-        <div class="pull-right">
-          <span>Call us at (1800) 765 - 4321 or</span>&nbsp;&nbsp;<a href="#" class="btn btn-lg btn-primary">CONTACT US</a>
+        <div class=" row blog-article blog-article-right no-border-top">
+          <div class="col-xs-12 col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
+            <a href="">Lire l'article</a>
+          </div>
+          <div class="col-xs-12 col-md-4 no-padding">
+            <img src="{% static 'img/business-people.png' %}" width=100%>
+          </div>
+        </div>
+        <div class=" row blog-article blog-article-right no-border-top">
+          <div class="col-xs-12 col-md-4 no-padding">
+            <img src="{% static 'img/business-people.png' %}" width=100%>
+          </div>
+          <div class="col-xs-12 col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
+            <a href="">Lire l'article</a>
+          </div>
         </div>
       </div>
     </section>

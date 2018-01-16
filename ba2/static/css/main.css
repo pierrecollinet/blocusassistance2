@@ -488,8 +488,10 @@ footer .social-icons.light-icons a:hover {
   cursor: pointer;
   background: transparent;
   color: transparent;
-  top: 50%;
-  margin-top: -10px;
+/*  top: 50%;
+  margin-top: -10px;*/
+  bottom:0px;
+  z-index:20;
   padding: 0;
   border: none;
   outline: none;
@@ -4272,6 +4274,25 @@ html.fullscreen .wrapper {
   height: 100%;
 }
 
+.welcome-header {
+  height: 100vh;
+  font-size: 2em;
+  text-align: center;
+  color: #fff;
+  background-image: url('../img/fullscreen-bg.jpg?1444716816');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:cover;
+}
+.welcome-header .overlay {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #57a3ff;
+}
 .hero-unit-fullscreen {
   position: relative;
   height: 100vh;
@@ -5009,7 +5030,9 @@ div[class*="col-"] > .form-group {
 .slick-prev {
   position: absolute;
   right: 0;
-  top: -47px;
+/*  top: -47px;*/
+  bottom:0px;
+  z-index:20;
   left: inherit;
   width: 30px;
   height: 30px;
@@ -7159,6 +7182,7 @@ h1{
   font-size: 24px;
 }
 
+
 @media screen and (max-width: 480px) {
   .inline-img {
     float: none;
@@ -7166,17 +7190,9 @@ h1{
   }
 }
 
-
 .margin-navbar {
   margin-top : 50px;
 }
-
-
-
-
-
-
-
 
 .container-alert-flash{
   position:absolute;
