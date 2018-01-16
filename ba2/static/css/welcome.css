@@ -218,3 +218,11 @@ section {
 .light-gray{
   background-color: #f7f7f7;
 }
+
+.withe-txt{
+  color:white !important;
+}
+
+.withe-txt:hover, .white-txt:active{
+  color:gray !important;
+}
