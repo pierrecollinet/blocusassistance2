@@ -68,7 +68,19 @@ section {
   background-color: white;
 }
 
+.grid-team-prof{
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 33% 33% 33%;
+}
 
+.img-team-prof {
+  grid-row: 1 / span 2;
+  grid-column: 2 / span 1;
+}
 
-
+.element-double-paragraphe{
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 2;
+}
 

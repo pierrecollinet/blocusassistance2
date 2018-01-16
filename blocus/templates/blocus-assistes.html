@@ -1,24 +1,378 @@
 {% extends "base.html" %}
+{% load static %}
 
+{% block title %}
+Blocus Assisté
+{% endblock %}
 
-{% block content %}
+{% block base_head %}
 
-    <!-- HERO SECTION -->
-    <section class="hero-unit-fullscreen">
-      <div class="overlay"></div>
-      <div class="container">
-        <div class="left">
-          <h2 class="hero-heading">EXTRAORDINARY</h2>
-          <p class="lead">Ultra Responsive and Multipurpose Bootstrap Theme</p>
-          <span class="scroll-down"><a href="#about" class="btn btn-lg hero-button">LEARN MORE</a></span>
-        </div>
-      </div>
-      <div class="scroll-down down-arrow">
-        <a href="#about"><i class="fa fa-angle-down"></i></a>
-      </div>
-    </section>
-    <!-- END HERO SECTION -->
+<!--
+  <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
+
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://dwj199mwkel52.cloudfront.net/assets/favicon-9e84d1cd6dffd89d572b8c6a542cadda0b2091f8fc65f9cc1f09f09ca363bb19.png" type="image/png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta property="og:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.lewagon.com/fr" />
+  <meta property="og:image" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg" />
+  <meta property="og:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+" />
+  <meta property="og:site_name" content="Le Wagon" />
+  <meta property="fb:admins" content="548348576" />
+  <meta property="fb:app_id" content="737501859652485" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Lewagonparis">
+  <meta name="twitter:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails">
+  <meta name="twitter:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+">
+  <meta name="twitter:creator" content="@Lewagonparis">
+  <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
+!-->
+<link href="{% static 'css/welcome.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/components.css' %}" rel="stylesheet" type="text/css">
 
 {% endblock %}
 
+{% block content %}
+
+
+
+    <!-- HERO SECTION  -->
+    <section class="hero-unit-fullscreen">
+      <div class="overlay"></div>
+      <div class="flex-box">
+        <div class="container">
+            <div class="col-xs-12">
+              <h2 class="hero-heading">Blocus Assistés</h2>
+              <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis, accusamus dignissimos ex sapiente quis! Neque, ullam aperiam ipsa harum</p>
+              <span class=""><a href="#about" class="btn btn-lg hero-button">En savoir plus</a></span>
+              <span class=""><a href="#about" class="btn btn-lg hero-button">S'inscrire</a></span>
+            </div>
+        </div>
+
+        <div class="col-xs-12 down-arrow">
+          <a href="#about"><i class="fa fa-angle-down"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LATEST NEWS -->
+    <section>
+      <div class="container">
+        <h2 class="section-heading">Le blocus assisté dans le supérieur</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+          </div>
+          <div class="col-md-6">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure <br>
+              <a href="">Lire notre article "Le blocus assisté"</a>
+            </p>
+
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure <br>
+              <a href="">Lire notre article "Organiser son blocus"</a>
+            </p>
+
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure <br>
+              <a href="">Lire notre article "Gérer la session d'examens"</a>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END LATEST NEWS -->
+
+    <!-- LATEST NEWS -->
+    <section class="light-gray">
+      <div class="container">
+        <h2 class="section-heading">Déroulement du blocus assisté</h2>
+            <div class="col-xs-12 col-md-8 pull-left">
+              <h3>Préparation du blocus</h3>
+              <p class="col-xs-12 no-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure</p>
+            </div>
+
+            <div class="col-xs-12 col-md-8 pull-right">
+              <h3 class="pull-right">Encadrement en blocus</h3>
+              <p class="col-xs-12 no-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure</p>
+            </div>
+
+            <div class="col-xs-12 col-md-8 pull-left">
+              <h3>Aides supplémentaires</h3>
+              <p class="col-xs-12 no-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure</p>
+            </div>
+
+      </div>
+    </section>
+    <!-- END LATEST NEWS -->
+
+
+    <!-- RECENT WORKS -->
+    <section>
+      <div class="container">
+        <h2 class="section-heading pull-left">Horaire d'une journée de blocus assisté</h2>
+        <div class="clearfix"></div>
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <ul>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+              <li>8.00 - 8.30 : Lorem ipsum dolor sit amet.</li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END RECENT WORKS -->
+
+    <!-- LATEST NEWS -->
+    <section class="light-gray">
+      <div class="container">
+        <h2 class="section-heading">Une équipe de professeurs</h2>
+          <div class="grid-team-prof">
+
+            <div class="">
+              <h3>Assurer des conditions de travail optimales</h3>
+              <p class="col-xs-12 no-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure</p>
+            </div>
+
+            <div class="">
+              <h3>Suivi personnalisé des étudiants</h3>
+              <p class="col-xs-12 no-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure</p>
+            </div>
+
+            <div class="element-double-paragraphe">
+              <h3>Réponses à toutes les questions</h3>
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem dolorem explicabo temporibus, iste aperiam voluptas minus non tempore porro consequuntur obcaecati eius nesciunt necessitatibus perferendis culpa. Unde suscipit error voluptatum dolorem debitis. Eveniet, ratione accusamus vel, soluta, aliquid iure
+                </div>
+              </div>
+            </div>
+
+            <div class="img-team-prof">
+              <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+            </div>
+          </div>
+      </div>
+    </section>
+    <!-- END LATEST NEWS -->
+    <section>
+      <div class="container">
+        <h2 class="section-heading">Cadre de travail</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim temporibus dolore quibusdam quos optio saepe, repudiandae soluta, consequatur nam. Modi libero ipsam assumenda fuga, ad iure officiis id incidunt nulla ea repudiandae exercitationem earum blanditiis, molestias omnis illo praesentium eum eligendi culpa vitae, et ex magnam accusantium temporibus. Obcaecati aliquam, repudiandae! Eveniet explicabo illo cupiditate corporis nostrum architecto voluptatem minus ipsa at, aspernatur tenetur eius impedit, hic unde ducimus delectus exercitationem, ratione molestiae praesentium! Accusamus repudiandae, architecto quidem quasi perferendis reiciendis vero, beatae nulla similique dolores facilis, necessitatibus, minima quam inventore! Sunt, accusamus modi amet consectetur dolorem dolore eum nam.</p>
+        <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+      </div>
+    </section>
+
+    <section class="light-gray">
+      <div class="container">
+        <h2 class="section-heading">Nos campus Blocus Assistance</h2>
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-lg-3">
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+            <div class="campus-title text-center">Place du Châtelain</div>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-3">
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+            <div class="campus-title text-center">Louvain-la-Neuve</div>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-3">
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+            <div class="campus-title text-center">Royal Léopold Hockey Club</div>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-3">
+            <img src="{% static 'img/business-people.png' %}" width=100% alt="">
+            <div class="campus-title text-center">Château Latour defreins</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- OUR CLIENTS -->
+    <section class="clients">
+      <div class="container">
+        <h2 class="section-heading">Ils parlent de nous...</h2>
+        <div class="col-xs-12">
+          <div class="custom-card">
+            <h3 class="custom-card-header">Témoignages - Blocus Assistés</h3>
+            <section class="testimonial testimonial-fancy slick-carousel padding-slick-caroussel">
+              <div class="testimonial-container">
+                <div class="testimonial-body">
+                  <i class="fa fa-quote-left"></i>
+                  <p class="testimonial-bubble">Credibly extend parallel relationships after clicks-and-mortar content. Credibly pontificate team building alignments rather than diverse quality vectors. Monotonectally benchmark business communities for distinctive mindshare.</p>
+                  <div class="testimonial-author">
+                    <img src="{% static 'img/business-people.png' %}" alt="Author" class="pull-left">
+                    <span><span class="author-name">Antonius</span> <em>CEO of TheCompany</em></span>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <i class="fa fa-quote-left"></i>
+                  <p class="testimonial-bubble">Credibly pontificate team building alignments rather than diverse quality vectors. Monotonectally benchmark business communities for distinctive mindshare.</p>
+                  <div class="testimonial-author">
+                    <img src="{% static 'img/business-people.png' %}" alt="Author" class="pull-left">
+                    <span><span class="author-name">Michael</span> <em>General Manager of DreamCorp</em></span>
+                  </div>
+                </div>
+                <div class="testimonial-body">
+                  <i class="fa fa-quote-left"></i>
+                  <p class="testimonial-bubble">Appropriately morph low-risk high-yield process improvements through progressive partnerships. Uniquely brand enabled. Globally network timely imperatives without plug-and-play schemas. Globally coordinate economically sound interfaces.</p>
+                  <div class="testimonial-author">
+                    <img src="{% static 'img/business-people.png' %}" alt="Author" class="pull-left">
+                    <span><span class="author-name">Palmer</span> <em>Freelance Web Developer</em></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <div class="custom-card">
+            <h3 class="custom-card-header">Vidéo</h3>
+            <section class="text-center">
+              <img src="{% static 'img/business-people.png' %}" width=50% alt="Author">
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END OUR CLIENTS -->
+    <!-- CALL-TO-ACTION -->
+    <section class="light-gray">
+      <div class="container">
+        <h2 class="section-heading">Informations pratiques</h2>
+        <div class=" row blog-article flex-box">
+          <div class="col-xs-12 col-md-4 no-padding">
+            <img src="{% static 'img/business-people.png' %}" width=100%>
+          </div>
+          <div class="col-xs-12 col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
+            <a href="">Lire l'article</a>
+          </div>
+        </div>
+        <div class=" row blog-article no-border-top flex-box">
+          <div class="col-xs-12 col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
+            <a href="">Lire l'article</a>
+          </div>
+          <div class="col-xs-12 col-md-4 no-padding">
+            <img src="{% static 'img/business-people.png' %}" width=100%>
+          </div>
+        </div>
+        <div class=" row blog-article no-border-top  flex-box">
+          <div class="col-xs-12 col-md-4 no-padding">
+            <img src="{% static 'img/business-people.png' %}" width=100%>
+          </div>
+          <div class="col-xs-12 col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores soluta voluptatem distinctio officiis perferendis cupiditate quas eum obcaecati maiores ex tenetur vel, consectetur placeat modi porro odio ad, recusandae facere quibusdam, aut deserunt facilis consequatur? Similique excepturi explicabo corporis sit necessitatibus cum, libero suscipit sed reprehenderit, dolor, tempora consectetur, molestias.</p>
+            <a href="">Lire l'article</a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- END CALL-TO-ACTION -->
+
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <!-- COLUMN 1 -->
+            <h3 class="sr-only">ABOUT US</h3>
+            <img src="assets/img/logo/repute-logo-light.png" class="logo" alt="Repute">
+            <p>Proactively aggregate B2B initiatives before extensive channels. Monotonectally extend interactive methods of empowerment through excellent applications. Rapidiously synergize visionary products with sticky technology.</p>
+            <br>
+            <address class="margin-bottom-30px">
+              <ul class="list-unstyled">
+                <li>Rue Armand Campenhout, 4
+                  <br/> Ixelles, 1050</li>
+                <li>GSM: 0472 / 71 43 02</li>
+                <li>Email: info@blocusassistance.be</li>
+              </ul>
+            </address>
+            <!-- END COLUMN 1 -->
+          </div>
+          <div class="col-md-4">
+            <!-- COLUMN 2 -->
+            <h3 class="footer-heading">LIENS UTILES</h3>
+            <div class="row margin-bottom-30px">
+              <div class="col-xs-6">
+                <ul class="list-unstyled footer-nav">
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">News</a></li>
+                  <li><a href="#">Community</a></li>
+                  <li><a href="#">Career</a></li>
+                  <li><a href="#">Blog</a></li>
+                </ul>
+              </div>
+              <div class="col-xs-6">
+                <ul class="list-unstyled footer-nav">
+                  <li><a href="#">Presse</a></li>
+                  <li><a href="#">FAQ</a></li>
+                  <li><a href="#">Terms</a></li>
+                  <li><a href="#">Politique de confidentialité</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- END COLUMN 2 -->
+          </div>
+          <div class="col-md-4">
+            <!-- COLUMN 3 -->
+            <div class="newsletter">
+              <h3 class="footer-heading">NEWSLETTER</h3>
+              <p>Soyez tenus au courant de nos offres et de nos dernières mises à jour.</p>
+              <form class="newsletter-form" method="POST">
+                <div class="input-group input-group-lg">
+                  <input type="email" class="form-control" name="email" placeholder="votreadresse@domain.com">
+                  <span class="input-group-btn"><button class="btn btn-primary" type="button"><i class="fa fa-spinner fa-spin"></i><span>ETRE INFORME</span></button>
+                  </span>
+                </div>
+                <div class="alert"></div>
+              </form>
+            </div>
+            <div class="social-connect">
+              <h3 class="footer-heading">GET CONNECTED</h3>
+              <ul class="list-inline social-icons">
+                <li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#" class="twitter-bg"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#" class="googleplus-bg"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#" class="rss-bg"><i class="fa fa-rss"></i></a></li>
+              </ul>
+            </div>
+            <!-- END COLUMN 3 -->
+          </div>
+        </div>
+      </div>
+      <!-- COPYRIGHT -->
+      <div class="text-center copyright">
+        &copy;2016 The Develovers. All Rights Reserved.
+      </div>
+      <!-- END COPYRIGHT -->
+    </footer>
+    <!-- END FOOTER -->
+
+{% endblock %}
 
