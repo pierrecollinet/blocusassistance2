@@ -43,23 +43,37 @@ Cours particuliers
 
 
     <!-- HERO SECTION  -->
-    <section class="welcome-header">
-      <div class="overlay"></div>
-      <div class="flex-box">
-        <div class="container">
-            <div class="col-xs-12">
+    <section class="hero-unit-slider slider-responsive">
+      <div id="carousel-hero" class="slick-carousel">
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img src="{% static 'img/sliders/slider1-h500.png' %}" class="img-responsive" alt="Slider Image">
+            <div class="carousel-caption">
               <h2 class="hero-heading">Suivi intensif</h2>
-              <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur corporis, accusamus dignissimos ex sapiente quis! Neque, ullam aperiam ipsa harum</p>
-              <span class=""><a href="#about" class="btn btn-lg hero-button">En savoir plus</a></span>
+              <p class="lead">Giving valuable reputation and credibility to your business</p>
+              <a href="#" class="btn btn-lg hero-button">EN SAVOIR +</a>
+              <a href="{% url 'inscription-suivi-intensif' %}" class="btn btn-lg hero-button">INSCRIPTION</a>
             </div>
-        </div>
-
-        <div class="col-xs-12 down-arrow">
-          <a href="#about"><i class="fa fa-angle-down"></i></a>
+          </div>
+          <div class="item">
+            <img src="{% static 'img/sliders/slider2-h500.png' %}" class="img-responsive" alt="Slider Image">
+            <div class="carousel-caption">
+              <h2 class="hero-heading">ULTRA RESPONSIVE</h2>
+              <p class="lead">Leave it to the theme, it knows how to deal with screen sizes</p>
+              <a href="#" class="btn btn-lg hero-button">LEARN MORE</a>
+            </div>
+          </div>
+          <div class="item">
+            <img src="{% static 'img/sliders/slider3-h500.png' %}" class="img-responsive" alt="Slider Image">
+            <div class="carousel-caption">
+              <h2 class="hero-heading">EASY TO CUSTOMIZE</h2>
+              <p class="lead">Readable code, well documented and FREE support</p>
+              <a href="#" class="btn btn-lg hero-button">LEARN MORE</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-
 
     <!-- LATEST NEWS -->
     <section>

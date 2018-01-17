@@ -15,9 +15,19 @@ from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 
+from blocus.forms import InscriptionBlocusModelForm
 
 @minified_response
 #@gzip_page
 def accueil(request):
   c = {}
   return render(request, 'cours-particuliers/accueil.html', c)
+
+@minified_response
+#@gzip_page
+def inscription_cp(request):
+  form = InscriptionBlocusModelForm(request.POST or None)
+  if form.is_valid():
+    "do something"
+  c = {'form':form}
+  return render(request, 'cours-particuliers/inscription.html', c)

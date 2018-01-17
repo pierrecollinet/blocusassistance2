@@ -1,11 +1,118 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Gallerie{% endblock %}
+
+
+{% block base_head %}
+
+<!--
+  <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
+
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://dwj199mwkel52.cloudfront.net/assets/favicon-9e84d1cd6dffd89d572b8c6a542cadda0b2091f8fc65f9cc1f09f09ca363bb19.png" type="image/png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta property="og:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.lewagon.com/fr" />
+  <meta property="og:image" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg" />
+  <meta property="og:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+" />
+  <meta property="og:site_name" content="Le Wagon" />
+  <meta property="fb:admins" content="548348576" />
+  <meta property="fb:app_id" content="737501859652485" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Lewagonparis">
+  <meta name="twitter:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails">
+  <meta name="twitter:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+">
+  <meta name="twitter:creator" content="@Lewagonparis">
+  <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
+!-->
+<link href="{% static 'css/welcome.css' %}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+
 {% block content %}
 <div class='row'>
 <div class='col text-center'>
 
 <h1>Gallerie</h1>
+
+ <!-- Page Content -->
+ <section>
+    <div class="container">
+
+      <h1 class="my-4 text-center text-lg-left">Gallerie</h1>
+
+      <div class="row text-center text-lg-left">
+
+        <div class="col-lg-3 col-md-4 col-xs-6 with-bg-size" style="background-image: url('http://img1.jurko.net/wall/paper/donald_duck_4.jpg')">
+          <a href="#" class="d-block mb-4 h-100">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6 with-bg-size" style="background-image: url('{% static 'img/business-people.png' %}')">
+          <a href="#" class="d-block mb-4 h-100">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6 with-bg-size">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6 with-bg-size">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-3 col-md-4 col-xs-6">
+          <a href="#" class="d-block mb-4 h-100">
+            <img class="img-fluid img-thumbnail" src="http://placehold.it/400x300" alt="">
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+    <!-- /.container -->
 
 </div>
 </div>

@@ -7,6 +7,7 @@ Finaliser l'inscription
 
 {% block base_head %}
 <link rel='stylesheet' href="{% static 'css/main.css' %}" >
+<link rel='stylesheet' href="{% static 'css/welcome.css' %}" >
 
 <!--
   <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
@@ -38,58 +39,93 @@ Finaliser l'inscription
 {% endblock %}
 
 {% block content %}
-<div class='text-center'>
-    {% if not has_card %}
+  <div class="light-gray">
+    <div class="page-header">
+      <div class="container">
+        <h1 class="page-title pull-left">Paiement - Blocus Assisté</h1>
+        <ol class="breadcrumb">
+          <li><a href="/">Accueil</a></li>
+          <li><a href="{% url 'inscription_blocus'%}">Inscription - Blocus Assistés</a></li>
+          <li class="active">Paiement</li>
+        </ol>
+      </div>
+    </div>
+    <!-- END BREADCRUMBS -->
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+      <div class="container">
+        <section">
+
+<div class="col-md-5 col-xs-12 panel-form pull-left">
+{% if not has_card %}
       <!-- ENTER CREDIT CARD HERE -->
-      <div class="stripe-payment-form" data-token='{{ publish_key }}' data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Ajouter une méthode de paiement"></div>
+      <h2>Ajouter un moyen de paiement</h2>
+      <div class="stripe-payment-form" data-token='{{ publish_key }}' data-next-url="{{ request.build_absolute_uri }}" data-btn-title="Ajouter "></div>
     {% else %}
-      <h1>Finaliser l'inscription</h1>
-      <table class="table">
-        <tr>
-          <td>Prenom</td>
-          <td class="text-left">{{ inscription.etudiant.prenom }}</td>
-        </tr>
-        <tr>
-          <td>Nom</td>
-          <td class="text-left">{{ inscription.etudiant.nom }}</td>
-        </tr>
-        <tr>
-          <td>Blocus</td>
-          <td class="text-left">{{ inscription.blocus }}</td>
-        </tr>
-        <tr>
-          <td>Modules</td>
-          <td class="text-left">
-            <ul>
-              {% for m in inscription.module.all %}
-                <li>{{ m.get_name }}</li>
-              {% endfor %}
-            </ul>
-          </td>
-        </tr>
-        <tr>
-          <td>Montant</td>
-          <td class="text-left">{{ inscription.montant }}</td>
-        </tr>
-        <tr>
-          <td>Moyen de paiement</td>
-          <td class="text-left">{{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Changer</a>)</td>
-          <td></td>
-        </tr>
-      </table>
-      <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
-          <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
-          <button type='submit' name="payer-en-ligne" class='btn btn-success mx-2'>Payer en ligne</button>
-          <button type='submit' name="payer-par-virement" class='btn btn-success mx-2'>Confirmer mon inscription</button>
-      </form>
+        <h2>Finaliser l'inscription</h2>
+        <p>En payant en ligne directement, vous garantissez votre place au blocus assisté. Dans le cas contraire, si nous sommes complets et que votre virement n'a toujours pas été reçu, il est possible que votre place soit réatribuée</p>
+        <table class="table">
+          <tr>
+            <td>Prenom</td>
+            <td class="text-left">{{ inscription.etudiant.prenom }}</td>
+          </tr>
+          <tr>
+            <td>Nom</td>
+            <td class="text-left">{{ inscription.etudiant.nom }}</td>
+          </tr>
+          <tr>
+            <td>Blocus</td>
+            <td class="text-left">{{ inscription.blocus }}</td>
+          </tr>
+          <tr>
+            <td>Modules</td>
+            <td class="text-left">
+              <ul>
+                {% for m in inscription.module.all %}
+                  <li>{{ m.get_name }}</li>
+                {% endfor %}
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>Montant</td>
+            <td class="text-left">{{ inscription.montant }} &euro;</td>
+          </tr>
+          <tr>
+            <td>Moyen de paiement</td>
+            <td class="text-left">{{ billing_profile.default_card }} (<a href="{{ billing_profile.get_payment_method_url }}?next={{ request.build_absolute_uri }}">Changer</a>)</td>
+            <td></td>
+          </tr>
+        </table>
+        <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
+            <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
+            <button type='submit' name="payer-en-ligne" class='btn btn-success mx-2'>Payer en ligne</button>
+        </form>
     {% endif %}
 </div>
+
+<div class="col-xs-12 col-md-2 text-center">
+  <span style="font-size:50px"><b>OU</b></span>
+</div>
+
+<div class="col-md-5 col-xs-12 panel-form pull-right">
+  <h2>Confirmer & payer plus tard</h2>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi a in fugit laboriosam vero ipsa vitae repellat quae illum dignissimos eveniet quasi ratione nisi temporibus hic dolore, ipsum ducimus libero.</p>
+  <form class='form' method='POST' action="{% url 'checkout' pk=inscription.id %}">{% csrf_token %}
+      <input type="hidden" name="inscription_id" value="{{ inscription.id }}">
+      <button type='submit' name="payer-par-virement" class='btn btn-success mx-2'>Confirmer mon inscription</button>
+  </form>
+</div>
+
+        </section>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 
 
 {% block script %}
-
 <!-- Main JS -->
 <script src='{% static "js/blocus.billing.js" %}'></script>
-
 {% endblock %}
