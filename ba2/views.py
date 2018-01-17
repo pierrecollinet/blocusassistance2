@@ -45,6 +45,13 @@ def politique_confidentialite(request):
 
 @minified_response
 #@gzip_page
+def a_propos(request):
+  c = {}
+  return render(request, 'a-propos.html', c)
+
+
+@minified_response
+#@gzip_page
 def conditions_generales(request):
   c = {'monprenom':"Pierre"}
   return render(request, 'conditions-generales.html', c)
@@ -58,7 +65,10 @@ def show_gallerie(request):
 @minified_response
 #@gzip_page
 def contact(request):
-  c = {}
+  form = ContactForm(request.POST or None)
+  if form.is_valid():
+    "do something like sending emails"
+  c = {'form':form}
   return render(request, 'contact.html', c)
 
 @minified_response
