@@ -59,10 +59,11 @@ Complète ton profil
         <section">
           <div class="col-xs-12 col-md-6 col-md-offset-3 panel-form">
 
-            <h2>Complète ton profil, {{ request.user.username }}</h2>
-            <p>Un dernier petit effort ! Tu ne devras introduire ces données qu'une seule fois. </p>
+            <h2>Un dernier petit effort, {{ request.user.username }}</h2>
+            <p>Tu ne devras introduire ces données qu'une seule fois. </p>
             <form class="." id="signup_form" method="post" action="">
               {% csrf_token %}
+              <input type="hidden" name="next_url" value={{next_url}}>
               {% crispy form %}
             </form>
 

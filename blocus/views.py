@@ -10,7 +10,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.sitemaps import Sitemap
-
+from django.conf import settings
 import json
 import json as simplejson
 
@@ -40,7 +40,7 @@ stripe.api_key = STRIPE_SECRET_KEY
 @minified_response
 #@gzip_page
 def inscription_blocus(request):
-  form = InscriptionBlocusModelForm(request.POST or None)
+  form = InscriptionBlocusModelForm(request.POST or None, request=request)
   form.fields["module"].queryset = ModuleBlocus.objects.all()
   if form.is_valid():
     new_inscription = form.save(commit=False)
@@ -61,6 +61,11 @@ def inscription_blocus(request):
 #@gzip_page
 def blocus_assistes(request):
   c = {}
+  current_blocus = Blocus.objects.filter(is_current = True)
+  if len(current_blocus) == 1:
+    current_blocus = current_blocus.first()
+    c.update({'current_blocus':current_blocus})
+    print(c)
   return render(request, 'blocus-assistes.html', c)
 
 @login_required
@@ -75,6 +80,11 @@ def checkout(request, pk):
     billing_profile, billing_profile_created = BillingProfile.objects.new_or_get(request)
     has_card = False
     inscription_obj = InscriptionBlocus.objects.get(id = pk)
+
+    # Si c'est déjà payé, on ne facture pas une deuxième fois !
+    if inscription_obj.is_paid :
+      return redirect("confirmation-inscription-blocus")
+
     if billing_profile is not None:
       has_card = billing_profile.has_card
     if request.method == "POST":
@@ -85,15 +95,34 @@ def checkout(request, pk):
         if did_charge:
           inscription_obj.is_paid = True
           inscription_obj.save()
+          # On prévient les fondateurs
+          plaintext = get_template('../templates/emails/confirmation-inscription-paiement-online.txt')
+          htmly     = get_template('../templates/emails/confirmation-inscription-paiement-online.html')
+          subject, from_email = "Inscription au blocus assisté - "+inscription_obj.etudiant.prenom+inscription_obj.etudiant.nom , 'info@blocusassistance.be'
+          to = settings.EMAILS
+          d = {'inscription':inscription_obj}
+          text_content = plaintext.render(d)
+          html_content = htmly.render(d)
+          msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+          msg.attach_alternative(html_content, "text/html")
+          msg.send()
           return redirect("confirmation-inscription-blocus")
         else:
           print(crg_msg)
           return redirect("blocus:checkout")
       elif 'payer-par-virement' in request.POST :
-        # gérer l'inscription
-        # - mail de confirmation
-        # - rediriger vers une page de remerciement
-        print('payer par virement')
+        # On prévient les fondateurs
+        plaintext = get_template('../templates/emails/confirmation-inscription-virement.txt')
+        htmly     = get_template('../templates/emails/confirmation-inscription-virement.html')
+        subject, from_email = "Inscription au blocus assisté - "+inscription_obj.etudiant.prenom+inscription_obj.etudiant.nom , 'info@blocusassistance.be'
+        to = settings.EMAILS
+        d = {'inscription':inscription_obj}
+        text_content = plaintext.render(d)
+        html_content = htmly.render(d)
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        return redirect("confirmation-inscription-blocus")
     context = {
         "object": inscription_obj,
         "inscription": inscription_obj,
