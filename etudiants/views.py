@@ -51,6 +51,10 @@ def dashboard(request):#, pk):
 @minified_response
 #@gzip_page
 def complete_profile(request):
+  if request.GET and 'next' in request.GET :
+    next_url = request.GET.get("next","")
+  else :
+    next_url = ""
   if len(Etudiant.objects.filter(user=request.user)) == 0 :
     form = EtudiantModelForm(request.POST or None)
     if form.is_valid():
@@ -65,8 +69,10 @@ def complete_profile(request):
       user.last_name = etudiant.nom
       user.email = etudiant.email
       user.save()
+      if request.POST and 'next_url' in request.POST :
+        return HttpResponseRedirect(request.POST["next_url"])
       return HttpResponseRedirect(reverse('inscription_blocus'))
-    c = {'form':form}
+    c = {'form':form, 'next_url':next_url}
     return render(request, 'completer-profil.html', c)
   else :
     return HttpResponseRedirect(reverse('inscription_blocus'))

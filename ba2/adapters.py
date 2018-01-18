@@ -7,8 +7,14 @@ class AccountAdapter(DefaultAccountAdapter):
 
     if request.POST and 'statut' in request.POST:
       statut = request.POST['statut']
-      path = "/{statut}/completer-profil/?next=/qdsfqdfs/"
+      if 'next' in request.POST:
+        path = "/{statut}/completer-profil/?next=" + request.POST['next']
+      else :
+        path = "/{statut}/completer-profil/?next="
       return path.format(statut=statut)
+    elif request.POST and  'next' in request.POST:
+      path = request.POST['next']
+      return path
     else :
       path = "/"
       return path

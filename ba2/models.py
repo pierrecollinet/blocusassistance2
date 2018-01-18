@@ -80,3 +80,17 @@ annees = (
     ('MA2', 'MA2'),
     ('diplome', 'Diplômé'),
 )
+
+CATEGORIES = (('blocus','Blocus Assistés'),('cours','Cours Particuliers'),('suiviintensif','Suivi Intensif'),)
+class TemoignageEleve(models.Model):
+    prenom = models.CharField(max_length=200)
+    photo = models.ImageField(upload_to = 'mes_images/')
+    temoignage = models.TextField()
+    etude = models.CharField(max_length=200)
+    annee = models.CharField(max_length=200, choices=annees)
+    active = models.BooleanField(default=False)
+    categories = models.CharField(max_length=200, choices = CATEGORIES)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return self.prenom

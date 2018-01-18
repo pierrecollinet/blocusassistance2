@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blocus Assistance - Confirmation inscription </title>
+  <style type="text/css">
+    #outlook a {padding:0;}
+    body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+    .ExternalClass {width:100%;}
+    .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+    #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+    table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+    table td {border-collapse: collapse;}
+
+    @media only screen and (max-width: 640px)  {
+      body[yahoo] .deviceWidth {width:440px!important; }
+
+      body[yahoo] .full {
+        display:block;
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body yahoo="fix">
+  <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" width="100%">
+    <tr>
+      <td align="center">
+        <!-- header -->
+
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+          <tr>
+            <td align="right" style="padding-top: 30px;"><span class="mobile_link" style="font-family: Helvetica, sans-serif; font-size: 14px; color: #656565;">Tél.: <a href="tel:0472 / 71 43 02" style="text-decoration: none; font-weight: bold; color: #656565;">0472 / 71 43 02</a></span></td>
+          </tr>
+
+          <tr>
+            <td colspan="2" style=" padding-bottom: 30px;">
+              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #406DA4;">
+                <tr>
+                  <td width="75%" style="padding: 8px 10px 10px 10px;">
+                    <h1 style="font-family: Helvetica, sans-serif; font-size: 14px; color: #ffffff; font-weight: normal;">{% block title %}CONFIRMATION{% endblock %}</h1>
+                  </td>
+                  <td width="25%" style="padding-right: 10px;" align="right">
+                    <div style="background-color: #ffffff; width: 130px;"><a href="{% block link_call_to_action %}http://yourlink{% endblock %}http://yourlink" style="text-decoration: none; font-family: Helvetica, sans-serif; font-size: 12px; color: #406DA4; display: block; text-align: center; padding: 6px 0;">{% block call_to_action %}Voir mon compte{% endblock %}</a></div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+        <!-- end header -->
+
+        <!-- start service -->
+        {% block content%}
+        {% endblock %}
+        <!-- end service -->
+
+        {% block footer %}
+        <!-- start call-to-action -->
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+          <tr>
+            <td align="center" width="600" style="padding: 50px 0; background-color: #F7F7F7;">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 22px; margin-bottom: 30px; color: #656565; font-weight: normal;">Vous avez une question ?</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #848484;">N'hésitez pas à nous contacter directement<br /><br /> <a href="tel:0472 / 71 43 02" style="font-size: 18px; text-decoration: none; color: #406DA4; font-weight: bold;">0472 / 71 43 02</a> <br /><br /> ou <br /><br /> <a href="mailto:contact@yourdomain.com" target="_blank" style="font-size: 18px; text-decoration: none; color: #406DA4; font-weight: bold;">info@blocusassistance.be</a></p>
+            </td>
+          </tr>
+        </table>
+        <!-- end call-to-action -->
+
+        <!-- start footer -->
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+          <tr>
+            <td align="center" style="padding: 30px 0;">
+              <p style="font-family: Arial, sans-serif; font-size: 14px; color: #8e8e8e; margin-bottom: 25px;">
+                <a href="http://yourlink" style="text-decoration: none; color: #5AA3E8;">Conditions générales</a> |
+                <a href="http://yourlink" style="text-decoration: none; color: #5AA3E8;">Contact</a> |
+                <a href="http://yourlink" style="text-decoration: none; color: #5AA3E8;">Politique de confidentialité</a></p>
+            </td>
+          </tr>
+        </table>
+        {% endblock %}
+        <!-- end footer -->
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
