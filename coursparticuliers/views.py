@@ -50,9 +50,9 @@ def send_confirmation(demande):
   # On prévient les fondateurs
   plaintext = get_template('../templates/emails/confirmation-demande-cp.txt')
   htmly     = get_template('../templates/emails/confirmation-demande-cp.html')
-  subject, from_email = "Demande de cours particuliers - "+demande.matiere, 'info@blocusassistance.be'
-  to = settings.EMAILS
-  d = {'inscription':inscription_obj}
+  subject, from_email = "Demande de cours particuliers - "+demande.matiere.nom_complet, 'info@blocusassistance.be'
+  to = [settings.EMAILS,]
+  d = {}
   text_content = plaintext.render(d)
   html_content = htmly.render(d)
   msg = EmailMultiAlternatives(subject, text_content, from_email, to)

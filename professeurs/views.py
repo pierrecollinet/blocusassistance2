@@ -50,7 +50,8 @@ def professeur_required(function):
 @minified_response
 #@gzip_page
 def dashboard(request):
-  c = {}
+  professeur = request.user.professeur
+  c = {'professeur':professeur}
   return render(request, 'professeurs/tableau-de-bord.html', c)
 
 @minified_response
