@@ -149,7 +149,6 @@ class PresenceJourBlocus(models.Model):
         days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
         return days[day]+ ' - '+str(self.date.strftime('%d/%m/%Y'))
 
-
 class InscriptionBlocus(models.Model):
     etudiant = models.ForeignKey(Etudiant)
     blocus = models.ForeignKey(Blocus)
@@ -174,6 +173,68 @@ class InscriptionBlocus(models.Model):
         total += float(mod.prix)
       return total
 
+from datetime import timedelta
+def post_save_inscription_model_receiver(sender, instance, created, *args, **kwargs):
+    modules = instance.module.all()
+    etudiant = instance.etudiant
+    for module in modules :
+        date_debut = datetime.date(module.date_debut.year,module.date_debut.month,module.date_debut.day)
+        date_fin = datetime.date(module.date_fin.year,module.date_fin.month,module.date_fin.day)
+        delta = date_fin - date_debut
+        for i in range(delta.days + 1):
+            date = date_debut + timedelta(days=i)
+            print(date)
+            jourblocus = PresenceJourBlocus.objects.get(
+                                                           campus=instance.campus,
+                                                           blocus=instance.blocus,
+                                                           date=date
+                                                           )
+            presence, created = Presence.objects.get_or_create(
+                                                          etudiant=etudiant,
+                                                          date=date,
+                                                          inscription=instance,
+                                                          jourblocus = jourblocus
+                                                          )
+            try:
+                jourblocus = PresenceJourBlocus.objects.get(
+                                                           campus=instance.campus,
+                                                           blocus=instance.blocus,
+                                                           date=date
+                                                           )
+                presence, created = Presence.objects.get_or_create(
+                                                          etudiant=etudiant,
+                                                          date=date,
+                                                          inscription=instance,
+                                                          jourblocus = jourblocus
+                                                          )
+                presence.jourblocus = jourblocus
+                presence.save()
+            except:
+                pass
+post_save.connect(post_save_inscription_model_receiver, sender=InscriptionBlocus)
+
+
+STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'),  )
+class Presence(models.Model):
+    etudiant = models.ForeignKey(Etudiant)
+    date = models.DateField()
+    heure_arrivee = models.TimeField(default="08:30")
+    statut = models.CharField(max_length=100, choices=STATUTS, default="absent")
+    inscription = models.ForeignKey(InscriptionBlocus)
+    jourblocus = models.ForeignKey(PresenceJourBlocus)
+    commentaire = models.TextField(blank=True)
+
+    def __str__(self):
+      return self.etudiant.prenom + ' ' + self.etudiant.nom + ' - ' + self.statut
+
+    def is_late(self):
+      heure_arrivee = self.heure_arrivee
+      start_time    = datetime.time(8, 30, 0)
+      if heure_arrivee > start_time :
+        bool = True
+      else :
+        bool = False
+      return bool
 
 
 

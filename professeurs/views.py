@@ -46,13 +46,6 @@ def professeur_required(function):
     wrapper.__name__ = function.__name__
     return wrapper
 
-@professeur_required
-@minified_response
-#@gzip_page
-def dashboard(request):
-  c = {}
-  return render(request, 'professeurs/tableau-de-bord.html', c)
-
 @minified_response
 #@gzip_page
 def complete_profile(request):
@@ -74,7 +67,7 @@ def complete_profile(request):
       plaintext = get_template('../templates/emails/nouveau-prof-alert-fondateurs.txt')
       htmly     = get_template('../templates/emails/nouveau-prof-alert-fondateurs.html')
       subject, from_email = "Nouvelle inscription professeur - " + professeur.prenom + ' ' + professeur.nom, professeur.email
-      to = settings.EMAILS
+      to = [settings.EMAILS,]
       d = { 'professeur': professeur}
       text_content = plaintext.render(d)
       html_content = htmly.render(d)
@@ -88,6 +81,17 @@ def complete_profile(request):
     return render(request, 'professeurs/completer-profil.html', c)
   else :
     return HttpResponseRedirect(reverse('voir-profil-prof', kwargs={'pk':request.user.professeur.pk}))
+
+#################################################################
+###################### PROFESSEUR REQUIRED ######################
+#################################################################
+@professeur_required
+@minified_response
+#@gzip_page
+def dashboard(request):
+  print('oook')
+  c = {}
+  return render(request, 'professeurs/tableau-de-bord.html', c)
 
 @professeur_required
 @minified_response

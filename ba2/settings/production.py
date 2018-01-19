@@ -18,7 +18,7 @@ print("je suis en production !")
 EMAIL_HOST = 'smtp.sendgrid.com'
 EMAIL_PORT = 587
 EMAIL_USER_TLS = True
-EMAILS = ["pierre.collinet@passelapremiere.be", "info@blocusassistance.be", "pierre.boonen@passelapremiere.be"]
+EMAILS = "pierre.collinet@passelapremiere.be", "info@blocusassistance.be", "pierre.boonen@passelapremiere.be"
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 BASE_DIR     = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))

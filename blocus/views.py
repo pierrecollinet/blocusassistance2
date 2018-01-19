@@ -99,11 +99,12 @@ def checkout(request, pk):
           plaintext = get_template('../templates/emails/confirmation-inscription-paiement-online.txt')
           htmly     = get_template('../templates/emails/confirmation-inscription-paiement-online.html')
           subject, from_email = "Inscription au blocus assisté - "+inscription_obj.etudiant.prenom+inscription_obj.etudiant.nom , 'info@blocusassistance.be'
-          to = settings.EMAILS
+          to = [inscription_obj.etudiant.email,]
           d = {'inscription':inscription_obj}
           text_content = plaintext.render(d)
           html_content = htmly.render(d)
-          msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+          bcc = settings.EMAILS, inscription_obj.etudiant.email_parent1
+          msg = EmailMultiAlternatives(subject, text_content, from_email, to, bcc)
           msg.attach_alternative(html_content, "text/html")
           msg.send()
           return redirect("confirmation-inscription-blocus")
@@ -115,11 +116,12 @@ def checkout(request, pk):
         plaintext = get_template('../templates/emails/confirmation-inscription-virement.txt')
         htmly     = get_template('../templates/emails/confirmation-inscription-virement.html')
         subject, from_email = "Inscription au blocus assisté - "+inscription_obj.etudiant.prenom+inscription_obj.etudiant.nom , 'info@blocusassistance.be'
-        to = settings.EMAILS
+        to = [inscription_obj.etudiant.email,]
         d = {'inscription':inscription_obj}
         text_content = plaintext.render(d)
         html_content = htmly.render(d)
-        msg = EmailMultiAlternatives(subject, text_content, from_email, to)
+        bcc = settings.EMAILS, inscription_obj.etudiant.email_parent1
+        msg = EmailMultiAlternatives(subject, text_content, from_email, to, bcc)
         msg.attach_alternative(html_content, "text/html")
         msg.send()
         return redirect("confirmation-inscription-blocus")
