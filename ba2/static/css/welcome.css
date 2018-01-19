@@ -130,7 +130,10 @@
 
 }
 
-
+.flex {
+  display : flex;
+  flex-wrap: wrap;
+}
 
 .flex-box {
   height: 100%;
@@ -169,6 +172,7 @@ section {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 
 .custom-card {
   border-radius:4px;
@@ -273,5 +277,29 @@ section {
 
 .green {
   color:#2d822d;
+}
+
+.testimonial-press p {
+  font-size: 1.0em;
+}
+
+.testimonial-press a {
+  font-style:normal;
+}
+
+#div-join-team {
+position:absolute;
+left:0;
+bottom:0;
+}
+
+#btn-join-team {
+  margin:30px;
+}
+
+@media (max-width: 992px) {
+#div-join-team {
+  position :relative;
+}
 }
 
