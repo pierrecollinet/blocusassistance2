@@ -60,69 +60,69 @@ Détail du blocus {{ blocus.nom }}
           <div class="row">
           <h2>Présences</h2>
 
-            <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="col-md-3 center"></th>
-                        {% for jour in joursblocus %}
-                          <th class="col-md-1 center" style="line-height: 80%;">{{jour.get_name}}</th>
-                    {% endfor %}
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for inscrit in inscriptions %}
-                  <tr>
-                      <td class="col-md-3 center">{{forloop.counter}}. <a href="">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
-                        {% for jour in joursblocus %}
-                        {% for presence in inscrit.etudiant.presence_set.all %}
-                          {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date %}
-                            {% if presence.date == today %}
-                              {% if presence.present %}
-                                {% if presence.is_late %}
-                                  <td class="col-md-1 center warning" style="line-height: 80%;">
-                                {% else %}
-                                  <td class="col-md-1 center success" style="line-height: 80%;">
-                                {% endif %}
-                                <input type="checkbox" name="presence_id" value="{{presence.id}}" checked>
-                                <a href="">>> Détail {% if presence.is_late %}({{ presence.heure_arrivee|time:"H:i" }}){% endif %}</a>
-                              </td>
-                              {% else %}
-                              <td class="col-md-1 center danger" style="line-height: 80%;">
-                                <input type="checkbox" name="presence_id" value="{{presence.id}}">
-                                <a href="">>> Détail</a>
-                              </td>
-                              {% endif %}
-                            {% elif presence.present %}
-                                {% if presence.is_late %}
-                                  <td class="col-md-1 center warning" style="line-height: 80%;">
-                                    Présent ({{ presence.heure_arrivee|time:"H:i" }})<br>
-                                    <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                  </td>
-                                {% else %}
-                                  <td class="col-md-1 center success" style="line-height: 80%;">
-                                    Présent<br>
-                                    <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                  </td>
-                                {% endif %}
-                            {% else %}
-                            <td class="col-md-1 center danger" style="line-height: 80%;">
-                              Absent<br>
-                              <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                            </td>
-                            {% endif %}
-                          {% endif %}
-                    {% endfor %}
-                    {% endfor %}
-                  </tr>
-                  {% endfor %}
-                  <tr>
-                    <td>
-                      <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                      <a href="">Ajouter un étudiant </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+<table class="table table-bordered">
+    <thead>
+      <tr>
+        <th class="col-md-3 center"></th>
+            {% for jour in joursblocus %}
+              <th class="col-md-1 center" style="line-height: 80%;">{{jour.get_name}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for inscrit in inscriptions %}
+      <tr>
+          <td class="col-md-3 center">{{forloop.counter}}. <a href="">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
+            {% for jour in joursblocus %}
+            {% for presence in inscrit.etudiant.presence_set.all %}
+              {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date %}
+                {% if presence.date == today %}
+                  {% if presence.present %}
+                    {% if presence.is_late %}
+                      <td class="col-md-1 center warning" style="line-height: 80%;">
+                    {% else %}
+                      <td class="col-md-1 center success" style="line-height: 80%;">
+                    {% endif %}
+                    <input type="checkbox" name="presence_id" value="{{presence.id}}" checked>
+                    <a href="">>> Détail {% if presence.is_late %}({{ presence.heure_arrivee|time:"H:i" }}){% endif %}</a>
+                  </td>
+                  {% else %}
+                  <td class="col-md-1 center danger" style="line-height: 80%;">
+                    <input type="checkbox" name="presence_id" value="{{presence.id}}">
+                    <a href="">>> Détail</a>
+                  </td>
+                  {% endif %}
+                {% elif presence.present %}
+                    {% if presence.is_late %}
+                      <td class="col-md-1 center warning" style="line-height: 80%;">
+                        Présent ({{ presence.heure_arrivee|time:"H:i" }})<br>
+                        <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      </td>
+                    {% else %}
+                      <td class="col-md-1 center success" style="line-height: 80%;">
+                        Présent<br>
+                        <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      </td>
+                    {% endif %}
+                {% else %}
+                <td class="col-md-1 center danger" style="line-height: 80%;">
+                  Absent<br>
+                  <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </td>
+                {% endif %}
+              {% endif %}
+        {% endfor %}
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      <tr>
+        <td>
+          <i class="fa fa-plus-circle" aria-hidden="true"></i>
+          <a href="">Ajouter un étudiant </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
           <h2></h2>
           </div>
