@@ -7,7 +7,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 
-from .models import Campus, CampusImage, Universite, Faculte, Etude
+from .models import Campus, CampusImage, Universite, Faculte, Etude, TemoignageEleve
 
 class CampusImageInline(admin.TabularInline):
     model = CampusImage
@@ -52,5 +52,6 @@ admin.site.register(Campus, CampusAdmin)
 admin.site.register(Universite, UniversiteAdmin)
 admin.site.register(Faculte, FaculteAdmin)
 admin.site.register(Etude)
+admin.site.register(TemoignageEleve)
 
 

@@ -4080,7 +4080,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .hero-unit-animated .lead {
   font-size: 24px;
 }
-.hero-unit-animated .hero-button {
+/*.hero-unit-animated .hero-button {
   padding: 10px 40px;
   margin-top: 24px;
   background-color: #406da4;
@@ -4088,7 +4088,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 .hero-unit-animated .hero-button:hover, .hero-unit-animated .hero-button:focus {
   background-color: #3c6699;
-}
+}*/
 @media screen and (max-width: 1200px) {
   .hero-unit-animated .hero-left {
     max-width: 100%;
@@ -4163,11 +4163,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   font-size: 50px;
   color: #fff;
 }
-.hero-unit-slider .hero-button {
-  border: 3px solid #fff;
+.hero-button {
+  background-color:transparent;
+  border: 1px solid #fff;
   color: #fff;
 }
-.hero-unit-slider .hero-button:hover, .hero-unit-slider .hero-button:focus {
+.hero-button:hover, .hero-button:focus {
   background: #406da4;
   color: #fff;
 }

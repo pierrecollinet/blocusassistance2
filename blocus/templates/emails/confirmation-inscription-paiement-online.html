@@ -1,0 +1,59 @@
+{% extends "emails/base.html" %}
+
+{% block title %}INSCRIPTION CONFIRMEE - PAIEMENT EFFECTUE{% endblock %}
+
+        {% block content%}
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">Bonjour Pierre, </h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">Nous te confirmons ton inscription au blocus assisté. Ci-dessous, tu retrouveras toutes les informations pratiques et des consignes à réaliser impérativement avant le début du blocus.</p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">INFORMATIONS PRATIQUES</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">
+                <b>Dates :</b> <br>
+                {% for module in inscription.module.all %}
+                  - {{module}}<br>
+                {% endfor %}
+              </p>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">
+                <b>Horaire :</b> <br>
+                8h15 à 18h
+              </p>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">
+                <b>Adresse :</b> <br>
+                {{ inscription.campus.nom }}<br>
+                {{ inscription.campus.adresse }}<br>
+                Bus - Tram - Train
+              </p>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">
+                <b>Coaching :</b> <br>
+                Possibilité d'organiser une réunion (gratuite!) avant le blocus de manière à réaliser un premier planning, vérifier que les notes soient bien en ordre, discuter des difficultés rencontrées durant le quadrimestre,...<br>
+                Il faut simplement en faire la demande à l'adresse : info@blocusassistance.be
+              </p>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">
+                <b>Parrainage :</b> <br>
+                Partage ton code parrain à tes amis et reçoit 10% de réduction par personne qui s'inscrit en mentionnant ton nom ** <br>
+                code : # AJOUTER UN CODE
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">PLANNING</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">Pour bien commencer son blocus, il est impératif de réaliser un bon planning. De plus, en réalisant ton planning en ligne, nos coachs pourront suivre ton évolution et t'aider à atteindre tes objects.<br>
+              <a href="http://www.blocusassistance.be/">Réaliser mon planning en ligne</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        <p style="font-family: Helvetica, sans-serif; font-size: 10px; color: #7b7b7b; line-height: 22px;">** : la réduction liée au parrainage sera remboursée à la fin du blocus. Cette réduction s'applique uniquement aux nouveaux inscrits (première participation au blocus)
+        </p>
+
+        {% endblock %}
+
+

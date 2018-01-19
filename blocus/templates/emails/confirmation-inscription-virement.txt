@@ -1,0 +1,44 @@
+Bonjour Pierre,
+
+Nous avons bien reçu ta demande d'inscription pour le blocus assisté. Ci-dessous, tu retrouveras toutes les informations pratiques, les modalités de paiement et des consignes à réaliser impérativement avant le début du blocus.
+
+INFORMATIONS PRATIQUES
+  Dates :
+  {% for module in inscription.module.all %}
+    - {{module}}
+  {% endfor %}
+
+  Horaire :
+    8h15 à 18h
+
+  Adresse :
+    {{ inscription.campus.nom }}
+    {{ inscription.campus.adresse }}
+    Bus - Tram - Train
+
+  Coaching :
+    Possibilité d'organiser une réunion (gratuite!) avant le blocus de manière à réaliser un premier planning, vérifier que les notes soient biediscuter des difficultés rencontrées durant le quadrimestre,...
+    Il faut simplement en faire la demande à l'adresse : info@blocusassistance.be
+
+  Paiement :
+    Pour valider définitivement ton inscription, peux-tu verser la somme de {{ inscription.montant }} euros sur le compte suivant :
+    Numéro de compte BLOCUS ASSISTANCE ASBL
+    IBAN BE25 0689 0235 7782
+    Bic : GKCCBEBB
+    Communication :
+    {{ inscription.etudiant.nom }} + {{ inscription.etudiant.prenom }}
+    {{ inscription.blocus.nom }}
+
+  Parrainage :
+    Partage ton code parrain à tes amis et reçoit 10% de réduction par personne qui s'inscrit en mentionnant ton nom ** <br>
+    code : # AJOUTER UN CODE
+
+
+PLANNING
+  Pour bien commencer son blocus, il est impératif de réaliser un bon planning. De plus, en réalisant ton planning en ligne, nos coachs pourront suivre ton évolution et t'aider à atteindre tes objects.
+  Réaliser mon planning en ligne : http://www.blocusassistance.be
+
+
+** : la réduction liée au parrainage sera remboursée à la fin du blocus. Cette réduction s'applique uniquement aux nouveaux inscrits (première participation au blocus)
+
+

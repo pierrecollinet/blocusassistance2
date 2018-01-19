@@ -26,6 +26,7 @@ class InscriptionBlocusModelForm(forms.ModelForm):
         exclude = ('etudiant','blocus','montant', 'is_paid', 'date_inscription', 'suivi_inscription')
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         super(InscriptionBlocusModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'
@@ -41,10 +42,16 @@ class InscriptionBlocusModelForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
 
     def clean(self):
+        print(self)
         cleaned_data=super(InscriptionBlocusModelForm, self).clean()
         modules = cleaned_data.get('module')
         if not modules:
           raise forms.ValidationError("Il faut sélectionner au moins un module")
+
+        else :
+          for mod in modules :
+            if len(InscriptionBlocus.objects.filter(etudiant=self.request.user.etudiant, module__id__in=modules)) > 0:
+              raise forms.ValidationError("Tu es déjà inscrit à l'un de ces modules")
         return cleaned_data
 
 

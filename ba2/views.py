@@ -49,6 +49,12 @@ def a_propos(request):
   c = {}
   return render(request, 'a-propos.html', c)
 
+@minified_response
+#@gzip_page
+def success(request):
+  c = {'title': "Nous avons bien reçu votre demande",'texte': "Le responsable pédagogique prendra contact avec vous dans les plus brefs délais"}
+  return render(request, 'success.html', c)
+
 
 @minified_response
 #@gzip_page
