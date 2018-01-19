@@ -1,3 +1,79 @@
 {% extends "professeurs/base.html" %}
 
-<h1>Tableau de bord</h1>
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+Tableau de bord de {{request.user.username}}
+{% endblock %}
+
+{% block base_head %}
+<link rel='stylesheet' href="{% static 'css/main.css' %}" >
+<link rel='stylesheet' href="{% static 'css/dashboard.css' %}" >
+
+<!--
+  <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
+
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://dwj199mwkel52.cloudfront.net/assets/favicon-9e84d1cd6dffd89d572b8c6a542cadda0b2091f8fc65f9cc1f09f09ca363bb19.png" type="image/png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta property="og:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.lewagon.com/fr" />
+  <meta property="og:image" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg" />
+  <meta property="og:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+" />
+  <meta property="og:site_name" content="Le Wagon" />
+  <meta property="fb:admins" content="548348576" />
+  <meta property="fb:app_id" content="737501859652485" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Lewagonparis">
+  <meta name="twitter:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails">
+  <meta name="twitter:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+">
+  <meta name="twitter:creator" content="@Lewagonparis">
+  <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
+!-->
+
+{% endblock %}
+
+{% block content %}
+  <div class="row ">
+    <div class="col-md-3"></div>
+    <div class="col-xs-12 col-md-6">
+      <div class='dashboard-title text-center'>
+          <h1>Tableau de bord</h1>
+          <div style="text-align:left">
+            <h2>Mon profil</h2>
+            <ul>
+              <li><a href="{% url 'modifier-profil-prof' %}">Modifier mon profil</a></li>
+              <li><a href="{% url 'voir-profil-prof' pk=request.user.professeur.pk %}">Voir mon profil</a></li>
+            </ul>
+
+            <h2>Mes blocus</h2>
+            <ul>
+              <li>
+                <a href="">Accueil "Mes blocus"</a>
+                <ul>
+                  {% for profblocus in professeur.professeurblocus_set.all %}
+                  <li>{% if profblocus.blocus.archived %}{{ profblocus.blocus.nom }} - Archivé{% else %}<a href="{% url 'detail-blocus' pk=profblocus.blocus.pk %}">{{ profblocus.blocus.nom }} - Actuel{% endif %}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li><a href="">Gestion présence</a></li>
+              <li><a href="">Mes revenus</a></li>
+              <li><a href="">Mes stats</a></li>
+              <li><a href="">Mes élèves</a></li>
+            </ul>
+
+            <h2>Mes cours particuliers</h2>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
