@@ -22,7 +22,7 @@ class ProfesseurModelForm(forms.ModelForm):
 
     class Meta:
         model = Professeur
-        exclude = ('user',)
+        exclude = ('user','active')
 
     def __init__(self, *args, **kwargs):
         super(ProfesseurModelForm, self).__init__(*args, **kwargs)

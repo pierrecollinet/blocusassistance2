@@ -12,6 +12,7 @@ from django.db import transaction
 from datetime import timedelta
 import datetime
 
+#from blocus.models import Blocus, ModuleBlocus
 
 class Campus(models.Model):
     nom  = models.CharField(max_length=200)
@@ -30,6 +31,8 @@ class Campus(models.Model):
     def get_images(self):
         imgs = self.campusimage_set.all()
         return imgs
+
+
 
 def image_upload_to(instance, filename):
     title = instance.campus.nom

@@ -15,11 +15,13 @@ import datetime
 # Models from intern apps
 from ba2.models import Campus
 from etudiants.models import Etudiant
+from professeurs.models import Professeur
+
 
 periodes = (('noel','Noël'),('paques','Pâques'),('mai','Mai'),('juillet','Juillet/Août'),)
 class Blocus(models.Model):
     nom = models.CharField(max_length=200)
-    campus = models.ManyToManyField(Campus, blank=False)
+    campus = models.ManyToManyField('ba2.Campus', blank=False)
     date_debut = models.DateField(blank=True, null=True)
     date_fin = models.DateField(blank=True, null=True)
     periode = models.CharField(max_length=200, choices=periodes, blank=True)
@@ -36,6 +38,14 @@ class Blocus(models.Model):
             total += float(inscription.montant)
         return total
 
+STATUTS = (('professeur','Professeur'),('responsable','Responsable'),('nouveau_prof','Nouveau Prof'))
+class ProfesseurBlocus(models.Model):
+  professeur = models.ForeignKey(Professeur)
+  blocus = models.ForeignKey(Blocus)
+  statut = models.CharField(max_length=50, choices = STATUTS, default="professeur")
+
+  def __str__(self):
+    return self.professeur.prenom + ' ' + self.professeur.nom
 # post save MODULE and PRESENCEJOURBLOCUS
 def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
     campus = instance.campus.all()
@@ -116,7 +126,7 @@ class ModuleBlocus(models.Model):
   date_fin = models.DateField()
   prix = models.CharField(max_length=200)
   blocus = models.ForeignKey(Blocus)
-  campus = models.ManyToManyField(Campus, blank=True, null=True)
+  campus = models.ManyToManyField(Campus)
   sem_or_we = models.CharField(max_length=200, choices=sem_or_we, default='sem')
 
   objects = ModuleBlocusManager()
@@ -134,6 +144,11 @@ class ModuleBlocus(models.Model):
     else :
         name = self.nom +' - du '+ str(self.date_debut.strftime('%d/%m/%Y'))+ ' au '+str(self.date_fin.strftime('%d/%m/%Y'))
     return str(name)
+
+  def get_date_debut(self):
+    return datetime.date(self.date_debut.year,self.date_debut.month,self.date_debut.day)
+  def get_date_fin(self):
+    return datetime.date(self.date_fin.year,self.date_fin.month,self.date_fin.day)
 
 
 class PresenceJourBlocus(models.Model):
@@ -173,9 +188,56 @@ class InscriptionBlocus(models.Model):
       for mod in self.module.all():
         total += float(mod.prix)
       return total
+def post_save_inscription_model_receiver(sender, instance, created, *args, **kwargs):
+    modules = instance.module.all()
+    etudiant = instance.etudiant
+    for module in modules :
+        date_debut = datetime.date(module.date_debut.year,module.date_debut.month,module.date_debut.day)
+        date_fin = datetime.date(module.date_fin.year,module.date_fin.month,module.date_fin.day)
+        delta = date_fin - date_debut
+
+        for i in range(delta.days + 1):
+            date = date_debut + timedelta(days=i)
+            try:
+                jourblocus = PresenceJourBlocus.objects.get(
+                                                           campus=instance.campus,
+                                                           blocus=instance.blocus,
+                                                           date=date
+                                                           )
+                presence, created = Presence.objects.get_or_create(
+                                                          etudiant=etudiant,
+                                                          date=date,
+                                                          inscription=instance,
+                                                          jourblocus = jourblocus
+                                                          )
+                presence.jourblocus = jourblocus
+                presence.save()
+            except:
+                pass
+post_save.connect(post_save_inscription_model_receiver, sender=InscriptionBlocus)
 
 
+STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'), )
+class Presence(models.Model):
+    etudiant = models.ForeignKey(Etudiant)
+    date = models.DateField()
+    heure_arrivee = models.TimeField(default="08:30")
+    statut = models.CharField(max_length=30, default="absent", choices=STATUTS)
+    inscription = models.ForeignKey(InscriptionBlocus)
+    jourblocus = models.ForeignKey(PresenceJourBlocus)
+    commentaire = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.etudiant.prenom + ' ' + self.etudiant.nom + '(' + self.statut + ')'
+
+    def is_late(self):
+      heure_arrivee = self.heure_arrivee
+      start_time    = datetime.time(8, 30, 0)
+      if heure_arrivee > start_time :
+        bool = True
+      else :
+        bool = False
+      return bool
 
 
 

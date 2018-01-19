@@ -35,7 +35,7 @@ def inscription_suiviintensif(request):
     plaintext = get_template('../templates/emails/confirmation-demande-info-suivi-intensif.txt')
     htmly     = get_template('../templates/emails/confirmation-demande-info-suivi-intensif.html')
     subject, from_email = "Demande d'information - Suivi intensif", 'info@blocusassistance.be'
-    to = settings.EMAILS
+    to = [settings.EMAILS,]
     d = {'demande':demande}
     text_content = plaintext.render(d)
     html_content = htmly.render(d)
