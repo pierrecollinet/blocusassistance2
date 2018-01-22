@@ -217,31 +217,31 @@ def post_save_inscription_model_receiver(sender, instance, created, *args, **kwa
 post_save.connect(post_save_inscription_model_receiver, sender=InscriptionBlocus)
 
 
+# STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'), )
+# class Presence(models.Model):
+#     etudiant = models.ForeignKey(Etudiant)
+#     date = models.DateField()
+#     heure_arrivee = models.TimeField(default="08:30")
+#     statut = models.CharField(max_length=30, default="absent", choices=STATUTS)
+#     inscription = models.ForeignKey(InscriptionBlocus)
+#     jourblocus = models.ForeignKey(PresenceJourBlocus)
+#     commentaire = models.TextField(blank=True)
+
+#     def __str__(self):
+#         return self.etudiant.prenom + ' ' + self.etudiant.nom + '(' + self.statut + ')'
+
+#     def is_late(self):
+#       heure_arrivee = self.heure_arrivee
+#       start_time    = datetime.time(8, 30, 0)
+#       if heure_arrivee > start_time :
+#         bool = True
+#       else :
+#         bool = False
+#       return bool
+
+
 STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'), )
 class Presence(models.Model):
-    etudiant = models.ForeignKey(Etudiant)
-    date = models.DateField()
-    heure_arrivee = models.TimeField(default="08:30")
-    statut = models.CharField(max_length=30, default="absent", choices=STATUTS)
-    inscription = models.ForeignKey(InscriptionBlocus)
-    jourblocus = models.ForeignKey(PresenceJourBlocus)
-    commentaire = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.etudiant.prenom + ' ' + self.etudiant.nom + '(' + self.statut + ')'
-
-    def is_late(self):
-      heure_arrivee = self.heure_arrivee
-      start_time    = datetime.time(8, 30, 0)
-      if heure_arrivee > start_time :
-        bool = True
-      else :
-        bool = False
-      return bool
-
-
-STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'), )
-class Presence1(models.Model):
     etudiant = models.ForeignKey(Etudiant)
     date = models.DateField()
     heure_arrivee = models.TimeField(default="08:30")
