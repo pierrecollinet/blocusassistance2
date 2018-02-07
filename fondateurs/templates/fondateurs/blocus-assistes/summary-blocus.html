@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block base_head %}
+
+<link rel='stylesheet' href="{% static 'css/welcome.css' %}" >
+<link rel='stylesheet' href="{% static 'css/fondateurs-style.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+  <div class="light-gray">
+    <div class="page-header">
+      <div class="container">
+        <h1 class="page-title pull-left">Récapitulatif Blocus - {{ blocus }} </h1>
+        <ol class="breadcrumb">
+          <li><a href="/">Accueil</a></li>
+          <li><a href="{% url 'fondateurs-dashboard'%}">Tableau de bord</a></li>
+          <li class="active"><a href="">{{ blocus }}</a></li>
+        </ol>
+      </div>
+    </div>
+    <!-- END BREADCRUMBS -->
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+      <div class="container">
+        <section">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>INSCRIT</th>
+                <th>EMAIL</th>
+                <th>UNIVERSITE</th>
+                <th>FACULTE</th>
+                <th>ETUDE</th>
+                <th>ANNEE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for inscrit in blocus.inscriptionblocus_set.all %}
+                <tr class="{% if inscrit.is_paid %}success{% else %}danger{% endif %}">
+                  <td><a href="">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }}</a></td>
+                  <td>{{ inscrit.etudiant.email }}</td>
+                  <td>{{ inscrit.etudiant.universite }}</td>
+                  <td>{{ inscrit.etudiant.faculte }}</td>
+                  <td>{{ inscrit.etudiant.etude }}</td>
+                  <td>{{ inscrit.etudiant.annee }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <a href="/admin/blocus/inscriptionblocus/?blocus__id__exact={{ blocus.pk }}">Show in admin</a>
+        </section>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

@@ -25,7 +25,7 @@ class InscriptionBlocusAdmin(admin.ModelAdmin):
     class Meta:
         Etudiant
     filter_horizontal = ("module",)
-    list_display = ['etudiant', 'code_promo', 'is_paid','campus', 'origine','suivi_inscription', 'date_inscription', 'get_email']
+    list_display = ['etudiant',  'is_paid', 'code_promo','campus', 'origine','suivi_inscription', 'date_inscription', 'get_email']
     list_filter = ['is_paid','campus','origine','blocus',]
     ordering = ['etudiant']
  #   actions = [make_paid]
@@ -42,6 +42,6 @@ class PresenceAdmin(admin.ModelAdmin):
 admin.site.register(Blocus, BlocusAdmin)
 admin.site.register(ModuleBlocus, ModuleBlocusAdmin)
 admin.site.register(PresenceJourBlocus)
-admin.site.register(InscriptionBlocus)
+admin.site.register(InscriptionBlocus, InscriptionBlocusAdmin)
 admin.site.register(ProfesseurBlocus, ProfesseurBlocusAdmin)
 admin.site.register(Presence, PresenceAdmin)

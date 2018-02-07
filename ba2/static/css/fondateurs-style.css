@@ -1,0 +1,20 @@
+.main-dashboard {
+  padding-top:100px;
+}
+.custom-row {
+  display: flex; /* equal height of the children */
+}
+
+.custom-card {
+  flex: 1; /* additionally, equal width */
+  padding: 1em;
+}
+
+@media(max-width: 720px) {
+  .custom-row {
+    display:block;
+  }
+  .custom-card {
+    margin: 20px 0px;
+  }
+}
