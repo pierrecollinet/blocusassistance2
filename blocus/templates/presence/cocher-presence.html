@@ -48,7 +48,7 @@ Détail du blocus {{ blocus.nom }}
         <ol class="breadcrumb">
           <li><a href="{% url 'accueil-prof' %}"">Accueil Professeur</a></li>
           <li><a href="{% url 'tableau-de-bord-professeurs' %}">Mon dashboard</a></li>
-          <li class="active">Présences</li>
+          <li class="active">Présences - </li>
         </ol>
       </div>
     </div>
@@ -58,7 +58,7 @@ Détail du blocus {{ blocus.nom }}
       <div class="container">
         <section">
           <div class="row">
-          <h2>Présences</h2>
+          <h2>Présences {{ module }} ({{ campus }})</h2>
 
 <table class="table table-bordered">
     <thead>
@@ -72,12 +72,12 @@ Détail du blocus {{ blocus.nom }}
     <tbody>
       {% for inscrit in inscriptions %}
       <tr>
-          <td class="col-md-3 center">{{forloop.counter}}. <a href="">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
+          <td class="col-md-3 center">{{forloop.counter}}. <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
             {% for jour in joursblocus %}
             {% for presence in inscrit.etudiant.presence_set.all %}
               {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date %}
                 {% if presence.date == today %}
-                  {% if presence.present %}
+                  {% if presence.statut == 'present' %}
                     {% if presence.is_late %}
                       <td class="col-md-1 center warning" style="line-height: 80%;">
                     {% else %}
@@ -92,23 +92,28 @@ Détail du blocus {{ blocus.nom }}
                     <a href="">>> Détail</a>
                   </td>
                   {% endif %}
-                {% elif presence.present %}
-                    {% if presence.is_late %}
-                      <td class="col-md-1 center warning" style="line-height: 80%;">
-                        Présent ({{ presence.heure_arrivee|time:"H:i" }})<br>
-                        <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                      </td>
-                    {% else %}
+                {% else %}
+                    {% if presence.statut == 'present' %}
                       <td class="col-md-1 center success" style="line-height: 80%;">
                         Présent<br>
-                        <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk  %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      </td>
+                    {% elif presence.statut == 'absent' %}
+                      <td class="col-md-1 center danger" style="line-height: 80%;">
+                        Absent<br>
+                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      </td>
+                    {% elif presence.statut == 'retard' %}
+                      <td class="col-md-1 center warning" style="line-height: 80%;">
+                        Retard - {{ presence.heure_arrivee|time:"H:i" }}<br>
+                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                      </td>
+                    {% elif presence.statut == 'absent_justifie' %}
+                      <td class="col-md-1 center info" style="line-height: 80%;">
+                        Absence justifiée<br>
+                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                       </td>
                     {% endif %}
-                {% else %}
-                <td class="col-md-1 center danger" style="line-height: 80%;">
-                  Absent<br>
-                  <a href=""><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                </td>
                 {% endif %}
               {% endif %}
         {% endfor %}

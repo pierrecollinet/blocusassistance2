@@ -27,7 +27,6 @@ from etudiants.forms import EtudiantModelForm, EtudiantFullModelForm
 
 def etudiant_required(function):
     def wrapper(request, *args, **kwargs):
-        print(request.GET)
         decorated_view_func = login_required(request)
         if not decorated_view_func.user.is_authenticated():
             return decorated_view_func(request)  # return redirect to signin

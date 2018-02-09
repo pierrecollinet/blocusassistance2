@@ -27,7 +27,7 @@ from etudiants.models import Etudiant
 from billing.models import BillingProfile
 
 # import forms
-from blocus.forms import InscriptionBlocusModelForm
+from blocus.forms import InscriptionBlocusModelForm, PresenceModelForm, Presence
 
 from etudiants.views import etudiant_required
 from professeurs.views import professeur_required
@@ -166,8 +166,20 @@ def cocher_presence(request, pk_campus, pk_module):
                                                     date__gte=module.get_date_debut(),
                                                     date__lte=module.get_date_fin()
                                                   )
-  c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today}
+  c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
   return render(request, "presence/cocher-presence.html", c)
+
+@professeur_required
+def detail_presence(request, pk, pk_module):
+  presence = Presence.objects.get(pk = pk)
+  form = PresenceModelForm(request.POST or None, instance = presence)
+  if form.is_valid():
+    form.save()
+    pk_module = request.POST['pk_module']
+    pk_campus = request.POST['pk_campus']
+    return redirect("cocher-presence", pk_campus = pk_campus, pk_module = pk_module)
+  return render(request, 'presence/detail_presence.html', {'presence':presence,'form':form, 'pk_module':pk_module})
+
 
 
 # AJAX

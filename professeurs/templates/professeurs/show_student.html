@@ -1,0 +1,71 @@
+{% extends "professeurs/base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}
+Voir le profil de {{etudiant.prenom}} {{etudiant.nom}}
+{% endblock %}
+
+{% block base_head %}
+<link rel='stylesheet' href="{% static 'css/main.css' %}" >
+<link rel='stylesheet' href="{% static 'css/dashboard.css' %}" >
+
+
+<link rel='stylesheet' href="{% static 'css/welcome.css' %}" >
+<link rel='stylesheet' href="{% static 'css/fondateurs-style.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+  <div class="row ">
+    {% if etudiant.photo_profil %}
+    <div class="col-md-3">
+      <img src="{{ etudiant.photo_profil.url }}" alt="" width=100% style="height:200px;width:200px; object-fit: cover;border-radius: 50%;">
+    </div>
+    {% else %}
+    <div class="col-md-3"></div>
+    {% endif %}
+    <div class="col-xs-12 col-md-6">
+      <div class='dashboard-title text-center'>
+          <h1>Profil de {{etudiant.prenom}} {{etudiant.nom}}</h1>
+          <div class="">
+            <table class="table">
+              <tr>
+                <td>Nom</td>
+                <td>{{etudiant.nom}}</td>
+              </tr>
+              <tr>
+                <td>Prénom</td>
+                <td>{{etudiant.prenom}}</td>
+              </tr>
+              <tr>
+                <td>Université</td>
+                <td>{{etudiant.universite}}</td>
+              </tr>
+              <tr>
+                <td>Faculte</td>
+                <td>{{etudiant.faculte}}</td>
+              </tr>
+              <tr>
+                <td>Etude</td>
+                <td>{{etudiant.etude}}</td>
+              </tr>
+              <tr>
+                <td>Année</td>
+                <td>{{etudiant.annee}}</td>
+              </tr>
+              <tr>
+                <td>GSM</td>
+                <td>{{etudiant.gsm}}</td>
+              </tr>
+            </table>
+          <a class="btn btn-info" href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">Compléter le profil</a><br>
+          <a href="{% url 'tableau-de-bord-professeurs' %}">Retour à mon dashboard</a>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

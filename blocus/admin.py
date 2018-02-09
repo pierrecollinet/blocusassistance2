@@ -10,6 +10,7 @@ from .models import Blocus, ModuleBlocus, PresenceJourBlocus, InscriptionBlocus,
 from etudiants.models import Etudiant
 class BlocusAdmin(admin.ModelAdmin):
     model = Blocus
+    list_display = ['nom', 'is_current', ]
     filter_horizontal = ("campus",)
 
 class ProfesseurBlocusAdmin(admin.ModelAdmin):
