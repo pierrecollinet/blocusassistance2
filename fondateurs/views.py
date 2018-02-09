@@ -20,6 +20,7 @@ from htmlmin.decorators import minified_response
 
 # import models
 from ba2.models import Campus, Universite, Faculte, Etude
+from blocus.models import Blocus
 
 def fondateur_required(function):
     def wrapper(request, *args, **kwargs):
@@ -40,5 +41,18 @@ def fondateur_required(function):
 @minified_response
 #@gzip_page
 def dashboard(request):
-  c = {}
+  blocus = Blocus.objects.all()
+  c = {'blocus':blocus}
   return render(request, 'fondateurs/dashboard.html', c)
+
+@fondateur_required
+@minified_response
+#@gzip_page
+def summary_blocus(request,pk):
+  blocus = Blocus.objects.get(pk=pk)
+  c = {'blocus':blocus}
+  return render(request, 'fondateurs/blocus-assistes/summary-blocus.html',c)
+
+
+
+

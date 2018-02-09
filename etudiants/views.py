@@ -27,7 +27,6 @@ from etudiants.forms import EtudiantModelForm, EtudiantFullModelForm
 
 def etudiant_required(function):
     def wrapper(request, *args, **kwargs):
-        print(request.GET)
         decorated_view_func = login_required(request)
         if not decorated_view_func.user.is_authenticated():
             return decorated_view_func(request)  # return redirect to signin
@@ -69,7 +68,7 @@ def complete_profile(request):
       user.last_name = etudiant.nom
       user.email = etudiant.email
       user.save()
-      if request.POST and 'next_url' in request.POST :
+      if request.POST and 'next_url' in request.POST and request.POST["next_url"] != "":
         return HttpResponseRedirect(request.POST["next_url"])
       return HttpResponseRedirect(reverse('inscription_blocus'))
     c = {'form':form, 'next_url':next_url}

@@ -22,14 +22,16 @@ from htmlmin.decorators import minified_response
 # import models
 #from .models import Campus
 from ba2.models import Campus
-from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus
+from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus,PresenceJourBlocus
 from etudiants.models import Etudiant
 from billing.models import BillingProfile
 
 # import forms
-from blocus.forms import InscriptionBlocusModelForm
+from blocus.forms import InscriptionBlocusModelForm, PresenceModelForm, Presence
 
 from etudiants.views import etudiant_required
+from professeurs.views import professeur_required
+
 
 import stripe
 STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY")
@@ -46,12 +48,23 @@ def inscription_blocus(request):
     new_inscription = form.save(commit=False)
     new_inscription.etudiant = request.user.etudiant
     new_inscription.blocus = Blocus.objects.filter(is_current = True).first()
-    new_inscription.montant = 0
-    new_inscription.save()
-    new_inscription.module = form.cleaned_data['module']
-    new_inscription.save()
-    new_inscription.montant = new_inscription.calculate_total_price()
-    new_inscription.save()
+    # Si cet étudiant a déjà une inscription, on l'update
+    if len(InscriptionBlocus.objects.filter(blocus = new_inscription.blocus, etudiant = request.user.etudiant, campus = form.cleaned_data['campus']))>0 :
+      inscription = InscriptionBlocus.objects.get(blocus = new_inscription.blocus, etudiant = request.user.etudiant, campus = form.cleaned_data['campus'])
+      for mod in form.cleaned_data['module']:
+        inscription.module.add(mod)
+      inscription.save()
+      inscription.montant = inscription.calculate_total_price()
+      inscription.save()
+      new_inscription = inscription
+    # Sinon, on crée une nouvelle
+    else :
+      new_inscription.montant = 0
+      new_inscription.save()
+      new_inscription.module = form.cleaned_data['module']
+      new_inscription.save()
+      new_inscription.montant = new_inscription.calculate_total_price()
+      new_inscription.save()
     c = {'inscription':new_inscription}
     return redirect('checkout', pk = new_inscription.pk)
   c = {'form':form}
@@ -115,7 +128,7 @@ def checkout(request, pk):
         plaintext = get_template('../templates/emails/confirmation-inscription-virement.txt')
         htmly     = get_template('../templates/emails/confirmation-inscription-virement.html')
         subject, from_email = "Inscription au blocus assisté - "+inscription_obj.etudiant.prenom+inscription_obj.etudiant.nom , 'info@blocusassistance.be'
-        to = settings.EMAILS
+        to = [settings.EMAILS,]
         d = {'inscription':inscription_obj}
         text_content = plaintext.render(d)
         html_content = htmly.render(d)
@@ -132,7 +145,40 @@ def checkout(request, pk):
     }
     return render(request, "checkout.html", context)
 
+@professeur_required
+@minified_response
+def imprimer_planning(request, pk_campus, pk_module):
+  campus = Campus.objects.get(pk = pk_campus)
+  module = ModuleBlocus.objects.get(pk = pk_module)
+  c = {}
+  return render(request, "presence/imprimer-presence.html", c)
 
+from datetime import date
+@professeur_required
+@minified_response
+def cocher_presence(request, pk_campus, pk_module):
+  campus = Campus.objects.get(pk = pk_campus)
+  module = ModuleBlocus.objects.get(pk = pk_module)
+  today = date.today()
+  inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module).order_by('etudiant__prenom')
+  joursblocus = PresenceJourBlocus.objects.filter(campus=campus,
+                                                    blocus=Blocus.objects.get(is_current=True),
+                                                    date__gte=module.get_date_debut(),
+                                                    date__lte=module.get_date_fin()
+                                                  )
+  c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
+  return render(request, "presence/cocher-presence.html", c)
+
+@professeur_required
+def detail_presence(request, pk, pk_module):
+  presence = Presence.objects.get(pk = pk)
+  form = PresenceModelForm(request.POST or None, instance = presence)
+  if form.is_valid():
+    form.save()
+    pk_module = request.POST['pk_module']
+    pk_campus = request.POST['pk_campus']
+    return redirect("cocher-presence", pk_campus = pk_campus, pk_module = pk_module)
+  return render(request, 'presence/detail_presence.html', {'presence':presence,'form':form, 'pk_module':pk_module})
 
 
 
@@ -179,5 +225,14 @@ def ajax_calculate_price(request):
         return JsonResponse(data)
     else :
         raise Http404
+
+
+@professeur_required
+@minified_response
+#@gzip_page
+def detail_blocus(request, pk):
+  blocus = Blocus.objects.get(pk=pk)
+  c = {'blocus':blocus}
+  return render(request, 'detail_blocus.html', c)
 
 

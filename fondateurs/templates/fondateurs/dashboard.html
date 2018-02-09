@@ -1,13 +1,69 @@
 {% extends "base.html" %}
+{% load static %}
 
+{% block base_head %}
+
+<link rel='stylesheet' href="{% static 'css/welcome.css' %}" >
+<link rel='stylesheet' href="{% static 'css/fondateurs-style.css' %}" />
+
+{% endblock %}
 
 {% block content %}
-<div class='row'>
-<div class='col text-center'>
+  <div class="light-gray">
+    <div class="page-header">
+      <div class="container">
+        <h1 class="page-title pull-left">Dashboard fondateurs</h1>
+        <ol class="breadcrumb">
+          <li><a href="/">Accueil</a></li>
+          <li class="active"><a href="{% url 'fondateurs-dashboard'%}">Tableau de bord</a></li>
+        </ol>
+      </div>
+    </div>
+    <!-- END BREADCRUMBS -->
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+      <div class="container">
+        <section">
 
-    <h1>Dashboard Fondateurs</h1>
+          <div class="custom-row row">
+            <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
+              <h2>Les blocus</h2>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>C.A</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for b in blocus %}
+                  <tr>
+                    <td><a href="{% url 'blocus-assistes-summary' pk=b.pk %}">{{ b }}</a></td>
+                    <td>{{ b.calcul_ca }} &euro;</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
+              <h2>Les cours particuliers</h2>
+            </div>
+          </div>
 
-</div>
-</div>
+          <div class="custom-row row">
+            <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
+              <h2>Les suivis intensifs</h2>
+            </div>
+            <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
+              <h2>Autres...</h2>
+            </div>
+          </div>
+
+
+        </section>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
 

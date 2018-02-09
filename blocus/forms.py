@@ -15,7 +15,7 @@ from crispy_forms.bootstrap import InlineRadios, InlineCheckboxes
 import datetime
 
 # import models
-from blocus.models import InscriptionBlocus
+from blocus.models import InscriptionBlocus, Presence
 
 choices_origine=(('facebook','Facebook'),('mail', 'Mail'),('ancien étudiant', 'Je suis un ancien étudiant'), ('radio', 'A la radio'),('google','Google'),('presse','Dans la presse'),('autre','Autre'))
 class InscriptionBlocusModelForm(forms.ModelForm):
@@ -55,7 +55,32 @@ class InscriptionBlocusModelForm(forms.ModelForm):
         return cleaned_data
 
 
+class PresenceModelForm(forms.ModelForm):
+    heure_arrivee = forms.TimeField(initial=datetime.time(9, 00), required=True, widget=forms.TimeInput(format='%H:%M', attrs={'class': 'timepicker','placeholder': "A quelle h commences-tu?"}), input_formats=('%H:%M',))
 
+    class Meta:
+        model = Presence
+        fields = ('statut','commentaire','heure_arrivee')
+
+    def __init__(self, *args, **kwargs):
+        super(PresenceModelForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+        self.helper.form_class = 'form-horizontal'
+        self.helper.layout = Layout(
+                                Field('statut'),
+                                Field('commentaire'),
+                                Field('heure_arrivee'),
+                                )
+        self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
+
+    def clean(self):
+        cleaned_data=super(PresenceModelForm, self).clean()
+        heure_arrivee = cleaned_data.get('heure_arrivee')
+        statut = cleaned_data.get('statut')
+        if statut == "retard" and heure_arrivee <= datetime.time(9, 0) :
+          raise forms.ValidationError("Avant 9h, ce n'est pas considéré comme un retard... Soyons indulgent ! ")
+        return cleaned_data
 
 
 

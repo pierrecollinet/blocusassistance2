@@ -74,6 +74,7 @@ class EtudiantFullModelForm(forms.ModelForm):
         model = Etudiant
         exclude = ('user','vip','active')
 
+
     def __init__(self, *args, **kwargs):
         super(EtudiantFullModelForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -81,6 +82,7 @@ class EtudiantFullModelForm(forms.ModelForm):
         self.helper.layout = Layout(
                                 Field('nom'),
                                 Field('prenom'),
+                                Field('email'),
                                 Field('gsm'),
                                 Field('annee'),
                                 Field('universite'),

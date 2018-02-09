@@ -8,7 +8,7 @@ Profil de {{request.user.username}}
 
 {% block base_head %}
 <link rel='stylesheet' href="{% static 'css/main.css' %}" >
-
+<link rel='stylesheet' href="{% static 'css/dashboard.css' %}" >
 <!--
   <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
 
@@ -43,8 +43,31 @@ Profil de {{request.user.username}}
     <div class="col-md-3"></div>
     <div class="col-xs-12 col-md-6">
       <div class='text-center'>
-          <h1>Voir mon profil ({{ professeur.prenom }})</h1>
-          <a href="{% url 'modifier-profil-prof' %}">Modifier mon profil</a>
+          <h1 class="dashboard-title">Voir mon profil ({{ professeur.prenom }})</h1>
+          <table class="table">
+            <tr>
+              <td>Nom</td>
+              <td>{{ professeur.nom }}</td>
+            </tr>
+            <tr>
+              <td>Prénom</td>
+              <td>{{ professeur.prenom }}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>{{ professeur.email }}</td>
+            </tr>
+            <tr>
+              <td>Gsm</td>
+              <td>{{ professeur.gsm }}</td>
+            </tr>
+            <tr>
+              <td>Université</td>
+              <td>{{ professeur.universite }}</td>
+            </tr>
+          </table>
+          <a href="{% url 'modifier-profil-prof' %}">Modifier mon profil</a><br>
+          <a href="{% url 'tableau-de-bord-professeurs' %}">Retour à mon dashboard</a>
       </div>
     </div>
   </div>

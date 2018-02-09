@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.urls import reverse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template.loader import get_template
 from django.template import Context
 
@@ -21,9 +21,11 @@ from django.conf import settings
 # import models
 #from .models import Campus
 from professeurs.models import Professeur
+from etudiants.models import Etudiant
 
 #import forms
 from professeurs.forms import ProfesseurModelForm
+from etudiants.forms import EtudiantFullModelForm
 
 @minified_response
 #@gzip_page
@@ -50,7 +52,8 @@ def professeur_required(function):
 @minified_response
 #@gzip_page
 def dashboard(request):
-  c = {}
+  professeur = request.user.professeur
+  c = {'professeur':professeur}
   return render(request, 'professeurs/tableau-de-bord.html', c)
 
 @minified_response
@@ -96,6 +99,26 @@ def show_profile(request, pk):
   professeur = Professeur.objects.get(pk=pk)
   c = {'professeur':professeur}
   return render(request, 'professeurs/voir-profil.html', c)
+
+@professeur_required
+@minified_response
+#@gzip_page
+def show_student(request, pk):
+  etudiant = Etudiant.objects.get(pk=pk)
+  c = {'etudiant':etudiant}
+  return render(request, 'professeurs/show_student.html', c)
+
+@professeur_required
+@minified_response
+#@gzip_page
+def complete_profile_student(request, pk):
+  etudiant = Etudiant.objects.get(pk=pk)
+  form = EtudiantFullModelForm(request.POST or None , request.FILES or None, instance = etudiant)
+  if form.is_valid():
+    form.save()
+    return redirect("tableau-de-bord-professeurs")
+  c = {'etudiant':etudiant, 'form':form}
+  return render(request, 'professeurs/completer_profil_etudiant.html', c)
 
 @professeur_required
 @minified_response
