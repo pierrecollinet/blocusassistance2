@@ -43,6 +43,7 @@ class ProfesseurBlocus(models.Model):
   professeur = models.ForeignKey(Professeur)
   blocus = models.ForeignKey(Blocus)
   statut = models.CharField(max_length=50, choices = STATUTS, default="professeur")
+  campus = models.ManyToManyField(Campus)
 
   def __str__(self):
     return self.professeur.prenom + ' ' + self.professeur.nom
@@ -262,9 +263,10 @@ class Presence(models.Model):
         bool = False
       return bool
 
-
-
-
+# class RapportBlocusEtudiant(models.Model):
+#   etudiant = models.ForeignKey(Etudiant)
+#   module = models.ManyToManyField(ModuleBlocus)
+#   done = models.BooleanField(default=False)
 
 
 

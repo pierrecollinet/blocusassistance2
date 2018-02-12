@@ -18,54 +18,84 @@ Voir le profil de {{etudiant.prenom}} {{etudiant.nom}}
 
 {% block content %}
   <div class="row ">
-    {% if etudiant.photo_profil %}
-    <div class="col-md-3">
-      <img src="{{ etudiant.photo_profil.url }}" alt="" width=100% style="height:200px;width:200px; object-fit: cover;border-radius: 50%;">
-    </div>
-    {% else %}
-    <div class="col-md-3"></div>
-    {% endif %}
-    <div class="col-xs-12 col-md-6">
+
+    <div class="col-md-2"></div>
+
+    <div class="col-xs-12 col-md-8">
       <div class='dashboard-title text-center'>
           <h1>Profil de {{etudiant.prenom}} {{etudiant.nom}}</h1>
-          <div class="">
-            <table class="table">
+          <div class="row">
+            {% if etudiant.photo_profil %}
+            <div class="col-md-3">
+              <img src="{{ etudiant.photo_profil.url }}" alt="" width=100% class="small-avatar" style="height:200px;width:200px; object-fit: cover;border-radius: 50%;">
+            </div>
+            {% endif %}
+            <div class="{% if etudiant.photo_profil %}col-md-9{% endif %}">
+            <table class="table" >
               <tr>
                 <td>Nom</td>
-                <td>{{etudiant.nom}}</td>
+                <td>{% if etudiant.nom %}{{etudiant.nom}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
               <tr>
                 <td>Prénom</td>
-                <td>{{etudiant.prenom}}</td>
+                <td>{% if etudiant.prenom %}{{etudiant.prenom}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
               <tr>
                 <td>Université</td>
-                <td>{{etudiant.universite}}</td>
+                <td>{% if etudiant.universite %}{{etudiant.universite}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
               <tr>
                 <td>Faculte</td>
-                <td>{{etudiant.faculte}}</td>
+                <td>{% if etudiant.faculte %}{{etudiant.faculte}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
               <tr>
                 <td>Etude</td>
-                <td>{{etudiant.etude}}</td>
+                <td>{% if etudiant.etude %}{{etudiant.etude}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
               <tr>
                 <td>Année</td>
-                <td>{{etudiant.annee}}</td>
+                <td>{% if etudiant.annee %}{{etudiant.annee}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
               <tr>
                 <td>GSM</td>
-                <td>{{etudiant.gsm}}</td>
+                <td>{% if etudiant.gsm %}{{etudiant.gsm}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{% if etudiant.email %}{{etudiant.email}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>Email maman</td>
+                <td>{% if etudiant.email_parent1  %}{{ etudiant.email_parent1 }}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>Email papa</td>
+                <td>{% if etudiant.email_parent2  %}{{ etudiant.email_parent2 }}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>GSM maman</td>
+                <td>{% if etudiant.gsm_parent1  %}{{ etudiant.gsm_parent1 }}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>GSM papa</td>
+                <td>{% if etudiant.gsm_parent2  %}{{ etudiant.gsm_parent2 }}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>Date de naissance</td>
+                <td>{% if etudiant.date_de_naissance %}{{ etudiant.date_de_naissance}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
+              </tr>
+              <tr>
+                <td>Adresse</td>
+                <td>{% if etudiant.adresse %}{{ etudiant.adresse}}{% else %}<a href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">A compléter</a>{% endif %}</td>
               </tr>
             </table>
-          <a class="btn btn-info" href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">Compléter le profil</a><br>
-          <a href="{% url 'tableau-de-bord-professeurs' %}">Retour à mon dashboard</a>
+            <a class="btn btn-info" href="{% url 'completer-profil-etudiant-for-prof' pk=etudiant.pk %}">Compléter le profil</a><br>
+            <a href="{% url 'tableau-de-bord-professeurs' %}">Retour à mon dashboard</a>
           </div>
+        </div>
       </div>
     </div>
   </div>
-
 
 
 {% endblock %}

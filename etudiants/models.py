@@ -42,3 +42,36 @@ class Etudiant(models.Model):
   def __str__(self):
     return self.prenom +' '+ self.nom
 
+
+  def calculate_completed_profile_rate(self):
+    counter = 0
+    if self.nom :
+      counter += 1
+    if self.prenom :
+      counter += 1
+    if self.email :
+      counter += 1
+    if self.gsm :
+      counter += 1
+    if self.universite :
+      counter += 1
+    if self.faculte :
+      counter += 1
+    if self.email_parent1 :
+      counter += 1
+    if self.annee :
+      counter += 1
+    if self.email_parent2 :
+      counter += 1
+    if self.gsm_parent2 :
+      counter += 1
+    if self.gsm_parent1 :
+      counter += 1
+    if self.date_de_naissance :
+      counter += 1
+    if self.photo_profil :
+      counter += 1
+    if self.adresse :
+      counter += 1
+    total = 14.0
+    return 100*float(counter)/total

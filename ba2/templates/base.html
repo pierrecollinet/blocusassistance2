@@ -14,17 +14,17 @@
     </head>
     <body>
       <div class="wrapper">
-      {% include 'base/navbar.html' with brand_name='Blocus Assistance' %}
+        {% block navbar %}
+          {% include 'base/navbar.html' with brand_name='Blocus Assistance' %}
+        {% endblock %}
 
         {% include 'alert.html' %}
         {% block content %}{% endblock %}
 
-        {% include 'base/footer.html' %}
-<a href=”#” class=”back-to-top” style="display: inline;">
+        {% block footer %}
+          {% include 'base/footer.html' %}
+        {% endblock %}
 
-<i class=”fa fa-arrow-circle-up”>contactez moi</i>
-
-</a>
       </div>
         {% include 'base/js.html' %}
 

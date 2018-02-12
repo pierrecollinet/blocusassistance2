@@ -1,1 +1,116 @@
-<h1> IMPRIMER FEUILLE PRESENCE </h1>
+{% extends "base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{% endblock %}
+
+{% block base_head %}
+<link rel='stylesheet' href="{% static 'css/main.css' %}" >
+
+<link rel='stylesheet' href="{% static 'css/welcome.css' %}" >
+<!--
+  <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
+
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://dwj199mwkel52.cloudfront.net/assets/favicon-9e84d1cd6dffd89d572b8c6a542cadda0b2091f8fc65f9cc1f09f09ca363bb19.png" type="image/png" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta property="og:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.lewagon.com/fr" />
+  <meta property="og:image" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg" />
+  <meta property="og:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+" />
+  <meta property="og:site_name" content="Le Wagon" />
+  <meta property="fb:admins" content="548348576" />
+  <meta property="fb:app_id" content="737501859652485" />
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Lewagonparis">
+  <meta name="twitter:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails">
+  <meta name="twitter:description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.
+">
+  <meta name="twitter:creator" content="@Lewagonparis">
+  <meta name="twitter:image:src" content="https://dwj199mwkel52.cloudfront.net/assets/social/home_facebook_card-c24af70e1ea78ec96cdf28f926fc76eb3ce3ecaf973042255492aa1de7727393.jpg">
+!-->
+
+{% endblock %}
+
+        {% block navbar %}
+        {% endblock %}
+
+{% block content %}
+<style type="text/css" media="print">
+.printbutton {
+  visibility: hidden;
+  display: none;
+}
+
+@page { size: auto;  margin: 0 100px; }
+</style>
+
+  <div>
+
+    <!-- END BREADCRUMBS -->
+    <!-- PAGE CONTENT -->
+    <div class="page-content">
+      <div class="container">
+        <section">
+          <div class="row">
+          <h2>Présences {{ module }} ({{ campus }})</h2>
+
+          <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="col-md-3 center"></th>
+                      {% for jour in joursblocus %}
+                        <th class="col-md-1 center" style="line-height: 80%;">{{jour.get_name}}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for inscrit in inscriptions %}
+                <tr>
+                    <td class="col-md-3 center">{{forloop.counter}}. {{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }}</td>
+                    {% for jour in joursblocus %}
+                      {% for presence in inscrit.etudiant.presence_set.all %}
+                        {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date %}
+                          <td class="col-md-1 center" style="line-height: 80%;">
+                          </td>
+                        {% endif %}
+                      {% endfor %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+
+          <h2></h2>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+        {% block javascript %}
+          <script>
+          document.write("<input type='button' " +
+          "onClick='window.print()' " +
+          "class='btn btn-info printbutton' " +
+          "value='Imprimer'/>");
+          $("[title]").removeAttr("title");
+          </script>
+        {% endblock %}
+
+
+
+
+        {% block footer %}
+        {% endblock %}

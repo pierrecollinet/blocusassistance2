@@ -17,6 +17,7 @@ class ProfesseurBlocusAdmin(admin.ModelAdmin):
     model = ProfesseurBlocus
     list_display = ['professeur', 'blocus', 'statut',]
     list_filter = ['statut',]
+    filter_horizontal = ("campus",)
 
 class ModuleBlocusAdmin(admin.ModelAdmin):
     model = ModuleBlocus
