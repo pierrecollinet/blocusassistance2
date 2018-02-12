@@ -19,15 +19,17 @@ from django.views.decorators.gzip import gzip_page
 
 from htmlmin.decorators import minified_response
 
+from django.db.models import Q
+
 # import models
 #from .models import Campus
 from ba2.models import Campus
-from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus,PresenceJourBlocus
+from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus,PresenceJourBlocus, ProfesseurBlocus#, RapportBlocusEtudiant
 from etudiants.models import Etudiant
 from billing.models import BillingProfile
 
 # import forms
-from blocus.forms import InscriptionBlocusModelForm, PresenceModelForm, Presence
+from blocus.forms import InscriptionBlocusModelForm, PresenceModelForm, Presence, SearchForm
 
 from etudiants.views import etudiant_required
 from professeurs.views import professeur_required
@@ -78,7 +80,6 @@ def blocus_assistes(request):
   if len(current_blocus) == 1:
     current_blocus = current_blocus.first()
     c.update({'current_blocus':current_blocus})
-    print(c)
   return render(request, 'blocus-assistes.html', c)
 
 @login_required
@@ -128,10 +129,11 @@ def checkout(request, pk):
         plaintext = get_template('../templates/emails/confirmation-inscription-virement.txt')
         htmly     = get_template('../templates/emails/confirmation-inscription-virement.html')
         subject, from_email = "Inscription au blocus assisté - "+inscription_obj.etudiant.prenom+inscription_obj.etudiant.nom , 'info@blocusassistance.be'
-        to = [settings.EMAILS,]
+        to = settings.EMAILS
         d = {'inscription':inscription_obj}
         text_content = plaintext.render(d)
         html_content = htmly.render(d)
+        print(to)
         msg = EmailMultiAlternatives(subject, text_content, from_email, to)
         msg.attach_alternative(html_content, "text/html")
         msg.send()
@@ -150,7 +152,14 @@ def checkout(request, pk):
 def imprimer_planning(request, pk_campus, pk_module):
   campus = Campus.objects.get(pk = pk_campus)
   module = ModuleBlocus.objects.get(pk = pk_module)
-  c = {}
+  today = date.today()
+  inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module).order_by('etudiant__prenom')
+  joursblocus = PresenceJourBlocus.objects.filter(campus=campus,
+                                                    blocus=Blocus.objects.get(is_current=True),
+                                                    date__gte=module.get_date_debut(),
+                                                    date__lte=module.get_date_fin()
+                                                  )
+  c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
   return render(request, "presence/imprimer-presence.html", c)
 
 from datetime import date
@@ -168,6 +177,27 @@ def cocher_presence(request, pk_campus, pk_module):
                                                   )
   c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
   return render(request, "presence/cocher-presence.html", c)
+
+@professeur_required
+@minified_response
+def grille_suivi_etudiants(request, pk_campus, pk_module):
+  campus = Campus.objects.get(pk = pk_campus)
+  module = ModuleBlocus.objects.get(pk = pk_module)
+  if request.POST and 'etudiant_ids' in request.POST:
+    etudiant_ids = request.POST.getlist('etudiant_ids')
+    for etudiant_id in etudiant_ids :
+      etudiant = Etudiant.objects.get(id=etudiant_id)
+      rapport = RapportBlocusEtudiant.objects.get_or_create(etudiant=etudiant, module=module)
+  today = date.today()
+  inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module).order_by('etudiant__prenom')
+  joursblocus = PresenceJourBlocus.objects.filter(campus=campus,
+                                                    blocus=Blocus.objects.get(is_current=True),
+                                                    date__gte=module.get_date_debut(),
+                                                    date__lte=module.get_date_fin()
+                                                  )
+  c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
+  return render(request, "presence/grille-suivi-etudiants.html", c)
+
 
 @professeur_required
 def detail_presence(request, pk, pk_module):
@@ -231,8 +261,27 @@ def ajax_calculate_price(request):
 @minified_response
 #@gzip_page
 def detail_blocus(request, pk):
+  today = date.today()
   blocus = Blocus.objects.get(pk=pk)
-  c = {'blocus':blocus}
+  profblocus = ProfesseurBlocus.objects.filter(blocus=blocus, professeur=request.user.professeur).first()
+  campus_for_this_prof = profblocus.campus.all()
+  inscriptions = InscriptionBlocus.objects.filter(blocus=blocus, campus__in=campus_for_this_prof)
+  form = SearchForm(request.POST or None)
+  if request.GET and 'search' in request.GET :
+    search_field = request.GET['search']
+
+    inscriptions = inscriptions.filter(Q(etudiant__prenom__icontains = search_field)|Q(etudiant__nom__icontains = search_field))
+  c = {'blocus':blocus, 'inscriptions':inscriptions, 'campus_for_this_prof':campus_for_this_prof, 'form':form, 'today':today}
   return render(request, 'detail_blocus.html', c)
 
-
+@professeur_required
+@minified_response
+#@gzip_page
+def display_list_student(request, pk_campus, pk_module):
+  campus = Campus.objects.get(pk = pk_campus)
+  module = ModuleBlocus.objects.get(pk = pk_module)
+  today = date.today()
+  inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module).order_by('etudiant__prenom')
+  print(inscriptions)
+  c = {'inscriptions':inscriptions,'module':module, 'campus':campus}
+  return render(request, "presence/liste-etudiants-par-module.html", c)

@@ -83,8 +83,18 @@ class PresenceModelForm(forms.ModelForm):
         return cleaned_data
 
 
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=100, required=False)
 
-
+    def __init__(self, *args, **kwargs):
+        super(SearchForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-inline'
+        self.helper.form_show_labels = False
+        self.helper.layout = Layout(
+                                Field('search', placeholder="Chercher un étudiant..."),
+                                )
+        self.helper.add_input(Submit('submit', 'Chercher', css_class='btn btn-default btn-lg'))
 
 
 

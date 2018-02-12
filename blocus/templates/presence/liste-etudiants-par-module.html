@@ -44,11 +44,11 @@ Détail du blocus {{ blocus.nom }}
   <div class="light-gray">
     <div class="page-header">
       <div class="container">
-        <h1 class="page-title pull-left">Détail du blocus - {{ blocus.nom }}</h1>
+        <h1 class="page-title pull-left">Présences - </h1>
         <ol class="breadcrumb">
           <li><a href="{% url 'accueil-prof' %}"">Accueil Professeur</a></li>
           <li><a href="{% url 'tableau-de-bord-professeurs' %}">Mon dashboard</a></li>
-          <li class="active">Blocus Assisté</li>
+          <li class="active">Présences - </li>
         </ol>
       </div>
     </div>
@@ -58,56 +58,33 @@ Détail du blocus {{ blocus.nom }}
       <div class="container">
         <section">
           <div class="row">
-          <h2>Les étudiants</h2>
-          <div class="col-xs-12 col-md-3">
-            <form class="." id="" method="get" action="">
-              {% crispy form %}
-            </form>
-          </div>
+          <h2>Premier jour -  {{ module }} ({{ campus }})</h2>
 
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <td>Etudiants</td>
+        <td>Profil [% complété]</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for inscrit in inscriptions %}
+      <tr>
+          <td class="col-md-3 center">{{forloop.counter}}. <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
 
-          <table class="table">
-            <tr>
-              <td>Etudiants</td>
-              <td>Planning</td>
-              <td>Campus</td>
-              <td>Modules</td>
-            </tr>
-            {% for inscription in inscriptions %}
-              <tr>
-                <td><a href="{% url 'voir-profil-etudiant-for-prof' pk=inscription.etudiant.pk %}">{{ inscription.etudiant.prenom }} {{ inscription.etudiant.nom }}</a></td>
-                <td>{% if inscription.etudiant.has_planning %}do something{% else %}pas de planning{% endif %}</td>
-                <td>{{ inscription.campus }}</td>
-                <td><ul>{% for module in inscription.module.all %}<li>{{ module }}</li>{% endfor %}</ul></td>
-              </tr>
-            {% endfor %}
-          </table>
-
-          <h2>Les présences</h2>
-          <table class="table">
-            <tr>
-              <td>Campus</td>
-              <td>Modules</td>
-            </tr>
-            {% for campus in campus_for_this_prof %}
-            <tr>
-              <td>{{ campus }}</td>
-              <td>
-                <table class="table">
-                  {% for mod in blocus.moduleblocus_set.all %}
-                  <tr class="{% if mod.date_debut <= today and mod.date_fin >= today %}success{% endif %}">
-                    <td>{{ mod }}</td>
-                    <td>{% if mod.date_debut == today %}<a href="{% url 'display-list-student' pk_campus=campus.pk pk_module=mod.pk %}">First day</a>{% endif %}</td>
-                    <td><a href="{% url 'imprimer-planning' pk_campus=campus.pk pk_module=mod.pk %}">imprimer</a></td>
-                    <td><a href="{% url 'cocher-presence'   pk_campus=campus.pk pk_module=mod.pk %}">cocher présences</a></td>
-                    <td><a href="{% url 'grille-suivi-etudiants'   pk_campus=campus.pk pk_module=mod.pk %}">suivi étudiant</a></td>
-                  </tr>
-                  {% endfor %}
-                </table>
-              </td>
-            </tr>
-            {% endfor %}
-          </table>
+          {% if inscrit.etudiant.calculate_completed_profile_rate < 60 %}
+            <td class="col-md-1 text-center danger">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
+          {% elif inscrit.etudiant.calculate_completed_profile_rate > 90 and inscrit.etudiant.calculate_completed_profile_rate < 100 %}
+            <td class="col-md-1 text-center success">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
+          {% elif inscrit.etudiant.calculate_completed_profile_rate == 100 %}
+            <td class="col-md-1 text-center success"><b>COMPLET</b></td>
+          {% else %}
+            <td class="col-md-1 text-center warning">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
+          {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
           <h2></h2>
           </div>
@@ -117,8 +94,3 @@ Détail du blocus {{ blocus.nom }}
   </div>
 
 {% endblock %}
-
-
-
-
-

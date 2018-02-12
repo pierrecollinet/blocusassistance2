@@ -18,7 +18,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #7b7b7b;
   line-height: 1.6;
 }
@@ -4108,6 +4108,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .hero-left {
   max-width: 50%;
+}
+
+.hero-middle {
+  max-width: 100%;
+  float: none !important;
+  text-align: center;
 }
 
 /* carousel */
