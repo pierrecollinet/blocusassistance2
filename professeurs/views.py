@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps import Sitemap
 
 import json
+import pdfcrowd
 from datetime import datetime, timedelta, date
 
 from django.views.decorators.gzip import gzip_page
