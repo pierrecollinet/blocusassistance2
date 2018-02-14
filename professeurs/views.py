@@ -263,7 +263,7 @@ def send_rapport_journalier(request, pk):
   # create an API client instance
   client = pdfcrowd.Client(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
   # convert a web page and store the generated PDF to a variable
-  pdf = client.convertURI(reverse('display-rapport-journalier', args={pk}))
+  pdf = client.convertURI(request.build_absolute_uri(reverse('display-rapport-journalier', args={pk})))
 
   msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
   msg.content_subtype = "html"
