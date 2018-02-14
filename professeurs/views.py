@@ -267,7 +267,7 @@ def send_rapport_journalier(request, pk):
   # convert a web page and store the generated PDF to a variable
   pdf = client.convertUrlToFile(request.build_absolute_uri(reverse('display-rapport-journalier', args={pk})), 'rapport-journalier.pdf')
 
-  msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
+  msg.attach(pdf, 'application/pdf')
   msg.content_subtype = "html"
   msg.send()
   rapport.statut = 'rapport_envoye'
