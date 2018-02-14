@@ -248,7 +248,7 @@ def display_rapport_journalier(request, pk):
 def send_rapport_journalier(request, pk):
   rapport = RapportBlocusJournalier.objects.get(pk=pk)
   htmly     = get_template('../templates/emails/rapport-journalier.html')
-  subject, from_email = 'Journée de blocus du ' + rapport.date + ' - ' + rapport.presence.etudiant.prenom + ' ' + rapport.presence.etudiant.nom, 'info@blocusassistance.be'
+  subject, from_email = 'Journée de blocus du ' + rapport.date.strftime('%d/%m/%Y') + ' - ' + rapport.presence.etudiant.prenom + ' ' + rapport.presence.etudiant.nom, 'info@blocusassistance.be'
   to = settings.EMAILS
 
   c={ 'pagesize':'A4' }
