@@ -12,6 +12,8 @@ from django.contrib.sitemaps import Sitemap
 
 import json
 import pdfcrowd
+import sys
+
 from datetime import datetime, timedelta, date
 
 from django.views.decorators.gzip import gzip_page
@@ -261,9 +263,9 @@ def send_rapport_journalier(request, pk):
   msg = EmailMultiAlternatives(subject,text_content, from_email, to)
   msg.attach_alternative(html_content, "text/html")
   # create an API client instance
-  client = pdfcrowd.Client(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
+  client = pdfcrowd.HtmlToPdfClient(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
   # convert a web page and store the generated PDF to a variable
-  pdf = client.convertURI(request.build_absolute_uri(reverse('display-rapport-journalier', args={pk})))
+  pdf = client.convertUrlToFile(request.build_absolute_uri(reverse('display-rapport-journalier', args={pk})), 'rapport-journalier.pdf')
 
   msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
   msg.content_subtype = "html"
