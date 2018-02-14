@@ -243,7 +243,9 @@ def modifier_suivi_journalier(request, pk):
 def display_rapport_journalier(request, pk):
   rapport = RapportBlocusJournalier.objects.get(pk=pk)
   c = {'rapport':rapport}
+  return render(request, "professeurs/suivi-journalier/pdf/display-rapport-journalier.html", c)
 
+def send_rapport_journalier(request, pk):
   htmly     = get_template('/templates/emails/rapport-journalier.html')
   subject, from_email = 'Journée de blocus du ' + rapport.date + ' - ' + rapport.presence.etudiant.prenom + ' ' + rapport.presence.etudiant.nom, 'info@blocusassistance.be'
   to = settings.EMAILS
@@ -255,11 +257,11 @@ def display_rapport_journalier(request, pk):
   msg = EmailMultiAlternatives(subject,text_content, from_email, to)
   msg.attach_alternative(html_content, "text/html")
   # create an API client instance
-  client = pdfcrowd.Client("pierrecollinet", "9a3858f16107834b37f5a39f1620c4b3")
+  client = pdfcrowd.Client(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
   # convert a web page and store the generated PDF to a variable
-  pdf = client.convertURI("http://www.blocusassistance.be"+reverse('show-bulletin-pdf', args={pk}))
+  pdf = client.convertURI(reverse('display-rapport-journalier', args={pk}))
 
-  msg.attach('bulletin.pdf', pdf, 'application/pdf')
+  msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
   msg.content_subtype = "html"
   msg.send()
   return render(request, "professeurs/suivi-journalier/pdf/display-rapport-journalier.html", c)
