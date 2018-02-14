@@ -64,12 +64,14 @@ Détail du blocus {{ blocus.nom }}
   <p>Aucun étudiant ne souhaite bénéficier d'un suivi? Ou tu as oublié de <a href="{% url 'display-list-student' pk_campus=campus.pk pk_module=module.pk %}">compléter leur profil</a> en indiquant ceux qui souhaitent (ou non) bénéficier d'un suivi?</p>
 {% else %}
 
-<div class="col-xs-12 col-md-3">
+<div class="col-xs-12 col-md-12">
   <table class="table col-md-3">
-    <tr><td class="danger">Objectif à fixer</td></tr>
-    <tr><td class="warning">Bilan à réaliser</td></tr>
-    <tr><td class="success">Bilan réalisé</td></tr>
-    <tr><td class="info">Envoyé</td></tr>
+    <tr>
+      <td class="danger text-center col-md-3"><b>Objectif à fixer</b></td>
+      <td class="warning text-center col-md-3"><b>Bilan à réaliser</b></td>
+      <td class="success text-center col-md-3"><b>Bilan réalisé</b></td>
+      <td class="info text-center col-md-3"><b>Envoyé</b></td>
+    </tr>
   </table>
 </div>
 
@@ -104,7 +106,11 @@ Détail du blocus {{ blocus.nom }}
                   <td class="col-md-1 text-center success" style="line-height: 80%;">
                       <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
                       <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a> <br>
-                      <a href="{% url 'send-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-default"><i class="fa fa-send"></i></a>
+                      {% if presence.statut == 'retard' or presence.statut == 'present' %}
+                        <a href="{% url 'send-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-default"><i class="fa fa-send"></i></a>
+                      {% else %}
+                        (Absent)
+                      {% endif %}
                   </td>
                   {% elif presence.rapportblocusjournalier.statut == 'rapport_envoye' %}
                   <td class="col-md-1 text-center info" style="line-height: 80%;">
@@ -120,7 +126,12 @@ Détail du blocus {{ blocus.nom }}
               {% endif %}
         {% endfor %}
         {% endfor %}
-        <td class="text-center"><a class="btn btn-primary" href="">Envoyer</a></td>
+                  <td class="text-center">
+                  {% if today == module.date_fin %}
+                    <a class="btn btn-primary" href="{% url 'send-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Envoyer</a>
+                  {% endif %}
+                  <a href="{% url 'display-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Voir</a>
+                  </td>
       </tr>
       {% endfor %}
     </tbody>

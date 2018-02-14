@@ -57,11 +57,10 @@ Détail du blocus {{ blocus.nom }}
 
 <!-- Tabs -->
 <ul class="nav nav-tabs">
-  <li class="active">
-    <a id="1" href="#">Les étudiants</a>
-  </li>
-  <li><a id="2" href="#">Feuille de présences</a></li>
-  <li><a id="3" href="#">Mes prestations</a></li>
+  <li class="col-md-3"><a id="1" href="#">Les étudiants</a></li>
+  <li class="col-md-3 active"><a id="2" href="#">Feuille de présences</a></li>
+  <li class="col-md-3"><a id="3" href="#">Mes prestations</a></li>
+  <li class="col-md-3"><a id="4" href="#">To do list</a></li>
 </ul>
 
 
@@ -86,7 +85,7 @@ Détail du blocus {{ blocus.nom }}
             </tr>
             </thead>
             {% for inscription in inscriptions %}
-              <tr>
+              <tr class="studentInfo" id="student_{{inscription.etudiant.id}}">
                 <td><a href="{% url 'voir-profil-etudiant-for-prof' pk=inscription.etudiant.pk %}">{{ inscription.etudiant.prenom }} {{ inscription.etudiant.nom }}</a></td>
                 <td>{% if inscription.etudiant.has_planning %}do something{% else %}pas de planning{% endif %}</td>
                 <td>{{ inscription.campus }}</td>
@@ -99,7 +98,7 @@ Détail du blocus {{ blocus.nom }}
                     {% endif %}
                   {% endfor %}
                 </td>
-                <td><a href="{% url 'ajouter-etudiant-blocus' %}" class="btn btn-primary">+ Ajouter module</a></td>
+                <td><a href="{% url 'ajouter-etudiant-blocus' %}?etudiant={{ inscription.etudiant.id }}" class="btn btn-primary">+ Ajouter module</a></td>
               </tr>
             {% endfor %}
           </table>
@@ -165,7 +164,43 @@ Détail du blocus {{ blocus.nom }}
             </tbody>
           </table>
 </div>
-
+<!-- CONTENT 4 -->
+<div class="tabContent" id="tabContent4">
+  <table class="table">
+    <thead>
+      <th>Quand ?</th>
+      <th>Quoi ?</th>
+      <th>Avec qui ?</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lundi & Samedi avant de commencer</td>
+        <td><ul><li>Compléter le profil (>90%)</li><li>Souhaite un suivi? Oui/Non</li><li>Fixer objectif du jour (optionnel)</li></ul></td>
+        <td>Tous les étudiants</td>
+      </tr>
+      <tr>
+        <td>A 9h</td>
+        <td>Imprimer feuille des présences et la faire passer entre les étudiants</td>
+        <td>Tous les étudiants</td>
+      </tr>
+      <tr>
+        <td>Après 9h</td>
+        <td>Appeler les absents</td>
+        <td>Les étudiants qui ne sont pas encore arrivés</td>
+      </tr>
+      <tr>
+        <td>A 10h</td>
+        <td>cocher les présences via le tableau de bord en laissant éventuellement un commentaire (via ">>Détail")</td>
+        <td>Pour tous les étudiants, qu'ils soient "Présent, Absent, En retard ou Absent justifié"</td>
+      </tr>
+      <tr>
+        <td>A partir de 17.00</td>
+        <td><ul><li>faire le point avec les étudiants qui souhaitaient un suivi</li><li>fixer les objectifs du lendemain</li></ul></td>
+        <td>Les étudiants ayant fait la demande d'être suivis durant le blocus</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
         </section>
       </div>
@@ -184,14 +219,43 @@ $(document).ready(function(){
 $('#tabContent1').hide();
 $('#tabContent2').show();
 $('#tabContent3').hide();
+$('#tabContent4').hide();
 $('.nav a').click(function (e) {
     $(this).tab('show');
   var tabContent = '#tabContent' + this.id;
   $('#tabContent1').hide();
   $('#tabContent2').hide();
   $('#tabContent3').hide();
+  $('#tabContent4').hide();
   $(tabContent).show();
 })
+
+
+
+function searchStudent(searchInput){
+            request_url = '/blocus-assistes/get_students_list/' + searchInput + '/';
+            $.ajax({
+                  url: request_url,
+                  success: function(json){
+                    $('.studentInfo').hide()
+                    for(var j = 0; j < json.length; j++){
+                      $('#student_'+parseInt(json[j][0])).show()
+                      }
+                  }
+            })
+}
+
+$(document).ready(function(){
+  $('#id_search').on('input', function() {
+    var searchInput = $(this).val();
+    if (searchInput != '' && searchInput != ' '){
+      searchStudent(searchInput);
+    } else {
+      $('.studentInfo').show()
+    }
+  });
+});
+
 
 </script>
 

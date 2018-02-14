@@ -1,3 +1,100 @@
-<p>Bonjour</p>
+{% extends "emails/base.html" %}
 
-<p>Voici le rapport journalier de votre enfant</p>
+{% block title %}Rapport de {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }} - {{ rapport.date }}{% endblock %}
+
+
+
+  presence       = models.OneToOneField(Presence)
+
+  auteur         = models.ForeignKey(Professeur)
+      = models.CharField(max_length=100, choices=STATUTS, default='objectif_fixe')
+
+        {% block content%}
+        <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">Bonjour, </h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">Voici un petit récapitulatif de la journée d'étude de {{ rapport.presence.etudiant.prenom }}</p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">OBJECTIF DU JOUR</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">
+                {{ rapport.objectif }} <br>
+                {% if rapport.objectif_atteint %}
+                  --> Cette objectif <b>a été atteint.</b>
+                {% else %}
+                  --> Cette objectif <b>n'a malheureusement pas été atteint.</b>
+                {% endif %}
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">BILAN DE LA JOURNEE</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">{{ rapport.bilan }}<br>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">RECOMMANDATION</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">{{ rapport.recommandation }}<br>
+              </p>
+            </td>
+          </tr>
+          {% if rapport.remarque %}
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">REMARQUE</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">{{ rapport.remarque }}<br>
+              </p>
+            </td>
+          </tr>
+          {% endif %}
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">EVALUATION PERSONNELLE</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">Concentration :
+                {% if rapport.concentration == '1' %}★☆☆☆☆{% elif rapport.concentration == '2' %}★★☆☆☆{% elif rapport.concentration == '3' %}★★★☆☆{% elif rapport.concentration == '4' %}★★★★☆{% elif rapport.concentration == '5' %}★★★★★{% endif %}
+              </p>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">Productivité :
+                {% if rapport.productivite == '1' %}★☆☆☆☆{% elif rapport.productivite == '2' %}★★☆☆☆☆{% elif rapport.productivite == '3' %}★★★☆☆{% elif rapport.productivite == '4' %}★★★★☆{% elif rapport.productivite == '5' %}★★★★★{% endif %}
+              </p>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">Moral :
+                {% if rapport.moral == '1' %}★☆☆☆☆{% elif rapport.moral == '2' %}★★☆☆☆{% elif rapport.moral == '3' %}★★★☆☆{% elif rapport.moral == '4' %}★★★★☆{% elif rapport.moral == '5' %}★★★★★{% endif %}
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <h2 style="font-family: Helvetica, sans-serif; font-size: 18px; color: #656565; margin-top: 0; font-weight: normal;">PRESENCE</h2>
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">{{ rapport.presence }}
+                {% if rapport.presence.statut == 'present' %}
+                  {{ rapport.presence.etudiant.prenom }} était <b>présent</b> et est arrivée à {{ rapport.presence.heure_arrivee }}
+                {% elif rapport.presence.statut == 'absent' %}
+                  {{ rapport.presence.etudiant.prenom }} était <b>absent</b>
+                {% elif rapport.presence.statut == 'retard' %}
+                  {{ rapport.presence.etudiant.prenom }} était <b>en retard</b> et est arrivée à {{ rapport.presence.heure_arrivee }}
+                {% elif rapport.presence.statut == 'absent_justifie' %}
+                  {{ rapport.presence.etudiant.prenom }} était <b>absent</b> mais a justifié son absence.
+                {% endif %}
+                <br>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%">
+
+              <p style="font-family: Helvetica, sans-serif; font-size: 14px; color: #7b7b7b; line-height: 22px;">{{ rapport.presence }}
+                Ce rapport a été rédigé par le professeur {{ auteur.prenom }} {{ auteur.nom }}
+                <br>
+              </p>
+            </td>
+          </tr>
+        </table>
+
+        {% endblock %}
+
+

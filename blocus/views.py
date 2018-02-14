@@ -301,6 +301,8 @@ def display_list_student(request, pk_campus, pk_module):
 #@gzip_page
 def ajout_etudiant(request):
   form = InscriptionBlocusModelFormByTeacher(request.POST or None, request=request)
+  if request.GET and 'etudiant' in request.GET :
+      form = InscriptionBlocusModelFormByTeacher(request.POST or None, request=request, initial={'etudiant':Etudiant.objects.get(id=request.GET['etudiant'])})
   etudiants = Etudiant.objects.all()
   if form.is_valid():
     inscription = form.save(commit=False)

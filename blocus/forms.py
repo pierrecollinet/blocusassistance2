@@ -121,6 +121,8 @@ class PresenceModelForm(forms.ModelForm):
         statut = cleaned_data.get('statut')
         if statut == "retard" and heure_arrivee <= datetime.time(9, 0) :
           raise forms.ValidationError("Avant 9h, ce n'est pas considéré comme un retard... Soyons indulgent ! ")
+        if statut == "absent_justifie" and cleaned_data.get('commentaire') == "" :
+          raise forms.ValidationError("Si l'absence est justifiée, peux-tu indiquer le motif ? ")
         return cleaned_data
 
 

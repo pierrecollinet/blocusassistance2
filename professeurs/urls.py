@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from professeurs.views import modify_profile, complete_profile, show_profile, accueil, dashboard, show_student, complete_profile_student, encoder_journee_blocus,modifier_journee_blocus,supprimer_journee_blocus, suivi_journalier_blocus,voir_suivi_journalier,modifier_suivi_journalier, display_rapport_journalier, send_rapport_journalier
-
+from professeurs.views import send_rapport_module, display_rapport_module
 urlpatterns = [
     # PROFIL PROFESSEURS
     url('^completer-profil/$', complete_profile, name="completer-profil-prof"),
@@ -25,5 +25,7 @@ urlpatterns = [
     # PDF
     url('^display-rapport-journalier/(?P<pk>\d+)$', display_rapport_journalier, name="display-rapport-journalier"),
     url('^send-rapport-journalier/(?P<pk>\d+)$', send_rapport_journalier, name="send-rapport-journalier"),
+    url('^display-rapport-module/(?P<pk_etudiant>\d+)/(?P<pk_module>\d+)$', display_rapport_module, name="display-rapport-module"),
+    url('^send-rapport-module/(?P<pk_etudiant>\d+)/(?P<pk_module>\d+)$', send_rapport_module, name="send-rapport-module"),
 
 ]

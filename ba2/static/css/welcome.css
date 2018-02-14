@@ -312,3 +312,8 @@ bottom:0;
 .transparent {
   background-color: transparent !important;
 }
+
+.tabContent {
+  padding-top: 30px;
+}
+
