@@ -97,18 +97,18 @@ Détail du blocus {{ blocus.nom }}
 
                   {% if presence.rapportblocusjournalier.statut == 'objectif_fixe' %}
                   <td class="col-md-1 text-center warning" style="line-height: 80%;">
-                      <a href="{% url 'voir-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
                       <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a>
                   </td>
                   {% elif presence.rapportblocusjournalier.statut == 'bilan_realise' %}
                   <td class="col-md-1 text-center success" style="line-height: 80%;">
-                      <a href="{% url 'voir-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
                       <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a> <br>
-                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-default"><i class="fa fa-send"></i></a>
+                      <a href="{% url 'send-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-default"><i class="fa fa-send"></i></a>
                   </td>
                   {% elif presence.rapportblocusjournalier.statut == 'rapport_envoye' %}
                   <td class="col-md-1 text-center info" style="line-height: 80%;">
-                      <a href="{% url 'voir-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
                       <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a>
                   </td>
                   {% else %}

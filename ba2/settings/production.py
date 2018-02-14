@@ -15,10 +15,15 @@ import os
 
 print("je suis en production !")
 
+
+# SENDGRID SETTINGS
 EMAIL_HOST = 'smtp.sendgrid.com'
 EMAIL_PORT = 587
 EMAIL_USER_TLS = True
 EMAILS = ["pierre.collinet@passelapremiere.be", "info@blocusassistance.be", "pierre.boonen@passelapremiere.be"]
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER')
+EMAIL_MAIN          = os.environ.get('EMAIL_MAIN')
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 BASE_DIR     = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
