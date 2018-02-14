@@ -252,7 +252,7 @@ def send_rapport_journalier(request, pk):
   to = settings.EMAILS
 
   c={ 'pagesize':'A4' }
-  d = Context(c)
+  d = {}
   html_content = htmly.render(d)
   text_content = plaintext.render(d)
   msg = EmailMultiAlternatives(subject,text_content, from_email, to)
