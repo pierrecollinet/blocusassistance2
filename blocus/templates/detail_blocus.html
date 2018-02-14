@@ -13,10 +13,8 @@ Détail du blocus {{ blocus.nom }}
 <link rel='stylesheet' href="{% static 'css/welcome.css' %}" >
 <!--
   <meta name="description" content="Changez de vie, apprenez à coder. Le Wagon est la meilleure formation Développeur Web d'Europe en Ruby on Rails et Javascript.">
-
   <meta charset="utf-8" />
   <link rel="icon" href="https://dwj199mwkel52.cloudfront.net/assets/favicon-9e84d1cd6dffd89d572b8c6a542cadda0b2091f8fc65f9cc1f09f09ca363bb19.png" type="image/png" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta property="og:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails" />
@@ -28,7 +26,6 @@ Détail du blocus {{ blocus.nom }}
   <meta property="og:site_name" content="Le Wagon" />
   <meta property="fb:admins" content="548348576" />
   <meta property="fb:app_id" content="737501859652485" />
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@Lewagonparis">
   <meta name="twitter:title" content="Le Wagon - Formation Développeur Web - Coding Bootcamp Ruby on Rails">
@@ -57,8 +54,20 @@ Détail du blocus {{ blocus.nom }}
     <div class="page-content light-gray">
       <div class="container">
         <section">
-          <div class="row">
-          <h2>Les étudiants</h2>
+
+<!-- Tabs -->
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a id="1" href="#">Les étudiants</a>
+  </li>
+  <li><a id="2" href="#">Feuille de présences</a></li>
+  <li><a id="3" href="#">Mes prestations</a></li>
+</ul>
+
+
+<!-- Accordions -->
+<!-- CONTENT 1 -->
+<div class="tabContent" id="tabContent1">
           <div class="col-xs-12 col-md-3">
             <form class="." id="" method="get" action="">
               {% crispy form %}
@@ -67,23 +76,36 @@ Détail du blocus {{ blocus.nom }}
 
 
           <table class="table">
+            <thead>
             <tr>
-              <td>Etudiants</td>
-              <td>Planning</td>
-              <td>Campus</td>
-              <td>Modules</td>
+              <th>Etudiants</th>
+              <th>Planning</th>
+              <th>Campus</th>
+              <th>Modules</th>
+              <th>Ajouter</th>
             </tr>
+            </thead>
             {% for inscription in inscriptions %}
               <tr>
                 <td><a href="{% url 'voir-profil-etudiant-for-prof' pk=inscription.etudiant.pk %}">{{ inscription.etudiant.prenom }} {{ inscription.etudiant.nom }}</a></td>
                 <td>{% if inscription.etudiant.has_planning %}do something{% else %}pas de planning{% endif %}</td>
                 <td>{{ inscription.campus }}</td>
-                <td><ul>{% for module in inscription.module.all %}<li>{{ module }}</li>{% endfor %}</ul></td>
+                <td>
+                  {% for m in blocus.moduleblocus_set.all %}
+                    {% if m in inscription.module.all %}
+                      <a href="#" data-toggle="tooltip" title="{{ m }}"><i class="fa fa-circle" aria-hidden="true"></i></a>
+                    {% else %}
+                      <a href="#" data-toggle="tooltip" title="{{ m }}"><i class="fa fa-circle-o" aria-hidden="true"></i></a>
+                    {% endif %}
+                  {% endfor %}
+                </td>
+                <td><a href="{% url 'ajouter-etudiant-blocus' %}" class="btn btn-primary">+ Ajouter module</a></td>
               </tr>
             {% endfor %}
           </table>
-
-          <h2>Les présences</h2>
+</div>
+<!-- CONTENT 2 -->
+<div class="tabContent" id="tabContent2">
           <table class="table">
             <tr>
               <td>Campus</td>
@@ -98,8 +120,7 @@ Détail du blocus {{ blocus.nom }}
                   <tr class="{% if mod.date_debut <= today and mod.date_fin >= today %}success{% endif %}">
                     <td>{{ mod }}</td>
                     <td>{% if mod.date_debut == today %}<a href="{% url 'display-list-student' pk_campus=campus.pk pk_module=mod.pk %}">First day</a>{% endif %}</td>
-                    <td><a href="{% url 'imprimer-planning' pk_campus=campus.pk pk_module=mod.pk %}">imprimer</a></td>
-                    <td><a href="{% url 'cocher-presence'   pk_campus=campus.pk pk_module=mod.pk %}">cocher présences</a></td>
+                    <td><a href="{% url 'cocher-presence'   pk_campus=campus.pk pk_module=mod.pk %}">Présences</a></td>
                     <td><a href="{% url 'grille-suivi-etudiants'   pk_campus=campus.pk pk_module=mod.pk %}">suivi étudiant</a></td>
                   </tr>
                   {% endfor %}
@@ -109,8 +130,43 @@ Détail du blocus {{ blocus.nom }}
             {% endfor %}
           </table>
 
-          <h2></h2>
-          </div>
+</div>
+<!-- CONTENT 3 -->
+<div class="tabContent" id="tabContent3">
+          <a href="{% url 'encoder-journee-blocus' %}" class="btn btn-primary btn-lg">+ Encoder journee blocus</a>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Heure début - fin</th>
+                <th>Date</th>
+                <th>Campus</th>
+                <th>Payé?</th>
+                <th>Montant</th>
+                <th>Modif/Suppr</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for j in journees_blocus%}
+              <tr>
+                <td>{{ j.heure_debut|time:'H:i' }} - {{ j.heure_fin|time:'H:i' }}</td>
+                <td>{{ j.date }}</td>
+                <td>{{ j.campus }}</td>
+                <td>{% if j.is_paid %}Oui{% else %}Non{% endif %}</td>
+                <td>{{ j.total }} &euro;</td>
+                <td><a href="{% url 'modifier-journee-blocus' pk=j.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> / <a href="{% url 'supprimer-journee-blocus' pk=j.pk %}"><i class="fa fa-trash-o" aria-hidden="true"></i></a></th>
+              </tr>
+              {% endfor %}
+              <tr>
+                <td><b>TOTAL</b></td>
+                <td colspan="3"></td>
+                <td>{{ prof_blocus.total }} &euro;</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+</div>
+
+
         </section>
       </div>
     </div>
@@ -118,7 +174,25 @@ Détail du blocus {{ blocus.nom }}
 
 {% endblock %}
 
+{% block javascript %}
 
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
 
+$('#tabContent1').hide();
+$('#tabContent2').show();
+$('#tabContent3').hide();
+$('.nav a').click(function (e) {
+    $(this).tab('show');
+  var tabContent = '#tabContent' + this.id;
+  $('#tabContent1').hide();
+  $('#tabContent2').hide();
+  $('#tabContent3').hide();
+  $(tabContent).show();
+})
 
+</script>
 
+{% endblock %}

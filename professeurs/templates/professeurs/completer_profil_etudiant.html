@@ -25,6 +25,20 @@ Compléter le profil de {{etudiant.prenom}} {{etudiant.nom}}
           <div class="">
             <form class="." id="signup_form" method="post" enctype="multipart/form-data">
               {% csrf_token %}
+              <div class="form-group" id="div_id_annee">
+                <label class="control-label requiredField" for="id_annee">
+                  cet étudiant désire-t-il un suivi ?<span class="asteriskField">*</span>
+                </label>
+                <div class="controls ">
+                  <select class="select form-control" id="id_suivi_blocus" name="suivi" required="">
+                    <option selected="" value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+              </div>
+              {% if next_url %}
+                <input type="hidden" name="next_url" value="{{ next_url }}">
+              {% endif %}
               {% crispy form %}
             </form>
 

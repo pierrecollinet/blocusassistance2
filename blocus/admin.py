@@ -15,12 +15,13 @@ class BlocusAdmin(admin.ModelAdmin):
 
 class ProfesseurBlocusAdmin(admin.ModelAdmin):
     model = ProfesseurBlocus
-    list_display = ['professeur', 'blocus', 'statut',]
+    list_display = ['professeur', 'blocus', 'statut','total']
     list_filter = ['statut',]
     filter_horizontal = ("campus",)
 
 class ModuleBlocusAdmin(admin.ModelAdmin):
     model = ModuleBlocus
+    list_display = ['nom', 'date_debut', 'date_fin', 'blocus',]
     filter_horizontal = ("campus",)
 
 class InscriptionBlocusAdmin(admin.ModelAdmin):
@@ -37,9 +38,10 @@ class InscriptionBlocusAdmin(admin.ModelAdmin):
 
 class PresenceAdmin(admin.ModelAdmin):
     model = Presence
-    list_display = ['etudiant', 'date', 'heure_arrivee','statut',]
+    list_display = ['etudiant', 'date', 'heure_arrivee','statut','jourblocus']
     list_filter = ['statut',]
     ordering = ['etudiant']
+    search_fields = ['etudiant__nom','etudiant__prenom']
 
 admin.site.register(Blocus, BlocusAdmin)
 admin.site.register(ModuleBlocus, ModuleBlocusAdmin)
@@ -47,3 +49,4 @@ admin.site.register(PresenceJourBlocus)
 admin.site.register(InscriptionBlocus, InscriptionBlocusAdmin)
 admin.site.register(ProfesseurBlocus, ProfesseurBlocusAdmin)
 admin.site.register(Presence, PresenceAdmin)
+

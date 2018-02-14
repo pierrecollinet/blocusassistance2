@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Détail du blocus {{ blocus.nom }}
+Modifier suivi journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}
 {% endblock %}
 
 {% block base_head %}
@@ -44,11 +44,11 @@ Détail du blocus {{ blocus.nom }}
   <div class="light-gray">
     <div class="page-header">
       <div class="container">
-        <h1 class="page-title pull-left">Présences - </h1>
+        <h1 class="page-title pull-left">Modifier le rapport - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}</h1>
         <ol class="breadcrumb">
           <li><a href="{% url 'accueil-prof' %}"">Accueil Professeur</a></li>
           <li><a href="{% url 'tableau-de-bord-professeurs' %}">Mon dashboard</a></li>
-          <li class="active">Présences - </li>
+          <li class="active">Voir le rapport - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}</li>
         </ol>
       </div>
     </div>
@@ -56,41 +56,87 @@ Détail du blocus {{ blocus.nom }}
     <!-- PAGE CONTENT -->
     <div class="page-content light-gray">
       <div class="container">
-        <section">
+        <section>
           <div class="row">
-          <h2>Premier jour -  {{ module }} ({{ campus }})</h2>
+            <div class="col-md-2"></div>
+            <div class="col-xs-12 col-md-8">
+            <h2>Modifier le rapport - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}</h2>
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <td>Etudiants</td>
-        <td>Profil [% complété]</td>
-      </tr>
-    </thead>
-    <tbody>
-      {% for inscrit in inscriptions %}
-      <tr>
-          <td class="col-md-3 center">{{forloop.counter}}. <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
+            <form class="." method="post" action="">
+              {% csrf_token %}
+              {% crispy form %}
+              <a href="{% url 'grille-suivi-etudiants' pk_campus=rapport.presence.jourblocus.campus.pk pk_module=rapport.rapportmodule.module.pk  %}">Retour au dashboard</a>
+            </form>
 
-          {% if inscrit.etudiant.calculate_completed_profile_rate < 60 %}
-            <td class="col-md-1 text-center danger">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
-          {% elif inscrit.etudiant.calculate_completed_profile_rate > 90 and inscrit.etudiant.calculate_completed_profile_rate < 100 %}
-            <td class="col-md-1 text-center success">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
-          {% elif inscrit.etudiant.calculate_completed_profile_rate == 100 %}
-            <td class="col-md-1 text-center success"><b>COMPLET</b></td>
-          {% else %}
-            <td class="col-md-1 text-center warning">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
-          {% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 
-          <h2></h2>
+
+
+            </div>
           </div>
         </section>
       </div>
     </div>
   </div>
+
+{% endblock %}
+
+
+{% block script %}
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('.timepicker').timepicker({
+
+    timeFormat: 'H:mm',
+    interval: 15,
+    minTime: '8:00',
+    maxTime: '21:00',
+//    defaultTime: '8:00',
+    startTime: '8:00',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+
+    });
+  });
+
+  $(document).ready(function(){
+    $('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy',
+      });
+  });
+
+  jQuery(function($){
+    $.datepicker.regional['fr'] = {
+      closeText: 'Fermer',
+      prevText: '&#x3c;Préc',
+      nextText: 'Suiv&#x3e;',
+      currentText: 'Aujourd\'hui',
+      monthNames: ['Janvier','Fevrier','Mars','Avril','Mai','Juin',
+      'Juillet','Aout','Septembre','Octobre','Novembre','Decembre'],
+      monthNamesShort: ['Jan','Fev','Mar','Avr','Mai','Jun',
+      'Jul','Aou','Sep','Oct','Nov','Dec'],
+      dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+      dayNamesShort: ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
+      dayNamesMin: ['Di','Lu','Ma','Me','Je','Ve','Sa'],
+      weekHeader: 'Sm',
+      dateFormat: 'dd/mm/yy',
+      firstDay: 1,
+      isRTL: false,
+      showMonthAfterYear: false,
+      yearSuffix: '',
+      minDate: 0,
+      maxDate: '+12M +0D',
+      showButtonPanel: true
+      };
+    $.datepicker.setDefaults($.datepicker.regional['fr']);
+  });
+  </script>
+
 
 {% endblock %}

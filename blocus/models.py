@@ -14,8 +14,6 @@ import datetime
 
 # Models from intern apps
 from ba2.models import Campus
-from etudiants.models import Etudiant
-from professeurs.models import Professeur
 
 
 periodes = (('noel','Noël'),('paques','Pâques'),('mai','Mai'),('juillet','Juillet/Août'),)
@@ -40,10 +38,11 @@ class Blocus(models.Model):
 
 STATUTS = (('professeur','Professeur'),('responsable','Responsable'),('nouveau_prof','Nouveau Prof'))
 class ProfesseurBlocus(models.Model):
-  professeur = models.ForeignKey(Professeur)
+  professeur = models.ForeignKey('professeurs.Professeur')
   blocus = models.ForeignKey(Blocus)
   statut = models.CharField(max_length=50, choices = STATUTS, default="professeur")
   campus = models.ManyToManyField(Campus)
+  total = models.CharField(max_length=200, default=0)
 
   def __str__(self):
     return self.professeur.prenom + ' ' + self.professeur.nom
@@ -167,7 +166,7 @@ class PresenceJourBlocus(models.Model):
 
 
 class InscriptionBlocus(models.Model):
-    etudiant = models.ForeignKey(Etudiant)
+    etudiant = models.ForeignKey('etudiants.Etudiant')
     blocus = models.ForeignKey(Blocus)
     module = models.ManyToManyField(ModuleBlocus)
     campus = models.ForeignKey(Campus)
@@ -243,7 +242,7 @@ post_save.connect(post_save_inscription_model_receiver, sender=InscriptionBlocus
 
 STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'), )
 class Presence(models.Model):
-    etudiant = models.ForeignKey(Etudiant)
+    etudiant = models.ForeignKey('etudiants.Etudiant')
     date = models.DateField()
     heure_arrivee = models.TimeField(default="08:30")
     statut = models.CharField(max_length=30, default="absent", choices=STATUTS)
@@ -262,11 +261,3 @@ class Presence(models.Model):
       else :
         bool = False
       return bool
-
-# class RapportBlocusEtudiant(models.Model):
-#   etudiant = models.ForeignKey(Etudiant)
-#   module = models.ManyToManyField(ModuleBlocus)
-#   done = models.BooleanField(default=False)
-
-
-

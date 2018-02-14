@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
+from datetime import datetime, timedelta, date
 # Create your models here.
 from ba2.models import Universite, Faculte, Etude
-
+from blocus.models import ModuleBlocus, Blocus
+from professeurs.models import RapportBlocusModule
 annees = (
     ('BA1', 'BA1'),
     ('BA2', 'BA2'),
@@ -42,6 +44,20 @@ class Etudiant(models.Model):
   def __str__(self):
     return self.prenom +' '+ self.nom
 
+  def veut_un_suivi(self):
+    current_module = ModuleBlocus.objects.filter(date_debut__lte=date.today(), date_fin__gte=date.today(), blocus=Blocus.objects.filter(is_current=True).first()).first()
+    rapportmodule = RapportBlocusModule.objects.filter(module = current_module, etudiant = self)
+    if len(rapportmodule)>0:
+      return True
+    else:
+      return False
+
+  def get_suivi_actuel(self,date):
+    current_module = ModuleBlocus.objects.filter(date_debut__lte=date, date_fin__gte=date, blocus=Blocus.objects.filter(is_current=True).first()).first()
+    if self.veut_un_suivi():
+      return RapportBlocusModule.objects.filter(module = current_module, etudiant = self).first()
+    else :
+      return None
 
   def calculate_completed_profile_rate(self):
     counter = 0

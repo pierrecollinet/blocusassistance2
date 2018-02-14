@@ -24,12 +24,13 @@ from django.db.models import Q
 # import models
 #from .models import Campus
 from ba2.models import Campus
-from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus,PresenceJourBlocus, ProfesseurBlocus#, RapportBlocusEtudiant
+from blocus.models import ModuleBlocus, Blocus, InscriptionBlocus,PresenceJourBlocus, ProfesseurBlocus
 from etudiants.models import Etudiant
 from billing.models import BillingProfile
+from professeurs.models import JourneeBlocusProf,RapportBlocusModule
 
 # import forms
-from blocus.forms import InscriptionBlocusModelForm, PresenceModelForm, Presence, SearchForm
+from blocus.forms import InscriptionBlocusModelForm,InscriptionBlocusModelFormByTeacher, PresenceModelForm, Presence, SearchForm
 
 from etudiants.views import etudiant_required
 from professeurs.views import professeur_required
@@ -160,7 +161,7 @@ def imprimer_planning(request, pk_campus, pk_module):
                                                     date__lte=module.get_date_fin()
                                                   )
   c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
-  return render(request, "presence/imprimer-presence.html", c)
+  return render(request, "professeurs/presence/imprimer-presence.html", c)
 
 from datetime import date
 @professeur_required
@@ -175,28 +176,35 @@ def cocher_presence(request, pk_campus, pk_module):
                                                     date__gte=module.get_date_debut(),
                                                     date__lte=module.get_date_fin()
                                                   )
+  if request.POST :
+    for jour in joursblocus.filter(date=today):
+        for presence in jour.presence_set.all():
+            presence.statut = 'absent'
+            presence.save()
+    presence_ids = request.POST.getlist('presence_id')
+    print(presence_ids)
+    for id in presence_ids:
+        presence = Presence.objects.get(id=id)
+        presence.statut = 'present'
+        presence.save()
   c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
-  return render(request, "presence/cocher-presence.html", c)
+  return render(request, "professeurs/presence/cocher-presence.html", c)
 
 @professeur_required
 @minified_response
 def grille_suivi_etudiants(request, pk_campus, pk_module):
   campus = Campus.objects.get(pk = pk_campus)
   module = ModuleBlocus.objects.get(pk = pk_module)
-  if request.POST and 'etudiant_ids' in request.POST:
-    etudiant_ids = request.POST.getlist('etudiant_ids')
-    for etudiant_id in etudiant_ids :
-      etudiant = Etudiant.objects.get(id=etudiant_id)
-      rapport = RapportBlocusEtudiant.objects.get_or_create(etudiant=etudiant, module=module)
   today = date.today()
-  inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module).order_by('etudiant__prenom')
+  etudiant_with_rapports_ids = RapportBlocusModule.objects.filter(module=module).values_list('etudiant', flat=True)
+  inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module, etudiant__id__in=etudiant_with_rapports_ids).order_by('etudiant__prenom')
   joursblocus = PresenceJourBlocus.objects.filter(campus=campus,
                                                     blocus=Blocus.objects.get(is_current=True),
                                                     date__gte=module.get_date_debut(),
                                                     date__lte=module.get_date_fin()
                                                   )
   c = {'inscriptions':inscriptions,'module':module,'joursblocus':joursblocus, 'today':today, 'campus':campus}
-  return render(request, "presence/grille-suivi-etudiants.html", c)
+  return render(request, "professeurs/presence/grille-suivi-etudiants.html", c)
 
 
 @professeur_required
@@ -208,7 +216,7 @@ def detail_presence(request, pk, pk_module):
     pk_module = request.POST['pk_module']
     pk_campus = request.POST['pk_campus']
     return redirect("cocher-presence", pk_campus = pk_campus, pk_module = pk_module)
-  return render(request, 'presence/detail_presence.html', {'presence':presence,'form':form, 'pk_module':pk_module})
+  return render(request, 'professeurs/presence/detail_presence.html', {'presence':presence,'form':form, 'pk_module':pk_module})
 
 
 
@@ -267,11 +275,13 @@ def detail_blocus(request, pk):
   campus_for_this_prof = profblocus.campus.all()
   inscriptions = InscriptionBlocus.objects.filter(blocus=blocus, campus__in=campus_for_this_prof)
   form = SearchForm(request.POST or None)
+  journees_blocus = JourneeBlocusProf.objects.filter(professeur=request.user.professeur, blocus=blocus).order_by('date')
+  prof_blocus = ProfesseurBlocus.objects.filter(professeur=request.user.professeur, blocus=blocus).first()
   if request.GET and 'search' in request.GET :
     search_field = request.GET['search']
 
     inscriptions = inscriptions.filter(Q(etudiant__prenom__icontains = search_field)|Q(etudiant__nom__icontains = search_field))
-  c = {'blocus':blocus, 'inscriptions':inscriptions, 'campus_for_this_prof':campus_for_this_prof, 'form':form, 'today':today}
+  c = {'blocus':blocus, 'inscriptions':inscriptions, 'campus_for_this_prof':campus_for_this_prof, 'form':form, 'today':today,'prof_blocus':prof_blocus, 'journees_blocus': journees_blocus}
   return render(request, 'detail_blocus.html', c)
 
 @professeur_required
@@ -282,6 +292,53 @@ def display_list_student(request, pk_campus, pk_module):
   module = ModuleBlocus.objects.get(pk = pk_module)
   today = date.today()
   inscriptions = InscriptionBlocus.objects.filter(campus=campus, module=module).order_by('etudiant__prenom')
-  print(inscriptions)
   c = {'inscriptions':inscriptions,'module':module, 'campus':campus}
-  return render(request, "presence/liste-etudiants-par-module.html", c)
+  return render(request, "professeurs/presence/liste-etudiants-par-module.html", c)
+
+
+@professeur_required
+@minified_response
+#@gzip_page
+def ajout_etudiant(request):
+  form = InscriptionBlocusModelFormByTeacher(request.POST or None, request=request)
+  etudiants = Etudiant.objects.all()
+  if form.is_valid():
+    inscription = form.save(commit=False)
+    etudiant = request.POST['etudiant']
+    blocus = Blocus.objects.filter(is_current = True).first()
+    campus = form.cleaned_data['campus']
+
+    # si l'inscirption existe déjà, on la crée
+    if len(InscriptionBlocus.objects.filter(blocus       = blocus, etudiant = etudiant, campus = campus))>0 :
+      inscription = InscriptionBlocus.objects.get(blocus = blocus, etudiant = etudiant, campus = campus)
+      for mod in form.cleaned_data['module']:
+        inscription.module.add(mod)
+      inscription.save()
+      inscription.montant = inscription.calculate_total_price()
+      inscription.save()
+    # Sinon, on crée une nouvelle
+    else :
+      inscription.montant = 0
+      inscription.blocus = blocus
+      inscription.save()
+      inscription.module = form.cleaned_data['module']
+      inscription.save()
+      inscription.montant = inscription.calculate_total_price()
+      inscription.suivi_inscription += "-->Ajouté manuellement par "+ request.user.professeur.prenom + " " + request.user.professeur.nom
+    inscription.save()
+    next_url = request.POST['next_url']
+    return HttpResponseRedirect(next_url)
+  c = {'form':form, 'etudiants':etudiants}
+  if request.GET and 'next_url' in request.GET :
+    next_url = request.GET['next_url']
+    c.update({'next_url':next_url})
+  return render(request, "professeurs/presence/ajout-etudiant.html", c)
+
+def ajax_get_students_list(request, string):
+  search_field = string
+  students = Etudiant.objects.filter(Q(prenom__icontains = search_field)|Q(nom__icontains = search_field))
+  if len(students) == 0 :
+    students = Etudiant.objects.all()
+  students_dict = []
+  [students_dict.append((each_student.pk,each_student.prenom + ' ' + each_student.nom)) for each_student in students]
+  return HttpResponse(simplejson.dumps(students_dict), content_type="application/json")

@@ -48,6 +48,7 @@ ALLOWED_HOSTS = ['blocusassistance2.herokuapp.com', '.blocusassistance.be', '*']
 # Application definition
 
 INSTALLED_APPS = (
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sites',
