@@ -268,4 +268,6 @@ def send_rapport_journalier(request, pk):
   msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
   msg.content_subtype = "html"
   msg.send()
+  rapport.statut = 'rapport_envoye'
+  rapport.save()
   return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
