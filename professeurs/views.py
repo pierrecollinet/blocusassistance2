@@ -268,4 +268,4 @@ def send_rapport_journalier(request, pk):
   msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
   msg.content_subtype = "html"
   msg.send()
-  return render(request, "professeurs/suivi-journalier/pdf/display-rapport-journalier.html", c)
+  return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
