@@ -121,6 +121,18 @@ var myChart = new Chart(ctx, {
             borderWidth: 1
         }]
     },
+    options: {
+        animation: {
+            duration: 0
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
 
 });
 
@@ -143,6 +155,18 @@ var myChart = new Chart(ctx, {
             borderWidth: 1
         }]
     },
+    options: {
+        animation: {
+            duration: 0
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
 
 });
 {% endblock %}
