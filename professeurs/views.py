@@ -374,8 +374,7 @@ def send_rapport_global(request, pk_etudiant):
     msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
     msg.content_subtype = "html"
     msg.send()
-    rapport.rapport_envoye = True
-    rapport.save()
+
     messages.success(request, 'Message envoyé avec succès')
     return render(request, "professeurs/suivi-journalier/pdf/display-rapport-global.html", c)
 

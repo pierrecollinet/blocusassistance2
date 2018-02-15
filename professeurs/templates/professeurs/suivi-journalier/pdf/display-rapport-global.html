@@ -120,7 +120,18 @@ var myChart = new Chart(ctx, {
             borderWidth: 1
         }]
     },
-
+    options: {
+        animation: {
+            duration: 0
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
 });
 
 var ctx = document.getElementById("myChart2").getContext('2d');
@@ -142,7 +153,18 @@ var myChart = new Chart(ctx, {
             borderWidth: 1
         }]
     },
-
+    options: {
+        animation: {
+            duration: 0
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
 });
 {% endblock %}
 
@@ -183,7 +205,7 @@ var myChart = new Chart(ctx, {
               <p><b>Productivité : </b>Ce critère mesure leur efficacité durant la journée d'étude (concentration, rapidité, assimilation de la matière,...). On étudie pas de la même manière tous les jours et c'est important d'en tenir compte.</p>
             </div>
 
-            <a href="{% url 'send-rapport-global' pk_etudiant=etudiant.pk %}" class="btn btn-primary">Envoyer aux parents</a>
+            <a href="{% url 'send-rapport-global' pk_etudiant=etudiant.pk %}" class="btn btn-primary pdfcrowd-hide">Envoyer aux parents</a>
             </div>
           </div>
         </section>
