@@ -313,13 +313,13 @@ def send_rapport_module(request, pk_module, pk_etudiant):
     # convert a web page and store the generated PDF to a variable
     pdf = client.convertUrl(request.build_absolute_uri(reverse('display-rapport-module', args={pk_module, pk_etudiant})))
 
-  #  msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
+    msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
     msg.content_subtype = "html"
     msg.send()
-    rapport.statut = 'rapport_envoye'
+    rapport.rapport_envoye = True
     rapport.save()
     messages.success(request, 'Message envoyé avec succès')
-  return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
+  return redirect("grille-suivi-etudiants", pk_campus=rapports.first().presence.jourblocus.campus.pk, pk_module=rapport.module.pk)
 
 def display_synthese_rapports(request, rapports_ids) :
   rapports = RapportBlocusJournalier.objects.filter(id__in=rapports_ids)
