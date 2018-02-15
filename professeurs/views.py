@@ -319,7 +319,7 @@ def send_rapport_module(request, pk_module, pk_etudiant):
     rapport.rapport_envoye = True
     rapport.save()
     messages.success(request, 'Message envoyé avec succès')
-  return redirect("grille-suivi-etudiants", pk_campus=rapports.rapportblocusjournalier_set.all().first().presence.jourblocus.campus.pk, pk_module=rapport.module.pk)
+  return redirect("grille-suivi-etudiants", pk_campus=rapport.rapportblocusjournalier_set.all().first().presence.jourblocus.campus.pk, pk_module=rapport.module.pk)
 
 def display_synthese_rapports(request, rapports_ids) :
   rapports = RapportBlocusJournalier.objects.filter(id__in=rapports_ids)
