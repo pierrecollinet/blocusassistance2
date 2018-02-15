@@ -231,7 +231,7 @@ def modifier_suivi_journalier(request, pk):
     rapport.save()
     if 'enregistrer_and_email' in request.POST and rapport.statut == "bilan_realise":
         # Il faut envoyer un email aux parents
-        "ENVOYER EMAIL + PDF"
+        send_rapport_journalier(request, pk)
         rapport.statut = "rapport_envoye"
         rapport.save()
     if rapport.presence.date == rapport.rapportmodule.module.date_fin :
@@ -287,6 +287,7 @@ def send_rapport_journalier(request, pk):
 def display_rapport_module(request, pk_module, pk_etudiant):
   rapport_module = RapportBlocusModule.objects.filter(etudiant=Etudiant.objects.get(pk=pk_etudiant), module=ModuleBlocus.objects.get(pk=pk_module)).first()
   rapports = rapport_module.rapportblocusjournalier_set.all()
+
   c = {'rapports':rapports, 'etudiant':rapport_module.etudiant, 'rapport':rapport_module}
   return render(request, "professeurs/suivi-journalier/pdf/display-rapport-module.html", c)
 
@@ -326,6 +327,57 @@ def display_synthese_rapports(request, rapports_ids) :
   rapports = RapportBlocusJournalier.objects.filter(id__in=rapports_ids)
   c = {'rapports':rapports}
   return render(request, "professeurs/suivi-journalier/pdf/display-rapport-module.html", c)
+
+def display_rapport_global(request, pk_etudiant):
+  etudiant = Etudiant.objects.get(pk=pk_etudiant)
+  blocus = Blocus.objects.filter(is_current=True).first()
+  modules = blocus.moduleblocus_set.all()
+  rapports_module = RapportBlocusModule.objects.filter(etudiant=etudiant, module__in = modules)
+  rapports = []
+
+  # Get statistiques
+  count_absence = 0
+  count_retard = 0
+  count_presence = 0
+  count_objectif_atteints = 0
+  count_objectif_nn_atteints = 0
+  for rapport_module in rapports_module :
+    rapports.append(list(rapport_module.rapportblocusjournalier_set.all()))
+    count_absence              += rapport_module.get_nombre_absence()
+    count_retard               += rapport_module.get_nombre_retard()
+    count_presence             += rapport_module.get_nombre_presence()
+    count_objectif_atteints    += rapport_module.get_nombre_obj_atteints()
+    count_objectif_nn_atteints += rapport_module.get_nombre_obj_nn_atteints()
+
+  c = {'rapports_module':rapports_module,'rapports': rapports[0], 'etudiant':etudiant, 'count_absence':count_absence, 'count_retard':count_retard,'count_presence':count_presence,'count_objectif_atteints':count_objectif_atteints,'count_objectif_nn_atteints':count_objectif_nn_atteints}
+  return render(request, "professeurs/suivi-journalier/pdf/display-rapport-global.html", c)
+
+def send_rapport_global(request, pk_etudiant):
+    etudiant = Etudiant.objects.get(pk=pk_etudiant)
+    plaintext = get_template('../templates/emails/rapport-journalier.txt')
+    htmly     = get_template('../templates/emails/rapport-journalier.html')
+    subject, from_email = 'Récapitulatif du blocus - ' + etudiant.prenom + ' ' + etudiant.nom, 'info@blocusassistance.be'
+    to = settings.EMAILS
+
+    d = {}
+    html_content = htmly.render(d)
+    text_content = plaintext.render(d)
+    msg = EmailMultiAlternatives(subject,text_content, from_email, to)
+    msg.attach_alternative(html_content, "text/html")
+
+    # create an API client instance
+    client = pdfcrowd.HtmlToPdfClient(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
+    client.setJavascriptDelay(2000)
+    # convert a web page and store the generated PDF to a variable
+    pdf = client.convertUrl(request.build_absolute_uri(reverse('display-rapport-global', args={pk_etudiant})))
+
+    msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
+    msg.content_subtype = "html"
+    msg.send()
+    rapport.rapport_envoye = True
+    rapport.save()
+    messages.success(request, 'Message envoyé avec succès')
+    return render(request, "professeurs/suivi-journalier/pdf/display-rapport-global.html", c)
 
 
 

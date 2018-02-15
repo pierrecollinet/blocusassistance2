@@ -52,11 +52,23 @@ Tableau de bord de {{request.user.username}}
 
           <div class="custom-row row">
             <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
-              <h2>Mon profil</h2>
-              <ul class="text-left">
-                <li><a href="{% url 'modifier-profil-prof' %}">Modifier mon profil</a></li>
-                <li><a href="{% url 'voir-profil-prof' pk=request.user.professeur.pk %}">Voir mon profil</a></li>
-              </ul>
+                <div class="row">
+                  <div class="col-md-4">
+                    {% if request.user.professeur.photo_profil %}
+                      <img src="{{ request.user.professeur.photo_profil.url }}" alt="" width=100% class="small-avatar" style="height:100px;width:100px; object-fit: cover;border-radius: 50%;">
+                    {% else %}
+                      <img src="{% static 'img/avatar.png' %}" alt="" width=100% class="small-avatar" style="height:100px;width:100px; object-fit: cover;border-radius: 50%;">
+                    {% endif %}
+                  </div>
+                  <div class="col-md-8 text-left">
+                    <p>{{ professeur.prenom }} {{ professeur.nom }}</p>
+                    <p>{{ professeur.universite }} - {{ professeur.faculte }}</p>
+                    <p>{{ professeur.etude }} - {{ professeur.annee }}</p>
+                  </div>
+                </div>
+                <a href="{% url 'modifier-profil-prof' %}" class="btn btn-primary">Modifier mon profil</a>
+                <a href="{% url 'voir-profil-prof' pk=request.user.professeur.pk %}" class="btn btn-primary">Voir mon profil</a>
+
             </div>
 
             <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">

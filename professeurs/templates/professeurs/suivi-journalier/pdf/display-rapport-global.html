@@ -4,7 +4,6 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Voir journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}
 {% endblock %}
 
 {% block base_head %}
@@ -49,7 +48,7 @@ var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: [{% for rapport in rapports%}"{{rapport.date}}",{% endfor %}],
+        labels: [{% for rapport in rapports %}"{{rapport.date}}",{% endfor %}],
         datasets: [
               {
                   label: '# Proactivité',
@@ -107,7 +106,7 @@ var myChart = new Chart(ctx, {
         labels: ["Présent", "Absent", "Retard"],
         datasets: [{
             label: '# of Votes',
-            data: [{{ rapport.get_nombre_presence}}, {{ rapport.get_nombre_absence}}, {{ rapport.get_nombre_retard}}],
+            data: [{{ count_presence }}, {{ count_absence }}, {{ count_retard }}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -131,7 +130,7 @@ var myChart = new Chart(ctx, {
         labels: ["Objectifs atteints", "Objectifs non-atteints"],
         datasets: [{
             label: '# of Votes',
-            data: [{{ rapport.get_nombre_obj_atteints}}, {{ rapport.get_nombre_obj_nn_atteints}}],
+            data: [{{ count_objectif_nn_atteints}}, {{ count_objectif_atteints }}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -153,56 +152,16 @@ var myChart = new Chart(ctx, {
 
 {% block content %}
   <div class="light-gray">
-    <div class="page-header">
-      <div class="container">
-        <h1 class="page-title pull-left">Rapport Module - {{ etudiant.prenom }} {{ etudiant.nom }}</h1>
-        <ol class="breadcrumb">
-          <li><a href="{% url 'accueil-prof' %}"">Accueil Professeur</a></li>
-          <li><a href="{% url 'tableau-de-bord-professeurs' %}">Mon dashboard</a></li>
-          <li class="active">Voir le rapport - {{ etudiant.prenom }} {{ etudiant.nom }}</li>
-        </ol>
-      </div>
-    </div>
+
     <!-- END BREADCRUMBS -->
     <!-- PAGE CONTENT -->
     <div class="page-content light-gray">
       <div class="container">
         <section>
           <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-xs-12 col-md-10">
-            <h2>Rapport - {{ rapport.module }}</h2>
-
-            <div class="row">
-              {% if etudiant.photo_profil %}
-              <div class="col-md-4">
-                <img src="{{ etudiant.photo_profil.url }}" alt="" width=100% class="small-avatar" style="height:200px;width:200px; object-fit: cover;border-radius: 50%;">
-              </div>
-              {% else %}
-              <div class="col-md-4"></div>
-              {% endif %}
-              <div class="col-md-8">
-                <table class="table">
-                  <tr>
-                    <td>Nom</td>
-                    <td>{{ etudiant.prenom }} {{ etudiant.nom }}</td>
-                  </tr>
-                  <tr>
-                    <td>Université</td>
-                    <td>{{ etudiant.universite }}</td>
-                  </tr>
-                  <tr>
-                    <td>Faculté</td>
-                    <td>{{ etudiant.faculte }}</td>
-                  </tr>
-                  <tr>
-                    <td>Etude</td>
-                    <td>{{ etudiant.etude }}</td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-
+            <div class="col-md-2"></div>
+            <div class="col-xs-12 col-md-8">
+            <h2>Rapport de {{etudiant}}</h2>
 
             <div class="row padding-top-20" ">
               <div class="col-md-6">
@@ -216,7 +175,6 @@ var myChart = new Chart(ctx, {
             <div class="row padding-top-20" ">
               <canvas id="myChart" width="100%" height="50"></canvas>
             </div>
-
             <div class="row padding-top-20">
               <p><b>Proactivité :</b> Ce critère mesure la tendance de l'étudiant à aller <b>spontanément</b> vers un professeur pour qu'il l'aide dans sa matière, son exerice ou sa manière de travailler. Il est important que l'étudiant fasse l'effort de formuler sa difficulté et qu'il aille vers le professeur.</p>
 
@@ -225,45 +183,7 @@ var myChart = new Chart(ctx, {
               <p><b>Productivité : </b>Ce critère mesure leur efficacité durant la journée d'étude (concentration, rapidité, assimilation de la matière,...). On étudie pas de la même manière tous les jours et c'est important d'en tenir compte.</p>
             </div>
 
-            <div class="row padding-top-20">
-              <table class="table">
-                <thead>
-                  <th class="col-md-1"></th>
-                  <th class="col-md-3">Objectif</th>
-                  <th class="col-md-1">Atteint?</th>
-                  <th class="col-md-2">Bilan</th>
-                  <th class="col-md-2">Recommandation</th>
-                  <th class="col-md-2">Remarque</th>
-                  <th class="col-md-1">Présence</th>
-                </thead>
-                <tbody>
-                {% for r in rapports %}
-                {% if r.presence.statut == 'present' or r.presence.statut == 'retard' %}
-                  <tr>
-                    <td><b>{{ r.date|date:"d/m" }}</b></td>
-                    <td>{{ r.objectif }}</td>
-                    {% if r.objectif_atteint %}<td class="success">Oui</td>{% else %}<td class="danger">Non</td>{% endif %}
-                    <td>{{ r.bilan }}</td>
-                    <td>{{ r.recommandation }}</td>
-                    <td>{{ r.remarque }}</td>
-                    <td>{% if r.presence.statut == 'present' %}Présent{% elif r.presence.statut == 'retard' %}En retard ({{ r.presence.heure_arrivee}}){% endif %}</td>
-                  </tr>
-                {% else %}
-                  <tr>
-                    <td class="gray"><b>{{ r.date|date:"d/m" }}</b></td>
-                    <td class="gray"></td>
-                    <td class="gray"></td>
-                    <td class="gray"></td>
-                    <td class="gray"></td>
-                    <td class="gray"></td>
-                    <td class="gray">{% if r.presence.statut == 'absent' %}Absent{% elif r.presence.statut == 'absent_justifie' %}Absence justifiée <br>-<br> ({{ r.presence.commentaire }}){% endif %}</td>
-                  </tr>
-                {% endif %}
-                {% endfor %}
-                </tbody>
-              </table>
-            </div>
-
+            <a href="{% url 'send-rapport-global' pk_etudiant=etudiant.pk %}" class="btn btn-primary">Envoyer aux parents</a>
             </div>
           </div>
         </section>

@@ -163,10 +163,13 @@ $(document).ready(function(){
     display_modules()
   })
 
-$('#chercherStudent').on('input', function() {
-    var searchInput = $(this).val();
-    searchStudent(searchInput);
-});
+  $('#div_id_origine').hide()
+  $('#div_id_code_promo').hide()
+
+  $('#chercherStudent').on('input', function() {
+      var searchInput = $(this).val();
+      searchStudent(searchInput);
+  });
 });
 
 </script>

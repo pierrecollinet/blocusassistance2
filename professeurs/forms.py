@@ -157,5 +157,5 @@ class ModifierRapportBlocusJournalierModelForm(forms.ModelForm):
                                 Field('productivite'),
                                 Field('moral'),
                                 )
-        self.helper.add_input(Submit('enregistrer', 'Enregistrer', css_class='btn btn-default btn-lg'))
-        self.helper.add_input(Submit('enregistrer_and_email', 'Enregistrer & Envoyer', css_class='btn btn-default btn-lg'))
+        self.helper.add_input(Submit('enregistrer', 'Enregistrer', css_class='btn btn-default btn-lg m-3'))
+        self.helper.add_input(Submit('enregistrer_and_email', 'Enregistrer & Envoyer', css_class='btn btn-default btn-lg m-3'))

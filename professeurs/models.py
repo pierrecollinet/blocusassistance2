@@ -88,6 +88,41 @@ class RapportBlocusModule(models.Model):
   def __str__(self):
     return self.etudiant.prenom + ' ' + self.etudiant.nom +' - '+ str(self.date_creation.strftime('%d/%m/%Y'))
 
+  def get_nombre_retard(self):
+    count = 0
+    for r in self.rapportblocusjournalier_set.all():
+      if r.presence.statut == 'retard':
+        count += 1
+    return count
+
+  def get_nombre_presence(self):
+    count = 0
+    for r in self.rapportblocusjournalier_set.all():
+      if r.presence.statut == 'present' :
+        count += 1
+    return count
+
+  def get_nombre_absence(self):
+    count = 0
+    for r in self.rapportblocusjournalier_set.all():
+      if r.presence.statut == 'absent'  or r.presence.statut == 'absent_justifie':
+        count += 1
+    return count
+
+  def get_nombre_obj_atteints(self):
+    count = 0
+    for r in self.rapportblocusjournalier_set.all():
+      if r.objectif_atteint is True and (r.presence.statut == 'present' or r.presence.statut == 'retard') :
+        count += 1
+    return count
+
+  def get_nombre_obj_nn_atteints(self):
+    count = 0
+    for r in self.rapportblocusjournalier_set.all():
+      if r.objectif_atteint is False and (r.presence.statut == 'present' or r.presence.statut == 'retard') :
+        count += 1
+    return count
+
 RATING = (('1','1'),('2','2'),('3','3'),('4','4'),('5','5'),)
 STATUTS = (('objectif_fixe','Objectif Fixé'),('bilan_realise','Bilan Réalisé'),('rapport_envoye','Rapport Envoyé'),)
 class RapportBlocusJournalier(models.Model):

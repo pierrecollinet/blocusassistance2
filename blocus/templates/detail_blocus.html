@@ -106,15 +106,11 @@ Détail du blocus {{ blocus.nom }}
 <!-- CONTENT 2 -->
 <div class="tabContent" id="tabContent2">
           <table class="table">
-            <tr>
-              <td>Campus</td>
-              <td>Modules</td>
-            </tr>
             {% for campus in campus_for_this_prof %}
             <tr>
               <td>{{ campus }}</td>
               <td>
-                <table class="table">
+                <table class="table table-striped">
                   {% for mod in blocus.moduleblocus_set.all %}
                   <tr class="{% if mod.date_debut <= today and mod.date_fin >= today %}success{% endif %}">
                     <td>{{ mod }}</td>

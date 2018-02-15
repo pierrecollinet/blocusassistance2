@@ -70,7 +70,7 @@ Détail du blocus {{ blocus.nom }}
       <td class="danger text-center col-md-3"><b>Objectif à fixer</b></td>
       <td class="warning text-center col-md-3"><b>Bilan à réaliser</b></td>
       <td class="success text-center col-md-3"><b>Bilan réalisé</b></td>
-      <td class="info text-center col-md-3"><b>Envoyé</b></td>
+      <td class="info text-center col-md-3"><b>Bilan Envoyé</b></td>
     </tr>
   </table>
 </div>
@@ -99,23 +99,94 @@ Détail du blocus {{ blocus.nom }}
 
                   {% if presence.rapportblocusjournalier.statut == 'objectif_fixe' %}
                   <td class="col-md-1 text-center warning" style="line-height: 80%;">
-                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
-                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a>
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}"><i class="fa fa-eye" aria-hidden="true"></i></a> -
+                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                   </td>
                   {% elif presence.rapportblocusjournalier.statut == 'bilan_realise' %}
                   <td class="col-md-1 text-center success" style="line-height: 80%;">
-                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
-                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a> <br>
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}"><i class="fa fa-eye" aria-hidden="true"></i></a> -
+                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                       {% if presence.statut == 'retard' or presence.statut == 'present' %}
-                        <a href="{% url 'send-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-default"><i class="fa fa-send"></i></a>
+                         - <a href="" class="sendBtn" value="{{ presence.rapportblocusjournalier.pk }}"><i class="fa fa-send"></i></a>
+<!-- Modal -->
+<div class="modal fade" id="modal{{ presence.rapportblocusjournalier.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ce rapport est sur le point d'être envoyé aux parents. Vérifie que tout est correct.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+              <table class="table table-striped text-left">
+                <tbody>
+                  <tr>
+                    <td><b>Objectif</b></td>
+                    <td>{{ presence.rapportblocusjournalier.objectif }}</td>
+                  </tr>
+                      <tr>
+                    <td><b>Bilan</b></td>
+                    <td>{{ presence.rapportblocusjournalier.bilan }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Atteint</b></td>
+                    <td>{% if presence.rapportblocusjournalier.objectif_atteint %}Oui{% else %}Non{% endif %}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Date</b></td>
+                    <td>{{ presence.rapportblocusjournalier.date|date:'d/m' }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Recommandation</b></td>
+                    <td>{{ presence.rapportblocusjournalier.recommandation }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Remarque</b></td>
+                    <td>{{ presence.rapportblocusjournalier.remarque }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>proactivite</b></td>
+                    <td>{{ presence.rapportblocusjournalier.proactivite }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Productivité</b></td>
+                    <td>{{ presence.rapportblocusjournalier.productivite }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Moral</b></td>
+                    <td>{{ presence.rapportblocusjournalier.moral }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Présence</b></td>
+                    <td>{% if presence.statut == 'present' %}Présent{% elif presence.statut == 'absent' %}Absent{% elif presence.statut == 'absent_justifie' %}Absence justifiée ({{ presence.commentaire }}){% elif presence.statut == 'retard' %}Retard ({{ present.heure_arrivee }}){% endif %} </td>
+                  </tr>
+                  <tr>
+                    <td><b>Auteur</b></td>
+                    <td>{{ presence.rapportblocusjournalier.auteur.prenom }} {{ presence.rapportblocusjournalier.auteur.nom }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Statut</b></td>
+                    <td>{{ presence.rapportblocusjournalier.statut }}</td>
+                  </tr>
+                </tbody>
+              </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <a href="{% url 'send-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-primary">Envoyer ce rapport</a>
+      </div>
+    </div>
+  </div>
+</div>
                       {% else %}
                         (Absent)
                       {% endif %}
                   </td>
                   {% elif presence.rapportblocusjournalier.statut == 'rapport_envoye' %}
                   <td class="col-md-1 text-center info" style="line-height: 80%;">
-                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
-                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a>
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}"><i class="fa fa-eye" aria-hidden="true"></i></a> -
+                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
                   </td>
                   {% else %}
                   <td class="col-md-1 text-center danger" style="line-height: 80%;">
@@ -130,7 +201,7 @@ Détail du blocus {{ blocus.nom }}
                   {% if today == module.date_fin or 1 == 1 %}
                   <a class="btn btn-primary" href="{% url 'send-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Envoyer</a>
                   {% endif %}
-                  <a href="{% url 'display-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Voir</a>
+                  <a href="{% url 'display-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}"><i class="fa fa-eye" aria-hidden="true"></i></a>
                   </td>
       </tr>
       {% endfor %}
@@ -150,4 +221,18 @@ Détail du blocus {{ blocus.nom }}
 
 
 
+{% block javascript %}
 
+<script>
+
+  $(document).ready(function(){
+    $( ".sendBtn" ).click(function(event) {
+      event.preventDefault();
+      var modal = "#modal"+$(this).attr('value')
+      $(modal).modal('show')
+    });
+  });
+
+</script>
+
+{% endblock %}
