@@ -136,7 +136,7 @@ class ModifierRapportBlocusJournalierModelForm(forms.ModelForm):
               'bilan':forms.Textarea(attrs={'rows':4, 'cols':15}),
               'recommandation':forms.Textarea(attrs={'rows':4, 'cols':15}),
         }
-        fields = ('objectif','objectif_atteint','bilan', 'recommandation','remarque','concentration','productivite','moral')
+        fields = ('objectif','objectif_atteint','bilan', 'recommandation','remarque','proactivite','productivite','moral')
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -153,7 +153,7 @@ class ModifierRapportBlocusJournalierModelForm(forms.ModelForm):
                                 Field('bilan'),
                                 Field('recommandation'),
                                 Field('remarque'),
-                                Field('concentration'),
+                                Field('proactivite'),
                                 Field('productivite'),
                                 Field('moral'),
                                 )

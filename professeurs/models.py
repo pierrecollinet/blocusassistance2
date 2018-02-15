@@ -98,8 +98,8 @@ class RapportBlocusJournalier(models.Model):
   recommandation   = models.TextField(blank=True, null=True)
   remarque         = models.TextField(blank=True, null=True)
   # Rating fields
-  concentration  = models.CharField(max_length=100, choices=RATING, default='1')
   productivite   = models.CharField(max_length=100, choices=RATING, default='1')
+  proactivite    = models.CharField(max_length=100, choices=RATING, default='1')
   moral          = models.CharField(max_length=100, choices=RATING, default='1')
   # Automatic fields
   presence       = models.OneToOneField(Presence)

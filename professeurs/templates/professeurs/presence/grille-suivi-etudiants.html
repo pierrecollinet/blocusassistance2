@@ -127,7 +127,7 @@ Détail du blocus {{ blocus.nom }}
         {% endfor %}
         {% endfor %}
                   <td class="text-center">
-                  {% if today == module.date_fin %}
+                  {% if today == module.date_fin or 1 == 1 %}
                     <a class="btn btn-primary" href="{% url 'send-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Envoyer</a>
                   {% endif %}
                   <a href="{% url 'display-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Voir</a>

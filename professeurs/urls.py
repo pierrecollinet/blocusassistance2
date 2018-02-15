@@ -28,4 +28,6 @@ urlpatterns = [
     url('^display-rapport-module/(?P<pk_etudiant>\d+)/(?P<pk_module>\d+)$', display_rapport_module, name="display-rapport-module"),
     url('^send-rapport-module/(?P<pk_etudiant>\d+)/(?P<pk_module>\d+)$', send_rapport_module, name="send-rapport-module"),
 
+    # get_rapports_data
+
 ]

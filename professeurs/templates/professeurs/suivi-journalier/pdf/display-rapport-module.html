@@ -43,15 +43,74 @@ Voir journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.pr
 {% block navbar %}
 {% endblock %}
 
+<script>
+{% block jquery %}
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for rapport in rapports%}"{{rapport.date}}",{% endfor %}],
+        datasets: [
+              {
+                  label: '# Proactivité',
+                  data: [{% for rapport in rapports%}"{{rapport.proactivite}}",{% endfor %}],
+                  backgroundColor: [
+                      'rgba(247, 247, 247, 0)'
+                  ],
+                  borderColor: [
+                      'rgba(255,99,132,1)'
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: '# Moral',
+                  data: [{% for rapport in rapports%}"{{rapport.moral}}",{% endfor %}],
+                  backgroundColor: [
+                      'rgba(247, 247, 247, 0)'
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)'
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: '# Productivité',
+                  data: [{% for rapport in rapports%}"{{rapport.productivite}}",{% endfor %}],
+                  backgroundColor: [
+                      'rgba(247, 247, 247, 0)'
+                  ],
+                  borderColor: [
+                      'rgba(153, 102, 255, 1)',
+                  ],
+                  borderWidth: 1
+              },
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+{% endblock %}
+
+
+</script>
+
+
 {% block content %}
   <div class="light-gray">
     <div class="page-header">
       <div class="container">
-        <h1 class="page-title pull-left">Rapport Module - {{ rapport.etudiant.prenom }} {{ rapport.etudiant.nom }}</h1>
+        <h1 class="page-title pull-left">Rapport Module - {{ etudiant.prenom }} {{ etudiant.nom }}</h1>
         <ol class="breadcrumb">
           <li><a href="{% url 'accueil-prof' %}"">Accueil Professeur</a></li>
           <li><a href="{% url 'tableau-de-bord-professeurs' %}">Mon dashboard</a></li>
-          <li class="active">Voir le rapport - {{ rapport.etudiant.prenom }} {{ rapport.etudiant.nom }}</li>
+          <li class="active">Voir le rapport - {{ etudiant.prenom }} {{ etudiant.nom }}</li>
         </ol>
       </div>
     </div>
@@ -63,12 +122,80 @@ Voir journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.pr
           <div class="row">
             <div class="col-md-2"></div>
             <div class="col-xs-12 col-md-8">
-            <h2>Rapport du module - {{ rapport.module }}</h2>
+            <h2>Rapport - {{ rapport.module }}</h2>
 
-{% for rj in rapport.rapportblocusjournalier_set.all %}
-  {{ rj.pk }} -
-{% endfor %}
+            <div class="row">
+              {% if etudiant.photo_profil %}
+              <div class="col-md-4">
+                <img src="{{ etudiant.photo_profil.url }}" alt="" width=100% class="small-avatar" style="height:200px;width:200px; object-fit: cover;border-radius: 50%;">
+              </div>
+              {% else %}
+              <div class="col-md-4"></div>
+              {% endif %}
+              <div class="col-md-8">
+                <table class="table">
+                  <tr>
+                    <td>Nom</td>
+                    <td>{{ etudiant.prenom }} {{ etudiant.nom }}</td>
+                  </tr>
+                  <tr>
+                    <td>Université</td>
+                    <td>{{ etudiant.universite }}</td>
+                  </tr>
+                  <tr>
+                    <td>Faculté</td>
+                    <td>{{ etudiant.faculte }}</td>
+                  </tr>
+                  <tr>
+                    <td>Etude</td>
+                    <td>{{ etudiant.etude }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
 
+            <div class="row">
+              <table class="table">
+                <thead>
+                  <th class="col-md-1"></th>
+                  <th class="col-md-3">Objectif</th>
+                  <th class="col-md-1">Atteint?</th>
+                  <th class="col-md-2">Bilan</th>
+                  <th class="col-md-2">Recommandation</th>
+                  <th class="col-md-2">Remarque</th>
+                  <th class="col-md-1">Présence</th>
+                </thead>
+                <tbody>
+                {% for r in rapports %}
+                {% if r.presence.statut == 'present' or r.presence.statut == 'retard' %}
+                  <tr>
+                    <td><b>{{ r.date|date:"d/m" }}</b></td>
+                    <td>{{ r.objectif }}</td>
+                    {% if r.objectif_atteint %}<td class="success">Oui</td>{% else %}<td class="danger">Non</td>{% endif %}
+                    <td>{{ r.bilan }}</td>
+                    <td>{{ r.recommandation }}</td>
+                    <td>{{ r.remarque }}</td>
+                    <td>{% if r.presence.statut == 'present' %}Présent{% elif r.presence.statut == 'retard' %}En retard ({{ r.presence.heure_arrivee}}){% endif %}</td>
+                  </tr>
+                {% else %}
+                  <tr>
+                    <td class="gray"><b>{{ r.date|date:"d/m" }}</b></td>
+                    <td class="gray"></td>
+                    <td class="gray"></td>
+                    <td class="gray"></td>
+                    <td class="gray"></td>
+                    <td class="gray"></td>
+                    <td class="gray">{% if r.presence.statut == 'absent' %}Absent{% elif r.presence.statut == 'absent_justifie' %}Absence justifiée <br>-<br> ({{ r.presence.commentaire }}){% endif %}</td>
+                  </tr>
+                {% endif %}
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row">
+              <canvas id="myChart" width="100%" height="50"></canvas>
+            </div>
             </div>
           </div>
         </section>

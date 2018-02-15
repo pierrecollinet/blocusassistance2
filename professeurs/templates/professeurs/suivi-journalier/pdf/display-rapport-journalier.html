@@ -92,8 +92,8 @@ Voir journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.pr
                     <td>{{ rapport.remarque }}</td>
                   </tr>
                   <tr>
-                    <td>concentration</td>
-                    <td>{{ rapport.concentration }}</td>
+                    <td>proactivite</td>
+                    <td>{{ rapport.proactivite }}</td>
                   </tr>
                   <tr>
                     <td>productivité</td>
@@ -113,7 +113,7 @@ Voir journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.pr
                   </tr>
                   <tr>
                     <td>Statut</td>
-                    <td>{{ rapport.statut }}</td>
+                    <td>{% if rapport.presence.statut == 'present' %}Présent{% rapport.presence.statut == 'retard' %}En retard{% endif %}</td>
                   </tr>
                 </tbody>
               </table>

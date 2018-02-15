@@ -282,44 +282,52 @@ def send_rapport_journalier(request, pk):
     messages.error(request, "Tu ne peux pas envoyé ce rapport, il faut d'abord réalisé le bilan")
   return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
 
+
+
 def display_rapport_module(request, pk_module, pk_etudiant):
-  rapport = RapportBlocusModule.objects.filter(etudiant=Etudiant.objects.get(pk=pk_etudiant), module=ModuleBlocus.objects.get(pk=pk_module)).first()
-  c = {'rapport':rapport}
+  rapport_module = RapportBlocusModule.objects.filter(etudiant=Etudiant.objects.get(pk=pk_etudiant), module=ModuleBlocus.objects.get(pk=pk_module)).first()
+  rapports = rapport_module.rapportblocusjournalier_set.all()
+  c = {'rapports':rapports, 'etudiant':rapport_module.etudiant, 'rapport':rapport_module}
   return render(request, "professeurs/suivi-journalier/pdf/display-rapport-module.html", c)
 
 def send_rapport_module(request, pk_module, pk_etudiant):
   rapport = RapportBlocusModule.objects.filter(etudiant=Etudiant.objects.get(pk=pk_etudiant), module=ModuleBlocus.objects.get(pk=pk_module)).first()
 
-  # rapport = RapportBlocusJournalier.objects.get(pk=pk)
-  # if rapport.presence.statut == 'absent' or rapport.presence.statut == 'absent_justifie' :
-  #   messages.error(request, "inutile d'envoyer un rapport si l'étudiant était absent...")
-  #   return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
-  # if rapport.statut == 'bilan_realise' :
-  #   plaintext = get_template('../templates/emails/rapport-journalier.txt')
-  #   htmly     = get_template('../templates/emails/rapport-journalier.html')
-  #   subject, from_email = 'Journée de blocus du ' + rapport.date.strftime('%d/%m/%Y') + ' - ' + rapport.presence.etudiant.prenom + ' ' + rapport.presence.etudiant.nom, 'info@blocusassistance.be'
-  #   to = settings.EMAILS
+  if rapport.rapport_envoye :
+    messages.error(request, "Il semblerait que ce rapport ait déjà été envoyé")
+    return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
+  else :
+    plaintext = get_template('../templates/emails/rapport-journalier.txt')
+    htmly     = get_template('../templates/emails/rapport-journalier.html')
+    subject, from_email = 'Récapitulatif du module ' + rapport.module.get_name() + ' - ' + rapport.etudiant.prenom + ' ' + rapport.etudiant.nom, 'info@blocusassistance.be'
+    to = settings.EMAILS
 
-  #   d = {'rapport':rapport}
-  #   html_content = htmly.render(d)
-  #   text_content = plaintext.render(d)
-  #   msg = EmailMultiAlternatives(subject,text_content, from_email, to)
-  #   msg.attach_alternative(html_content, "text/html")
+    d = {'rapport':rapport}
+    html_content = htmly.render(d)
+    text_content = plaintext.render(d)
+    msg = EmailMultiAlternatives(subject,text_content, from_email, to)
+    msg.attach_alternative(html_content, "text/html")
 
-  #   # create an API client instance
-  #   #client = pdfcrowd.HtmlToPdfClient(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
-  #   # convert a web page and store the generated PDF to a variable
-  #   # pdf = client.convertUrl(request.build_absolute_uri(reverse('display-rapport-journalier', args={pk})))
+    # create an API client instance
+    client = pdfcrowd.HtmlToPdfClient(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
+    # convert a web page and store the generated PDF to a variable
+    pdf = client.convertUrl(request.build_absolute_uri(reverse('display-rapport-module', args={pk_module, pk_etudiant})))
 
-  # #  msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
-  #   msg.content_subtype = "html"
-  #   msg.send()
-  #   rapport.statut = 'rapport_envoye'
-  #   rapport.save()
-  #   messages.success(request, 'Message envoyé avec succès')
-  # elif rapport.statut == 'rapport_envoye':
-  #   messages.error(request, 'Ce rapport a déjà été envoyé')
-  # else :
-  #   messages.error(request, "Tu ne peux pas envoyé ce rapport, il faut d'abord réalisé le bilan")
+  #  msg.attach('rapport-blocus.pdf', pdf, 'application/pdf')
+    msg.content_subtype = "html"
+    msg.send()
+    rapport.statut = 'rapport_envoye'
+    rapport.save()
+    messages.success(request, 'Message envoyé avec succès')
   return redirect("grille-suivi-etudiants", pk_campus=rapport.presence.jourblocus.campus.pk, pk_module=rapport.rapportmodule.module.pk)
+
+def display_synthese_rapports(request, rapports_ids) :
+  rapports = RapportBlocusJournalier.objects.filter(id__in=rapports_ids)
+  c = {'rapports':rapports}
+  return render(request, "professeurs/suivi-journalier/pdf/display-rapport-module.html", c)
+
+
+
+
+
 
