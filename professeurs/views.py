@@ -310,7 +310,7 @@ def send_rapport_module(request, pk_module, pk_etudiant):
 
     # create an API client instance
     client = pdfcrowd.HtmlToPdfClient(settings.USERNAME_PDFCROW, settings.API_KEY_PDFCROWD)
-    client.setJavascriptDelay(self, 2000)
+    client.setJavascriptDelay(2000)
     # convert a web page and store the generated PDF to a variable
     pdf = client.convertUrl(request.build_absolute_uri(reverse('display-rapport-module', args={pk_etudiant, pk_module})))
 
