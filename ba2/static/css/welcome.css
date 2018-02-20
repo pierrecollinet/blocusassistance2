@@ -332,3 +332,11 @@ bottom:0;
 .m-3{
   margin:3px;
 }
+
+.mini-avatar {
+  margin:10px;
+  height:50px;
+  width:50px;
+  object-fit:
+  cover;border-radius: 50%;
+}
