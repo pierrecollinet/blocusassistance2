@@ -78,7 +78,7 @@ Détail du blocus {{ blocus.nom }}
     <tbody>
       {% for inscrit in inscriptions %}
       <tr>
-          <td class="col-md-3 center">{{forloop.counter}}. <a target="_blank" href="{% url 'completer-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}?next_url={{ request.get_full_path }}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
+          <td class="col-md-3 center">{{forloop.counter}}. <a target="_blank" href="{% url 'completer-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}?next_url={{ request.get_full_path }}">{% if inscrit.etudiant.photo_profil %} <img src="{{ inscrit.etudiant.photo_profil.url }}" width=100% class="mini-avatar">{% endif %}{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
             <td class="col-md-5 text-center">
               <div class="progress">
                 <div class="progress-bar

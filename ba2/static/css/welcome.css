@@ -317,3 +317,10 @@ bottom:0;
   padding-top: 30px;
 }
 
+.mini-avatar {
+  margin:10px;
+  height:50px;
+  width:50px;
+  object-fit:
+  cover;border-radius: 50%;
+}

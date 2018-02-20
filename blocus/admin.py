@@ -6,7 +6,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 
-from .models import Blocus, ModuleBlocus, PresenceJourBlocus, InscriptionBlocus, ProfesseurBlocus, Presence
+from .models import Blocus, ModuleBlocus, PresenceJourBlocus, InscriptionBlocus, ProfesseurBlocus, Presence, Feedback
 from etudiants.models import Etudiant
 class BlocusAdmin(admin.ModelAdmin):
     model = Blocus
@@ -49,4 +49,5 @@ admin.site.register(PresenceJourBlocus)
 admin.site.register(InscriptionBlocus, InscriptionBlocusAdmin)
 admin.site.register(ProfesseurBlocus, ProfesseurBlocusAdmin)
 admin.site.register(Presence, PresenceAdmin)
+admin.site.register(Feedback)
 

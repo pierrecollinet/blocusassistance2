@@ -344,3 +344,9 @@ def ajax_get_students_list(request, string):
   students_dict = []
   [students_dict.append((each_student.pk,each_student.prenom + ' ' + each_student.nom)) for each_student in students]
   return HttpResponse(simplejson.dumps(students_dict), content_type="application/json")
+
+def enquete_satisfaction_blocus(request, pk_campus, pk_module):
+  campus = Campus.objects.get(pk = pk_campus)
+  module = ModuleBlocus.objects.get(pk = pk_module)
+  c = {"campus":campus, "module":module}
+  return render(request, "feedback.html", c)

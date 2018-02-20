@@ -268,3 +268,35 @@ class Presence(models.Model):
       else :
         bool = False
       return bool
+
+RATINGS = (('1','1'), ('2','2'), ('3','3'), ('4','4'), ('5','5'), )
+class Feedback(models.Model):
+  # hidden fields
+  date   = models.DateField(auto_now_add=True)
+  module = models.ForeignKey(ModuleBlocus)
+  campus = models.ForeignKey(Campus)
+
+  # required fields
+  etudiant       = models.CharField(max_length=100)
+  points_faibles = models.TextField()
+  points_forts   = models.TextField()
+  amelioration   = models.TextField()
+  professeurs    = models.TextField()
+
+  qualite_assistants = models.CharField(max_length=10, choices=RATINGS)
+  cadre_travail      = models.CharField(max_length=10, choices=RATINGS)
+  silence            = models.CharField(max_length=10, choices=RATINGS)
+  nombre_assistants  = models.CharField(max_length=10, choices=RATINGS)
+  efficacite         = models.CharField(max_length=10, choices=RATINGS)
+  avis_general       = models.CharField(max_length=10, choices=RATINGS)
+
+  # optional fields
+  temoignage    = models.TextField(blank=True, null=True)
+  faculte       = models.CharField(max_length=100, blank=True, null=True)
+
+  def __str__(self):
+    if self.etudiant:
+      return self.etudiant + str(self.date.strftime('%d/%m/%Y'))
+    else :
+      return "anonyme" + str(self.date.strftime('%d/%m/%Y'))
+

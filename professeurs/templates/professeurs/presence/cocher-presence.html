@@ -65,15 +65,19 @@ Détail du blocus {{ blocus.nom }}
     <thead>
       <tr>
         <th class="col-md-3 center"></th>
-            {% for jour in joursblocus %}
-              <th class="col-md-1 center" style="line-height: 80%;">{{jour.get_name}}</th>
-        {% endfor %}
+          {% for jour in joursblocus %}
+            <th class="col-md-1 center" style="line-height: 80%;">{{jour.get_name}}</th>
+          {% endfor %}
       </tr>
     </thead>
     <tbody>
       {% for inscrit in inscriptions %}
       <tr>
-          <td class="col-md-3 center">{{forloop.counter}}. <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
+          <td class="col-md-3 center">
+            {{forloop.counter}}.
+            {% if inscrit.etudiant.photo_profil %} <img src="{{ inscrit.etudiant.photo_profil.url }}" width=100% class="mini-avatar">{% endif %}
+            <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a>
+          </td>
             {% for jour in joursblocus %}
             {% for presence in inscrit.etudiant.presence_set.all %}
               {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date %}

@@ -118,7 +118,7 @@ Détail du blocus {{ blocus.nom }}
                   {% for mod in blocus.moduleblocus_set.all %}
                   <tr class="{% if mod.date_debut <= today and mod.date_fin >= today %}success{% endif %}">
                     <td>{{ mod }}</td>
-                    <td>{% if mod.date_debut == today %}<a href="{% url 'display-list-student' pk_campus=campus.pk pk_module=mod.pk %}">First day</a>{% endif %}</td>
+                    <td>{% if mod.date_debut == today %}<a href="{% url 'display-list-student' pk_campus=campus.pk pk_module=mod.pk %}">First day</a>{% elif mod.date_fin == today or 1 == 1 %} <a class="btn btn-danger" href="{% url 'enquete-satisfaction-blocus' pk_campus=campus.pk pk_module=mod.pk %}">Enquête satisfaction</a>{% endif %}</td>
                     <td><a href="{% url 'cocher-presence'   pk_campus=campus.pk pk_module=mod.pk %}">Présences</a></td>
                     <td><a href="{% url 'grille-suivi-etudiants'   pk_campus=campus.pk pk_module=mod.pk %}">suivi étudiant</a></td>
                   </tr>
