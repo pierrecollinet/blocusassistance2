@@ -16,6 +16,7 @@ import datetime
 
 # import models
 from blocus.models import InscriptionBlocus, Presence
+from etudiants.models import Etudiant
 
 choices_origine=(('facebook','Facebook'),('mail', 'Mail'),('ancien étudiant', 'Je suis un ancien étudiant'), ('radio', 'A la radio'),('google','Google'),('presse','Dans la presse'),('autre','Autre'))
 class InscriptionBlocusModelForm(forms.ModelForm):
@@ -42,7 +43,6 @@ class InscriptionBlocusModelForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
 
     def clean(self):
-        print(self)
         cleaned_data=super(InscriptionBlocusModelForm, self).clean()
         modules = cleaned_data.get('module')
         if not modules:
@@ -52,6 +52,47 @@ class InscriptionBlocusModelForm(forms.ModelForm):
           for mod in modules :
             if len(InscriptionBlocus.objects.filter(etudiant=self.request.user.etudiant, module__id__in=modules)) > 0:
               raise forms.ValidationError("Tu es déjà inscrit à l'un de ces modules")
+        return cleaned_data
+
+class InscriptionBlocusModelFormByTeacher(forms.ModelForm):
+    origine = forms.ChoiceField(label="Comment avez-vous entendu parler de Blocus Assistance?",choices=choices_origine,error_messages={'required': "Indiquez-nous comment vous avez découvert Blocus Assistance SVP"})
+
+    class Meta:
+        model = InscriptionBlocus
+        exclude = ('blocus','montant', 'is_paid', 'date_inscription', 'suivi_inscription')
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(InscriptionBlocusModelFormByTeacher, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-horizontal'
+        self.helper.layout = Layout(
+                                HTML("""
+                                    <input type="text" value="" placeholder="Chercher..." id="chercherStudent">
+                                  """
+                                  ),
+                                Field('etudiant'),
+                                Field('campus'),
+                                HTML("""
+                                        <div id="checkbox_module_id"></div>
+                                    """
+                                    ),
+                                Field('origine'),
+                                Field('code_promo'),
+                                )
+        self.helper.add_input(Submit('submit', 'Confirmer', css_class='btn btn-default btn-lg'))
+
+    def clean(self):
+        cleaned_data=super(InscriptionBlocusModelFormByTeacher, self).clean()
+        modules = cleaned_data.get('module')
+        etudiant = cleaned_data.get('etudiant')
+        if not modules:
+          raise forms.ValidationError("Il faut sélectionner au moins un module")
+
+        else :
+          for mod in modules :
+            if len(InscriptionBlocus.objects.filter(etudiant=etudiant, module__id__in=modules)) > 0:
+              raise forms.ValidationError("Cet étudiant est déjà inscrit à l'un de ces modules visiblement")
         return cleaned_data
 
 
@@ -80,6 +121,8 @@ class PresenceModelForm(forms.ModelForm):
         statut = cleaned_data.get('statut')
         if statut == "retard" and heure_arrivee <= datetime.time(9, 0) :
           raise forms.ValidationError("Avant 9h, ce n'est pas considéré comme un retard... Soyons indulgent ! ")
+        if statut == "absent_justifie" and cleaned_data.get('commentaire') == "" :
+          raise forms.ValidationError("Si l'absence est justifiée, peux-tu indiquer le motif ? ")
         return cleaned_data
 
 
@@ -95,11 +138,6 @@ class SearchForm(forms.Form):
                                 Field('search', placeholder="Chercher un étudiant..."),
                                 )
         self.helper.add_input(Submit('submit', 'Chercher', css_class='btn btn-default btn-lg'))
-
-
-
-
-
 
 
 

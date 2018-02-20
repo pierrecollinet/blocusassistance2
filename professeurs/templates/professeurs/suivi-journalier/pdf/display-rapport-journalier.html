@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Détail du blocus {{ blocus.nom }}
+Voir journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}
 {% endblock %}
 
 {% block base_head %}
@@ -40,15 +40,18 @@ Détail du blocus {{ blocus.nom }}
 
 {% endblock %}
 
+{% block navbar %}
+{% endblock %}
+
 {% block content %}
   <div class="light-gray">
     <div class="page-header">
       <div class="container">
-        <h1 class="page-title pull-left">Présences - </h1>
+        <h1 class="page-title pull-left">Rapport journalier - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}</h1>
         <ol class="breadcrumb">
           <li><a href="{% url 'accueil-prof' %}"">Accueil Professeur</a></li>
           <li><a href="{% url 'tableau-de-bord-professeurs' %}">Mon dashboard</a></li>
-          <li class="active">Présences - </li>
+          <li class="active">Voir le rapport - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}</li>
         </ol>
       </div>
     </div>
@@ -56,41 +59,73 @@ Détail du blocus {{ blocus.nom }}
     <!-- PAGE CONTENT -->
     <div class="page-content light-gray">
       <div class="container">
-        <section">
+        <section>
           <div class="row">
-          <h2>Premier jour -  {{ module }} ({{ campus }})</h2>
+            <div class="col-md-2"></div>
+            <div class="col-xs-12 col-md-8">
+            <h2>Suivi journalier du blocus - {{ rapport.presence.etudiant.prenom }} {{ rapport.presence.etudiant.nom }}</h2>
 
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <td>Etudiants</td>
-        <td>Profil [% complété]</td>
-      </tr>
-    </thead>
-    <tbody>
-      {% for inscrit in inscriptions %}
-      <tr>
-          <td class="col-md-3 center">{{forloop.counter}}. <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
-
-          {% if inscrit.etudiant.calculate_completed_profile_rate < 60 %}
-            <td class="col-md-1 text-center danger">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
-          {% elif inscrit.etudiant.calculate_completed_profile_rate > 90 and inscrit.etudiant.calculate_completed_profile_rate < 100 %}
-            <td class="col-md-1 text-center success">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
-          {% elif inscrit.etudiant.calculate_completed_profile_rate == 100 %}
-            <td class="col-md-1 text-center success"><b>COMPLET</b></td>
-          {% else %}
-            <td class="col-md-1 text-center warning">{{ inscrit.etudiant.calculate_completed_profile_rate|floatformat:2 }}</td>
-          {% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-          <h2></h2>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Objectif</td>
+                    <td>{{ rapport.objectif }}</td>
+                  </tr>
+                      <tr>
+                    <td>Bilan</td>
+                    <td>{{ rapport.bilan }}</td>
+                  </tr>
+                  <tr>
+                    <td>Atteint</td>
+                    <td>{% if rapport.objectif_atteint %}Oui{% else %}Non{% endif %}</td>
+                  </tr>
+                  <tr>
+                    <td>Date</td>
+                    <td>{{ rapport.date|date:'d/m' }}</td>
+                  </tr>
+                  <tr>
+                    <td>Recommandation</td>
+                    <td>{{ rapport.recommandation }}</td>
+                  </tr>
+                  <tr>
+                    <td>Remarque</td>
+                    <td>{{ rapport.remarque }}</td>
+                  </tr>
+                  <tr>
+                    <td>concentration</td>
+                    <td>{{ rapport.concentration }}</td>
+                  </tr>
+                  <tr>
+                    <td>productivité</td>
+                    <td>{{ rapport.productivite }}</td>
+                  </tr>
+                  <tr>
+                    <td>Moral</td>
+                    <td>{{ rapport.moral }}</td>
+                  </tr>
+                  <tr>
+                    <td>Présence</td>
+                    <td>{{ rapport.presence }} - {{rapport.presence.jourblocus.campus }}</td>
+                  </tr>
+                  <tr>
+                    <td>Auteur</td>
+                    <td>{{ rapport.auteur.prenom }} {{ rapport.auteur.nom }}</td>
+                  </tr>
+                  <tr>
+                    <td>Statut</td>
+                    <td>{{ rapport.statut }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <a href="{% url 'grille-suivi-etudiants' pk_campus=rapport.presence.jourblocus.campus.pk pk_module=rapport.rapportmodule.module.pk  %}">Retour au dashboard</a>
+            </div>
           </div>
         </section>
       </div>
     </div>
   </div>
 
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

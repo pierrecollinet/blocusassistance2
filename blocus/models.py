@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from django.contrib.auth.signals import user_logged_in
-from django.db.models.signals import pre_save, post_save, post_delete
+from django.db.models.signals import pre_save, post_save, post_delete, m2m_changed
 
 from django.utils.text import slugify
 
@@ -14,8 +14,6 @@ import datetime
 
 # Models from intern apps
 from ba2.models import Campus
-from etudiants.models import Etudiant
-from professeurs.models import Professeur
 
 
 periodes = (('noel','Noël'),('paques','Pâques'),('mai','Mai'),('juillet','Juillet/Août'),)
@@ -38,18 +36,12 @@ class Blocus(models.Model):
             total += float(inscription.montant)
         return total
 
-STATUTS = (('professeur','Professeur'),('responsable','Responsable'),('nouveau_prof','Nouveau Prof'))
-class ProfesseurBlocus(models.Model):
-  professeur = models.ForeignKey(Professeur)
-  blocus = models.ForeignKey(Blocus)
-  statut = models.CharField(max_length=50, choices = STATUTS, default="professeur")
-  campus = models.ManyToManyField(Campus)
-
-  def __str__(self):
-    return self.professeur.prenom + ' ' + self.professeur.nom
 # post save MODULE and PRESENCEJOURBLOCUS
-def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
+def post_save_blocus_model_receiver(sender, instance, *args, **kwargs):
     campus = instance.campus.all()
+    print(campus)
+    print(instance)
+    print(instance.campus)
     date_debut = instance.date_debut
     date_fin = instance.date_fin
 
@@ -87,10 +79,13 @@ def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
                                                 blocus = instance,
                                                 sem_or_we = sem_or_we
                                                 )
+      print(created)
+      module.campus = campus
       list_campus = list(campus)
+      print(list_campus)
       module.campus.add(*list_campus)  # on ajoute le many 2 many field
       debut_module = fin_module + timedelta(days = 1)
-
+      module.save()
     # 2°. On sauve les presences
     delta = date_fin - date_debut
     for i in range(delta.days + 1):
@@ -101,9 +96,20 @@ def post_save_blocus_model_receiver(sender, instance, created, *args, **kwargs):
                                                       date=date,
                                                       blocus=instance
                                                       )
-post_save.connect(post_save_blocus_model_receiver, sender=Blocus)
+#post_save.connect(post_save_blocus_model_receiver, sender=Blocus)
+m2m_changed.connect(post_save_blocus_model_receiver, sender=Blocus.campus.through)
 
 
+STATUTS = (('professeur','Professeur'),('responsable','Responsable'),('nouveau_prof','Nouveau Prof'))
+class ProfesseurBlocus(models.Model):
+  professeur = models.ForeignKey('professeurs.Professeur')
+  blocus = models.ForeignKey(Blocus)
+  statut = models.CharField(max_length=50, choices = STATUTS, default="professeur")
+  campus = models.ManyToManyField(Campus)
+  total = models.CharField(max_length=200, default=0)
+
+  def __str__(self):
+    return self.professeur.prenom + ' ' + self.professeur.nom
 
 class ModuleBlocusQuerySet(models.query.QuerySet):
     def active(self):
@@ -167,7 +173,7 @@ class PresenceJourBlocus(models.Model):
 
 
 class InscriptionBlocus(models.Model):
-    etudiant = models.ForeignKey(Etudiant)
+    etudiant = models.ForeignKey('etudiants.Etudiant')
     blocus = models.ForeignKey(Blocus)
     module = models.ManyToManyField(ModuleBlocus)
     campus = models.ForeignKey(Campus)
@@ -243,7 +249,7 @@ post_save.connect(post_save_inscription_model_receiver, sender=InscriptionBlocus
 
 STATUTS = (('present','Présent'), ('absent','Absent'), ('retard','En retard'), ('absent_justifie','Absence justifiée'), )
 class Presence(models.Model):
-    etudiant = models.ForeignKey(Etudiant)
+    etudiant = models.ForeignKey('etudiants.Etudiant')
     date = models.DateField()
     heure_arrivee = models.TimeField(default="08:30")
     statut = models.CharField(max_length=30, default="absent", choices=STATUTS)
@@ -262,11 +268,3 @@ class Presence(models.Model):
       else :
         bool = False
       return bool
-
-# class RapportBlocusEtudiant(models.Model):
-#   etudiant = models.ForeignKey(Etudiant)
-#   module = models.ManyToManyField(ModuleBlocus)
-#   done = models.BooleanField(default=False)
-
-
-

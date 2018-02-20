@@ -18,35 +18,10 @@ Tableau de bord de {{request.user.username}}
 
 {% block content %}
   <div class="row ">
-    <div class="col-md-3"></div>
-    <div class="col-xs-12 col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-xs-12 col-md-8">
       <div class='dashboard-title text-center'>
           <h1>Tableau de bord</h1>
-          <div style="text-align:left">
-            <h2>Mon profil</h2>
-            <ul>
-              <li><a href="{% url 'modifier-profil-prof' %}">Modifier mon profil</a></li>
-              <li><a href="{% url 'voir-profil-prof' pk=request.user.professeur.pk %}">Voir mon profil</a></li>
-            </ul>
-
-            <h2>Mes blocus</h2>
-            <ul>
-              <li>
-                <a href="">Accueil "Mes blocus"</a>
-                <ul>
-                  {% for profblocus in professeur.professeurblocus_set.all %}
-                  <li>{% if profblocus.blocus.archived %}{{ profblocus.blocus.nom }} - Archivé{% else %}<a href="{% url 'detail-blocus' pk=profblocus.blocus.pk %}">{{ profblocus.blocus.nom }} - Actuel{% endif %}</a></li>
-                  {% endfor %}
-                </ul>
-              </li>
-              <li><a href="">Gestion présence</a></li>
-              <li><a href="">Mes revenus</a></li>
-              <li><a href="">Mes stats</a></li>
-              <li><a href="">Mes élèves</a></li>
-            </ul>
-
-            <h2>Mes cours particuliers</h2>
-          </div>
 
           <div class="custom-row row">
             <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
@@ -61,10 +36,10 @@ Tableau de bord de {{request.user.username}}
                 </thead>
                 <tbody>
                   {% for profblocus in professeur.professeurblocus_set.all %}
-                  <tr>
+                  <tr {% if profblocus.blocus.is_current %}class="success"{% endif %}>
                     <td><a href="{% url 'detail-blocus' pk=profblocus.blocus.pk %}">{{ profblocus.blocus.nom }}</a></td>
-                    <td>{% if profblocus.blocus.archived %}Archivé{% else %}Actuel{% endif %}</a></td>
-                    <td></td>
+                    <td>{% if profblocus.blocus.is_current %}Actuel{% else %}Archivé{% endif %}</a></td>
+                    <td>{{profblocus.total}} &euro;</td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -72,6 +47,20 @@ Tableau de bord de {{request.user.username}}
             </div>
             <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
               <h2>Les cours particuliers</h2>
+            </div>
+          </div>
+
+          <div class="custom-row row">
+            <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
+              <h2>Mon profil</h2>
+              <ul class="text-left">
+                <li><a href="{% url 'modifier-profil-prof' %}">Modifier mon profil</a></li>
+                <li><a href="{% url 'voir-profil-prof' pk=request.user.professeur.pk %}">Voir mon profil</a></li>
+              </ul>
+            </div>
+
+            <div class="custom-card panel-form col-xs-12 col-md-6 col-lg-4">
+              <h2>Mes statistiques</h2>
             </div>
           </div>
 

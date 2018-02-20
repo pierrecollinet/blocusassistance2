@@ -58,15 +58,35 @@ Détail du blocus {{ blocus.nom }}
       <div class="container">
         <section">
           <div class="row">
-          <h2>Présences {{ module }} ({{ campus }})</h2>
+          <h2>Grille de suivi des étudiant -  {{ module }} ({{ campus }})</h2>
 
+{% if inscriptions|length == 0 %}
+  <p>Aucun étudiant ne souhaite bénéficier d'un suivi? Ou tu as oublié de <a href="{% url 'display-list-student' pk_campus=campus.pk pk_module=module.pk %}">compléter leur profil</a> en indiquant ceux qui souhaitent (ou non) bénéficier d'un suivi?</p>
+{% else %}
+
+<div class="col-xs-12 col-md-12">
+  <table class="table col-md-3">
+    <tr>
+      <td class="danger text-center col-md-3"><b>Objectif à fixer</b></td>
+      <td class="warning text-center col-md-3"><b>Bilan à réaliser</b></td>
+      <td class="success text-center col-md-3"><b>Bilan réalisé</b></td>
+      <td class="info text-center col-md-3"><b>Envoyé</b></td>
+    </tr>
+  </table>
+</div>
+
+
+
+<form method="post" action="/blocus-assistes/grille-suivi-etudiants/1/37">
+  {% csrf_token %}
 <table class="table table-bordered">
     <thead>
       <tr>
-        <th class="col-md-3 center"></th>
+        <th class="col-md-3 text-center"></th>
             {% for jour in joursblocus %}
-              <th class="col-md-1 center" style="line-height: 80%;">{{jour.get_name}}</th>
-        {% endfor %}
+              <th class="col-md-1 text-center" style="line-height: 80%;">{{jour.get_name}}</th>
+            {% endfor %}
+            <th class="col-md-1  text-center">Envoyé rapport final</th>
       </tr>
     </thead>
     <tbody>
@@ -75,60 +95,50 @@ Détail du blocus {{ blocus.nom }}
           <td class="col-md-3 center">{{forloop.counter}}. <a href="{% url 'voir-profil-etudiant-for-prof' pk=inscrit.etudiant.pk %}">{{ inscrit.etudiant.prenom }} {{ inscrit.etudiant.nom }} ({{ inscrit.etudiant.faculte }} - {{ inscrit.etudiant.annee }})</a></td>
             {% for jour in joursblocus %}
             {% for presence in inscrit.etudiant.presence_set.all %}
-              {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date %}
-                {% if presence.date == today %}
-                  {% if presence.statut == 'present' %}
-                    {% if presence.is_late %}
-                      <td class="col-md-1 center warning" style="line-height: 80%;">
-                    {% else %}
-                      <td class="col-md-1 center success" style="line-height: 80%;">
-                    {% endif %}
-                    <input type="checkbox" name="presence_id" value="{{presence.id}}" checked>
-                    <a href="">>> Détail {% if presence.is_late %}({{ presence.heure_arrivee|time:"H:i" }}){% endif %}</a>
+              {% if presence.etudiant.id == inscrit.etudiant.id and presence.date == jour.date and presence.etudiant %}
+
+                  {% if presence.rapportblocusjournalier.statut == 'objectif_fixe' %}
+                  <td class="col-md-1 text-center warning" style="line-height: 80%;">
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
+                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a>
+                  </td>
+                  {% elif presence.rapportblocusjournalier.statut == 'bilan_realise' %}
+                  <td class="col-md-1 text-center success" style="line-height: 80%;">
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
+                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a> <br>
+                      {% if presence.statut == 'retard' or presence.statut == 'present' %}
+                        <a href="{% url 'send-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}" class="btn btn-default"><i class="fa fa-send"></i></a>
+                      {% else %}
+                        (Absent)
+                      {% endif %}
+                  </td>
+                  {% elif presence.rapportblocusjournalier.statut == 'rapport_envoye' %}
+                  <td class="col-md-1 text-center info" style="line-height: 80%;">
+                      <a href="{% url 'display-rapport-journalier' pk=presence.rapportblocusjournalier.pk %}">Voir</a> -
+                      <a href="{% url 'modifier-suivi-journalier' pk=presence.rapportblocusjournalier.pk %}">Bilan</a>
                   </td>
                   {% else %}
-                  <td class="col-md-1 center danger" style="line-height: 80%;">
-                    <input type="checkbox" name="presence_id" value="{{presence.id}}">
-                    <a href="">>> Détail</a>
+                  <td class="col-md-1 text-center danger" style="line-height: 80%;">
+                      <a href="{% url 'suivi-journalier-blocus' pk=presence.pk %}?module={{ module.id }}">Fixer objectif</a>
                   </td>
                   {% endif %}
-                {% else %}
-                    {% if presence.statut == 'present' %}
-                      <td class="col-md-1 center success" style="line-height: 80%;">
-                        Présent<br>
-                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk  %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                      </td>
-                    {% elif presence.statut == 'absent' %}
-                      <td class="col-md-1 center danger" style="line-height: 80%;">
-                        Absent<br>
-                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                      </td>
-                    {% elif presence.statut == 'retard' %}
-                      <td class="col-md-1 center warning" style="line-height: 80%;">
-                        Retard - {{ presence.heure_arrivee|time:"H:i" }}<br>
-                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                      </td>
-                    {% elif presence.statut == 'absent_justifie' %}
-                      <td class="col-md-1 center info" style="line-height: 80%;">
-                        Absence justifiée<br>
-                        <a href="{% url 'detail-presence' pk=presence.pk pk_module=module.pk %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                      </td>
-                    {% endif %}
-                {% endif %}
+
               {% endif %}
         {% endfor %}
         {% endfor %}
+                  <td class="text-center">
+                  {% if today == module.date_fin %}
+                    <a class="btn btn-primary" href="{% url 'send-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Envoyer</a>
+                  {% endif %}
+                  <a href="{% url 'display-rapport-module' pk_module=module.pk pk_etudiant=inscrit.etudiant.pk %}">Voir</a>
+                  </td>
       </tr>
       {% endfor %}
-      <tr>
-        <td>
-          <i class="fa fa-plus-circle" aria-hidden="true"></i>
-          <a href="">Ajouter un étudiant </a>
-        </td>
-      </tr>
     </tbody>
   </table>
-
+  {% endif %}
+  </form>
+  <a href="{% url 'detail-blocus' pk=module.blocus.pk %}">Retour au dashboard</a>
           <h2></h2>
           </div>
         </section>

@@ -308,3 +308,12 @@ bottom:0;
   padding-bottom:15px;
   font-size:15px;
 }
+
+.transparent {
+  background-color: transparent !important;
+}
+
+.tabContent {
+  padding-top: 30px;
+}
+
